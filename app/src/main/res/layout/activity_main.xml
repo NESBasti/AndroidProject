@@ -3,31 +3,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".MainActivity">
 
 
 
+
+    tools:context=".MainActivity" >
+
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:id="@+id/MyCityName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="City Name"
+        android:textSize="60dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/MyLastRefresh"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Last Refresh: 10:00Uhr"
+        android:textSize="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/MyTemperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="99°C"
+            android:textSize="100dp" />
+
+        <ImageView
+            android:id="@+id/MyIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/moonrain" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/MyMinTemp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Min Temp: 20°C"
+        android:textSize="40dp" />
+    <TextView
+        android:id="@+id/MyMaxTemp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Max Temp: 120°C"
+        android:textSize="40dp" />
 
     <TextView
         android:id="@+id/location_result"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="18dp" />
-
-    <TextView
-        android:id="@+id/MyCityName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="test"
-        android:textSize="18dp" />
-
+        android:layout_weight="1"
+        android:text="locationresult"
+        android:textSize="30dp" />
     <ListView
         android:id="@+id/weatherData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="20dp">
+    </ListView>
 </LinearLayout>
