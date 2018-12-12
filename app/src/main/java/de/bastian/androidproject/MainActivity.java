@@ -1,15 +1,14 @@
 package de.bastian.androidproject;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -24,19 +23,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
-import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -47,13 +41,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
+
+   private static String appid = "cfe31ebef1a89f6504ab9bac85dab8c4";
+
     private Geocoder geocoder;
     private List<Address> cityname;
     private Location location;
     private TextView locationTv;
     private TextView mycityname;
+    private ListView weatherData;
     private GoogleApiClient googleApiClient;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private LocationRequest locationRequest;
@@ -65,7 +65,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     // integer for permissions results request
     private static final int ALL_PERMISSIONS_RESULT = 1011;
 
-    TextView weatherData;
+    private  Api api;
+    private  Retrofit retrofit;
+    Weather weather;
 
 
 
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
         locationTv = findViewById(R.id.location_result);
         mycityname = findViewById(R.id.MyCityName);
-        final ListView weatherData = findViewById(R.id.weatherData);
+        weatherData = findViewById(R.id.weatherData);
         // we add permissions we need to request location of the users
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -96,44 +98,51 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 addConnectionCallbacks(this).
                 addOnConnectionFailedListener(this).build();
 
-        Retrofit retrofit = new Retrofit.Builder()
+
+
+    }
+
+    private void getJSON(){
+        retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Api api = retrofit.create(Api.class);
+        api = retrofit.create(Api.class);
 
-        Call<Weather> call = api.getWeather();
+        if(location!=null) {
+            Call<Weather> call = api.getWeatherFromCoordinates(appid, location.getLatitude(), location.getLongitude(), "metric", "de");
+            //Call<Weather> call = api.getWeatherFromCity(appid,"london","metric","de");
 
-        call.enqueue(new Callback<Weather>() {
-            @Override
-            public void onResponse(Call<Weather> call, Response<Weather> response) {
-                Weather weather = response.body();
+            call.enqueue(new Callback<Weather>() {
+                @Override
+                public void onResponse(Call<Weather> call, Response<Weather> response) {
+                    weather = response.body();
 
-                String[] values = new String[] {"cod " + String.valueOf(weather.getCod()),"message " + String.valueOf(weather.getMessage()),"cnt " + String.valueOf(weather.getCnt()),"list " + String.valueOf(weather.getList().get(1).getMain().getTemp()) };
+                    String[] values = new String[]{"cod " + String.valueOf(weather.getCod()), "message " + String.valueOf(weather.getMessage()), "cnt " + String.valueOf(weather.getCnt()), "list " + String.valueOf(weather.getList().get(1).getMain().getTemp())};
 
-                weatherData.setAdapter(
-                        new ArrayAdapter<String>(
-                                getApplicationContext(),
-                                android.R.layout.simple_list_item_1,
-                                values
-                        )
+                    weatherData.setAdapter(
+                            new ArrayAdapter<String>(
+                                    getApplicationContext(),
+                                    android.R.layout.simple_list_item_1,
+                                    values
+                            )
 
-                );
+                    );
 
 
-                Log.d("cod",String.valueOf(weather.getCod()));
-                Log.d("message",String.valueOf(weather.getMessage()));
-                Log.d("cnt", String.valueOf(weather.getCnt()));
+                    Log.d("cod", String.valueOf(weather.getCod()));
+                    Log.d("message", String.valueOf(weather.getMessage()));
+                    Log.d("cnt", String.valueOf(weather.getCnt()));
 
-            }
+                }
 
-            @Override
-            public void onFailure(Call<Weather> call, Throwable t) {
+                @Override
+                public void onFailure(Call<Weather> call, Throwable t) {
 
-            }
-        });
-
+                }
+            });
+        }
     }
 
 
@@ -223,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 cityname = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 String city = cityname.get(0).getLocality();
                 mycityname.setText(city);
+                getJSON();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -249,7 +259,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             Toast.makeText(this, "You need to enable permissions to display location !", Toast.LENGTH_SHORT).show();
         }
 
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+        //LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this); deprecated TODO delete
+        getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        // do work here
+                        onLocationChanged(locationResult.getLastLocation());
+                    }
+                },
+                Looper.myLooper());
     }
 
 
@@ -261,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 cityname = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 String city = cityname.get(0).getLocality();
                 mycityname.setText(city);
+                getJSON();
             } catch (IOException e) {
                 e.printStackTrace();
             }
