@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onResponse(Call<Weather> call, Response<Weather> response) {
                 Weather weather = response.body();
 
-                String[] values = new String[] {"cod " + String.valueOf(weather.getCod()),"message " + String.valueOf(weather.getMessage()),"cnt " + String.valueOf(weather.getCnt()) };
+                String[] values = new String[] {"cod " + String.valueOf(weather.getCod()),"message " + String.valueOf(weather.getMessage()),"cnt " + String.valueOf(weather.getCnt()),"list " + String.valueOf(weather.getList().get(1).getMain().getTemp()) };
 
                 weatherData.setAdapter(
                         new ArrayAdapter<String>(
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Log.d("cod",String.valueOf(weather.getCod()));
                 Log.d("message",String.valueOf(weather.getMessage()));
                 Log.d("cnt", String.valueOf(weather.getCnt()));
+
             }
 
             @Override
