@@ -65,9 +65,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     // integer for permissions results request
     private static final int ALL_PERMISSIONS_RESULT = 1011;
 
+
     private  Api api;
     private  Retrofit retrofit;
     Weather weather;
+
 
 
 
