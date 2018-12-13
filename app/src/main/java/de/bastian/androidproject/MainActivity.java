@@ -1,7 +1,9 @@
 package de.bastian.androidproject;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -12,6 +14,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView locationTv;
     private TextView mycityname;
     private ListView weatherData;
+    float x1, x2, y1, y2;
 
     // JSON
     private static String appid = "cfe31ebef1a89f6504ab9bac85dab8c4";
@@ -72,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         locationTv = findViewById(R.id.location_result);
         mycityname = findViewById(R.id.MyCityName);
         weatherData = findViewById(R.id.weatherData);
-
 
         // adding permission to request the location
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -138,12 +142,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     }
 
+
     /**
      *      Changes the UI if a new JSON was fetched
      */
-
     private void updateInterface(){
-
         String[] values = new String[]{"cod " + String.valueOf(weather.getCod()), "message " + String.valueOf(weather.getMessage()), "cnt " + String.valueOf(weather.getCnt()), "list " + String.valueOf(weather.getList().get(1).getMain().getTemp())};
 
         weatherData.setAdapter(
@@ -320,5 +323,33 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+
+    //Swap Sides
+    public boolean onTouchEvent(MotionEvent touchevent)
+    {
+        switch(touchevent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x1 = touchevent.getX();
+                y1 = touchevent.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = touchevent.getX();
+                y2 = touchevent.getY();
+
+                if(x1 > x2)
+                {
+                    Intent i = new Intent(MainActivity.this, Forecast_screen.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                        //finish();
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+        return false;
     }
 }
