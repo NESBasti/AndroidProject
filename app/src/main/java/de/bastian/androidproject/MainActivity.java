@@ -1,7 +1,9 @@
 package de.bastian.androidproject;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView locationTv;
     private TextView mycityname;
     private ListView weatherData;
+    private TextView temperature;
     private GoogleApiClient googleApiClient;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private LocationRequest locationRequest;
@@ -65,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     // integer for permissions results request
     private static final int ALL_PERMISSIONS_RESULT = 1011;
 
-
+    //Switch Sides
+    float x1, x2, y1, y2;
     private  Api api;
     private  Retrofit retrofit;
     Weather weather;
@@ -81,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         locationTv = findViewById(R.id.location_result);
         mycityname = findViewById(R.id.MyCityName);
         weatherData = findViewById(R.id.weatherData);
+        temperature = findViewById(R.id.MyTemperature);
         // we add permissions we need to request location of the users
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -132,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                     );
 
-
+                    temperature.setText((String.valueOf(weather.getList().get(0).getMain().getTemp())) );
                     Log.d("cod", String.valueOf(weather.getCod()));
                     Log.d("message", String.valueOf(weather.getMessage()));
                     Log.d("cnt", String.valueOf(weather.getCnt()));
@@ -329,5 +335,33 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    //Swap Sides
+    public boolean onTouchEvent(MotionEvent touchevent)
+    {
+        switch(touchevent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x1 = touchevent.getX();
+                y1 = touchevent.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = touchevent.getX();
+                y2 = touchevent.getY();
+
+                if(x1 > x2)
+                {
+                    Intent i = new Intent(MainActivity.this, Forecast_screen.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                        //finish();
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+        return false;
     }
 }
