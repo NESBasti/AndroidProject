@@ -1,14 +1,12 @@
 package de.bastian.androidproject;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class Forecast_screen extends AppCompatActivity {
@@ -39,6 +37,7 @@ public class Forecast_screen extends AppCompatActivity {
                     Intent i = new Intent(Forecast_screen.this, MainActivity.class);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                        return true;
                         //finish();
                     }
                 }

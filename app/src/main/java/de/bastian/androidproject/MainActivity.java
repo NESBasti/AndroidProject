@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -56,14 +55,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int ALL_PERMISSIONS_RESULT = 1011;
 
     // XML
-    private TextView locationTv;
-    private TextView mycityname;
+    private TextView cityName;
+    private TextView lastRefresh;
+    private TextView temperature;
+    private TextView minTemp;
+    private TextView maxTemp;
     private ListView weatherData;
     float x1, x2, y1, y2;
 
     // JSON
     private static String appid = "cfe31ebef1a89f6504ab9bac85dab8c4";
-    private Weather weather;
+    private WeatherForecast weatherForecast;
+    private WeatherCurrent weatherCurrent;
     private Long lastUpdate = 0L;
     private int updateFrequency = 120000; // = 120 seconds
 
@@ -74,8 +77,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
 
         //set Views
-        locationTv = findViewById(R.id.location_result);
-        mycityname = findViewById(R.id.MyCityName);
+        cityName = findViewById(R.id.MyCityName);
+        lastRefresh = findViewById(R.id.MyLastRefresh);
+        temperature = findViewById(R.id.MyTemperature);
+        minTemp = findViewById(R.id.MyMinTemp);
+        maxTemp = findViewById(R.id.MyMaxTemp);
         weatherData = findViewById(R.id.weatherData);
 
         // adding permission to request the location
@@ -108,8 +114,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     /**
-     *      Uses Retrofit and GSON Converter to grab a JSON of the 5-day-weather-forecast
-     *      from openweathermap.org
+     *      Uses Retrofit and GSON Converter to grab a JSON of current weather and the
+     *      5-day-weather-forecast from openweathermap.org
      */
     private void getJSON(){
         if(System.currentTimeMillis() > lastUpdate + updateFrequency){
@@ -121,20 +127,36 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             Api api = retrofit.create(Api.class);
 
             if(location != null) {
-                Call<Weather> call = api.getWeatherFromCoordinates(appid, location.getLatitude(), location.getLongitude(), "metric", "de");
+                Call<WeatherForecast> call1 = api.getWeatherForecastFromCoordinates(appid, location.getLatitude(), location.getLongitude(), "metric", "de");
 
-                call.enqueue(new Callback<Weather>() {
+                call1.enqueue(new Callback<WeatherForecast>() {
                     @Override
-                    public void onResponse(Call<Weather> call, Response<Weather> response) {
+                    public void onResponse(Call<WeatherForecast> call, Response<WeatherForecast> response) {
                         lastUpdate = System.currentTimeMillis();
-                        weather = response.body();
+                        weatherForecast = response.body();
+                        updateInterface();
 
+                    }
+
+                    @Override
+                    public void onFailure(Call<WeatherForecast> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, "No Connection", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                Call<WeatherCurrent> call2 = api.getCurrentWeatherFromCoordinates(appid, location.getLatitude(), location.getLongitude(), "metric","de");
+
+                call2.enqueue(new Callback<WeatherCurrent>() {
+                    @Override
+                    public void onResponse(Call<WeatherCurrent> call, Response<WeatherCurrent> response) {
+                        weatherCurrent = response.body();
+                        lastUpdate = System.currentTimeMillis();
                         updateInterface();
                     }
 
                     @Override
-                    public void onFailure(Call<Weather> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, "No Connection", Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<WeatherCurrent> call, Throwable t) {
+
                     }
                 });
             }
@@ -144,19 +166,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
     /**
-     *      Changes the UI if a new JSON was fetched
+     *      Updates the UI if a new JSON was fetched
      */
     private void updateInterface(){
-        String[] values = new String[]{"cod " + String.valueOf(weather.getCod()), "message " + String.valueOf(weather.getMessage()), "cnt " + String.valueOf(weather.getCnt()), "list " + String.valueOf(weather.getList().get(1).getMain().getTemp())};
+        if(weatherCurrent != null){
+            cityName.setText(weatherCurrent.getName());
+            lastRefresh.setText(new java.util.Date(lastUpdate).toString());
+            temperature.setText(String.valueOf((int) weatherCurrent.getMain().getTemp()) + "°C");
+            minTemp.setText("Min " + String.valueOf((int) weatherCurrent.getMain().getTemp_min()) + "°C");
+            maxTemp.setText("Max " + String.valueOf((int) weatherCurrent.getMain().getTemp_max()) + "°C");
+        }
 
-        weatherData.setAdapter(
-                new ArrayAdapter<>(
-                        getApplicationContext(),
-                        android.R.layout.simple_list_item_1,
-                        values
-                )
 
-        );
+        if(weatherForecast != null){
+            String[] values = new String[]{"cod " + String.valueOf(weatherForecast.getCod()), "message " + String.valueOf(weatherForecast.getMessage()), "cnt " + String.valueOf(weatherForecast.getCnt()), "list " + String.valueOf(weatherForecast.getList().get(1).getMain().getTemp())};
+
+            weatherData.setAdapter(
+                    new ArrayAdapter<>(
+                            getApplicationContext(),
+                            android.R.layout.simple_list_item_1,
+                            values
+                    )
+
+            );
+        }
+
     }
 
     /****************************************
@@ -203,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (googleApiClient != null && fusedLocationProviderClient != null) {
             startLocationUpdates();
         }else if(!checkPlayServices()) {
-            locationTv.setText("You need to install Google Play Services to use the App properly");
+            Toast.makeText(this, "You need to install Google Play Services to use the App properly", Toast.LENGTH_SHORT).show();
         }else {
             buildGoogleApiClient();
         }
@@ -248,7 +282,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         fusedLocationProviderClient.getLastLocation();
 
         if (location != null) {
-            locationTv.setText("Latitude : " + location.getLatitude() + "\nLongitude : " + location.getLongitude());
             getJSON();
         }
 
@@ -278,7 +311,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            locationTv.setText("Latitude : " + location.getLatitude() + "\nLongitude : " + location.getLongitude());
             getJSON();
         }
     }
@@ -325,6 +357,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
+    /**
+     *
+     *
+     * @param touchevent
+     * @return
+     */
+
     //Swap Sides
     public boolean onTouchEvent(MotionEvent touchevent)
     {
@@ -342,6 +381,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     Intent i = new Intent(MainActivity.this, Forecast_screen.class);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                        return true;
                         //finish();
                     }
                 }
