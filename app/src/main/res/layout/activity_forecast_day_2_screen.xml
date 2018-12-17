@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
 
-    tools:context=".Forecast_day_screen">
+    tools:context=".Forecast_day_2_screen">
 
     <TextView
         android:layout_width="match_parent"
@@ -14,30 +14,29 @@
         android:text = "Vorhersage"
         android:textSize="30sp"/>
     <LinearLayout
-        android:id="@+id/MyDay1Forecast"
+        android:id="@+id/MyDay2Forecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:onClick="ButtonDay2Pressed"
         android:orientation="horizontal"
-        android:transitionName="transition_day_1"
-        android:onClick="ButtonDay1Pressed"
-        >
+        android:transitionName="transition_day_2">
 
         <TextView
-            android:id="@+id/MyDay"
+            android:id="@+id/MyDay2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="left"
             android:layout_margin="5dp"
-            android:text="Tag1" />
+            android:text="Tag2" />
 
         <ImageView
-            android:id="@+id/MyDayImage"
+            android:id="@+id/MyDay2Image"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="right"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/suncloud" />
+            android:src="@drawable/heavycloud" />
     </LinearLayout>
 
     <TextView
