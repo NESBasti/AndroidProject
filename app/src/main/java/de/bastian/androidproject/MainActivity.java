@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
     private static final int ALL_PERMISSIONS_RESULT = 1011;
+    private LocationManager locationManager;
 
     // XML
     private TextView cityName;
@@ -125,13 +128,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     /**
-     * will be called from async tasks
+     *      sets currentWeather when it got fetched,
+     *      called in LoadCurrentJSON
      */
     public void updateCurrentWeather(WeatherCurrent current){
         weatherCurrent = current;
         updateInterface();
     }
 
+    /**
+     *      sets weatherForecast when it got fetched,
+     *      called in LoadForecastJSON
+     */
     public void updateWeatherForecast(WeatherForecast forecast){
         weatherForecast = forecast;
         updateInterface();
@@ -267,9 +275,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void startLocationUpdates() {
         locationRequest = new LocationRequest();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         locationRequest.setInterval(UPDATE_INTERVAL);
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
 
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -279,7 +290,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+
+
+        if(!(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) & location == null) {
+            highAccuracyDisabled();
+        }
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -332,8 +349,48 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     /**
-     * handles touch-swipes
-     * @return true on successful action
+     *      gets called when high accuracy for location is disabled,
+     *      opens settings for user to enable it
+     */
+    private void highAccuracyDisabled(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Enable high accuracy for location");
+        builder.setMessage("Do you want to open settings?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(viewIntent);
+                googleApiClient.disconnect();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                googleApiClient.disconnect();
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
+
+    }
+
+
+    /**
+     *      handles touch-swipes
+     *      @return true on successful action
      */
 
     public boolean onTouchEvent(MotionEvent touchevent)
