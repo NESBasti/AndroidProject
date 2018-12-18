@@ -32,12 +32,6 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
@@ -69,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private WeatherCurrent weatherCurrent;
     private Long lastUpdate = 0L;
     private int updateFrequency = 120000; // = 120 seconds
+    private LoadCurrentJSON loadCurrentJSON;
+    private LoadForecastJSON loadForecastJSON;
 
 
     @Override
@@ -118,50 +114,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      *      5-day-weather-forecast from openweathermap.org
      */
     private void getJSON(){
-        if(System.currentTimeMillis() > lastUpdate + updateFrequency){
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Api.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            Api api = retrofit.create(Api.class);
-
-            if(location != null) {
-                Call<WeatherForecast> call1 = api.getWeatherForecastFromCoordinates(appid, location.getLatitude(), location.getLongitude(), "metric", "de");
-
-                call1.enqueue(new Callback<WeatherForecast>() {
-                    @Override
-                    public void onResponse(Call<WeatherForecast> call, Response<WeatherForecast> response) {
-                        lastUpdate = System.currentTimeMillis();
-                        weatherForecast = response.body();
-                        updateInterface();
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<WeatherForecast> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, "No Connection", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                Call<WeatherCurrent> call2 = api.getCurrentWeatherFromCoordinates(appid, location.getLatitude(), location.getLongitude(), "metric","de");
-
-                call2.enqueue(new Callback<WeatherCurrent>() {
-                    @Override
-                    public void onResponse(Call<WeatherCurrent> call, Response<WeatherCurrent> response) {
-                        weatherCurrent = response.body();
-                        lastUpdate = System.currentTimeMillis();
-                        updateInterface();
-                    }
-
-                    @Override
-                    public void onFailure(Call<WeatherCurrent> call, Throwable t) {
-
-                    }
-                });
-            }
+        if((System.currentTimeMillis() > lastUpdate + updateFrequency) & location != null){
+            loadCurrentJSON = new LoadCurrentJSON(MainActivity.this);
+            loadCurrentJSON.execute(location);
+            loadForecastJSON = new LoadForecastJSON(MainActivity.this);
+            loadForecastJSON.execute(location);
+            lastUpdate = System.currentTimeMillis();
         }
 
+    }
+
+    /**
+     * will be called from async tasks
+     */
+    public void updateCurrentWeather(WeatherCurrent current){
+        weatherCurrent = current;
+        updateInterface();
+    }
+
+    public void updateWeatherForecast(WeatherForecast forecast){
+        weatherForecast = forecast;
+        updateInterface();
     }
 
 
@@ -280,12 +253,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         fusedLocationProviderClient.getLastLocation();
+        startLocationUpdates();
 
         if (location != null) {
             getJSON();
         }
 
-        startLocationUpdates();
     }
 
     @Override
@@ -355,16 +328,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this, "Connection failed", Toast.LENGTH_SHORT).show();
     }
 
     /**
-     *
-     *
-     * @param touchevent
-     * @return
+     * handles touch-swipes
+     * @return true on successful action
      */
 
-    //Swap Sides
     public boolean onTouchEvent(MotionEvent touchevent)
     {
         switch(touchevent.getAction()){
