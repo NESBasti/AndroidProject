@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code here
-                Toast.makeText(getApplicationContext(), "Works!", Toast.LENGTH_LONG).show();
+                lastUpdate = 0L;
+                getJSON();
                 // To keep animation for 4 seconds
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
             );
         }
-
+        swipeLayout.setRefreshing(false);
     }
 
 
