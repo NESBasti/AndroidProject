@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int ALL_PERMISSIONS_RESULT = 1011;
 
     // XML
-    private TextView locationTv;
     private TextView mycityname;
     private ListView weatherData;
     float x1, x2, y1, y2;
@@ -72,14 +72,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //Swipe Refresh
     SwipeRefreshLayout swipeLayout;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //set Views
-        locationTv = findViewById(R.id.location_result);
         mycityname = findViewById(R.id.MyCityName);
         weatherData = findViewById(R.id.weatherData);
 
@@ -236,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (googleApiClient != null && fusedLocationProviderClient != null) {
             startLocationUpdates();
         }else if(!checkPlayServices()) {
-            locationTv.setText("You need to install Google Play Services to use the App properly");
+
         }else {
             buildGoogleApiClient();
         }
@@ -281,7 +279,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         fusedLocationProviderClient.getLastLocation();
 
         if (location != null) {
-            locationTv.setText("Latitude : " + location.getLatitude() + "\nLongitude : " + location.getLongitude());
             getJSON();
         }
 
@@ -311,7 +308,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            locationTv.setText("Latitude : " + location.getLatitude() + "\nLongitude : " + location.getLongitude());
             getJSON();
         }
     }
@@ -358,31 +354,5 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
-    //Swap Sides
-    public boolean onTouchEvent(MotionEvent touchevent)
-    {
-        switch(touchevent.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                x1 = touchevent.getX();
-                y1 = touchevent.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                x2 = touchevent.getX();
-                y2 = touchevent.getY();
 
-                if(x1 > x2)
-                {
-                    Intent i = new Intent(MainActivity.this, Forecast_screen.class);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                        //finish();
-                    }
-                }
-                break;
-
-            default:
-                break;
-        }
-        return false;
-    }
 }
