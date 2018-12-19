@@ -107,10 +107,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         };
 
-        //building api client
-        //buildGoogleApiClient();
 
     }
+
 
     /**
      *      Uses Retrofit and GSON Converter to grab a JSON of current weather and the
@@ -174,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     }
 
+
+    //region GPS functions
     /****************************************
 
             GPS functions
@@ -386,13 +387,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
     }
-
+    // endregion
 
     /**
      *      handles touch-swipes
      *      @return true on successful action
      */
-
     public boolean onTouchEvent(MotionEvent touchevent)
     {
         switch(touchevent.getAction()){
