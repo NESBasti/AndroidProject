@@ -20,6 +20,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //Swipe Refresh
     SwipeRefreshLayout swipeLayout;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         temperature = findViewById(R.id.MyTemperature);
         minTemp = findViewById(R.id.MyMinTemp);
         maxTemp = findViewById(R.id.MyMaxTemp);
+
         weatherData = findViewById(R.id.weatherData);
 
         // adding permission to request the location
@@ -456,4 +457,5 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         lastUpdate = gson.fromJson(jsonUpdate, Long.class);
         updateInterface();
     }
+
 }
