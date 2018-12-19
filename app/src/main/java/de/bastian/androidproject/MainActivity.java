@@ -1,9 +1,9 @@
 package de.bastian.androidproject;
 
 import android.Manifest;
-import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -18,7 +18,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -34,11 +33,12 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     // GPS
     private Location location;
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private int updateFrequency = 120000; // = 120 seconds
     private LoadCurrentJSON loadCurrentJSON;
     private LoadForecastJSON loadForecastJSON;
+    private SharedPreferences  mPrefs;
 
     //Swipe Refresh
     SwipeRefreshLayout swipeLayout;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mPrefs = getPreferences(MODE_PRIVATE);
 
         //set Views
         cityName = findViewById(R.id.MyCityName);
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //initialize fusedLocationProviderClient and locationCallback
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        locationCallback = new LocationCallback(){
+        locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 location = locationResult.getLastLocation();
@@ -120,12 +122,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code here
-                Toast.makeText(getApplicationContext(), "Works!", Toast.LENGTH_LONG).show();
+                onResume();
+                lastUpdate = 0L;
+                getJSON();
                 // To keep animation for 4 seconds
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
-                        // Stop animation (This will be after 3 seconds)
+                        // Stop animation (This will be after 4 seconds)
                         swipeLayout.setRefreshing(false);
                     }
                 }, 4000); // Delay in millis
@@ -154,6 +157,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             loadForecastJSON = new LoadForecastJSON(MainActivity.this);
             loadForecastJSON.execute(location);
             lastUpdate = System.currentTimeMillis();
+        }
+        else if(location == null & locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) & locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -202,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
             );
         }
-
+        swipeLayout.setRefreshing(false);
     }
 
 
@@ -421,6 +428,34 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
     // endregion
 
- 
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String jsonCurrent = gson.toJson(weatherCurrent);
+        prefsEditor.putString("weatherCurrent", jsonCurrent);
+        String jsonForecast = gson.toJson(weatherForecast);
+        prefsEditor.putString("weatherForecast", jsonForecast);
+        String jsonUpdate = gson.toJson(lastUpdate);
+        prefsEditor.putString("lastUpdate", jsonUpdate);
+        prefsEditor.apply();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Gson gson = new Gson();
+        String jsonCurrent = mPrefs.getString("weatherCurrent", "");
+        weatherCurrent = gson.fromJson(jsonCurrent, WeatherCurrent.class);
+        String jsonForecast = mPrefs.getString("weatherForecast", "");
+        weatherForecast = gson.fromJson(jsonForecast, WeatherForecast.class);
+        String jsonUpdate = mPrefs.getString("lastUpdate", "0L");
+        lastUpdate = gson.fromJson(jsonUpdate, Long.class);
+        updateInterface();
+    }
 
 }
