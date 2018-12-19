@@ -2,17 +2,20 @@ package de.bastian.androidproject;
 
 import java.util.List;
 
-public class Weather {
+public class WeatherForecast {
     private int cod;
     private double message;
     private int cnt;
     private List<WeatherListElement> list;
+    private City city;
 
-    public Weather(int cod, double message, int cnt, List<WeatherListElement> list) {
+
+    public WeatherForecast(int cod, double message, int cnt, List<WeatherListElement> list, City city) {
         this.cod = cod;
         this.message = message;
         this.cnt = cnt;
         this.list = list;
+        this.city = city;
     }
 
     public int getCod() {
@@ -45,5 +48,13 @@ public class Weather {
 
     public void setList(List<WeatherListElement> list) {
         this.list = list;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 }
