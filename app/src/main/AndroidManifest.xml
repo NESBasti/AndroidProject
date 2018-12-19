@@ -12,7 +12,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -26,7 +26,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".Forecast_screen" />
-        <activity android:name=".Forecast_day_screen"></activity>
+        <activity android:name=".Forecast_day_screen" />
+        <activity android:name=".Forecast_day_2_screen" />
+        <activity android:name=".Forecast_day_3_screen" />
+        <activity android:name=".Forecast_day_4_screen" />
+        <activity android:name=".Forecast_day_5_screen"></activity>
     </application>
+
 
 </manifest>
