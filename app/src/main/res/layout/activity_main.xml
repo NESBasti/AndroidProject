@@ -66,13 +66,6 @@
         android:text="Max Temp: 120°C"
         android:textSize="40dp" />
 
-    <TextView
-        android:id="@+id/location_result"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="locationresult"
-        android:textSize="30dp" />
     <ListView
         android:id="@+id/weatherData"
         android:layout_width="wrap_content"
