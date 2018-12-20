@@ -30,8 +30,8 @@
         <activity android:name=".Forecast_day_2_screen" />
         <activity android:name=".Forecast_day_3_screen" />
         <activity android:name=".Forecast_day_4_screen" />
-        <activity android:name=".Forecast_day_5_screen"></activity>
+        <activity android:name=".Forecast_day_5_screen" />
+        <activity android:name=".settings"></activity>
     </application>
-
 
 </manifest>

@@ -10,12 +10,11 @@
     android:background="@drawable/background_image">
 
     <include
-        android:layout_margin="20dp"
+        android:layout_margin="8dp"
         android:id="@+id/container_cityname"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        layout="@layout/cityname"
-       />
+        layout="@layout/cityname" />
 
     <View
         android:layout_width="match_parent"
@@ -51,12 +50,13 @@
                     android:layout_width="fill_parent"
                     layout="@layout/hourly"
                     android:layout_marginBottom="40dp"/>
+
                 <include
                     android:id="@+id/container_daily"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
                     layout="@layout/daily"
-                    android:layout_marginBottom="40dp"/>
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp" />
 
                 <View
                     android:layout_width="match_parent"

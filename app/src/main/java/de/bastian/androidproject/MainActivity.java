@@ -15,9 +15,12 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -453,9 +456,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         weatherCurrent = gson.fromJson(jsonCurrent, WeatherCurrent.class);
         String jsonForecast = mPrefs.getString("weatherForecast", "");
         weatherForecast = gson.fromJson(jsonForecast, WeatherForecast.class);
-        String jsonUpdate = mPrefs.getString("lastUpdate", "0L");
+        String jsonUpdate = mPrefs.getString("lastUpdate", "0");
         lastUpdate = gson.fromJson(jsonUpdate, Long.class);
         updateInterface();
     }
 
+    public void MySettingsOC(View view)
+    {
+        Intent i = new Intent(MainActivity.this, settings.class);
+        startActivity(i);
+    }
 }
