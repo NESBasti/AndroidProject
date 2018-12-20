@@ -153,10 +153,10 @@
                 android:text="15:00"
                 android:textAlignment="center" />
             <ImageView
+                android:id="@+id/hourly3weather"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:src="@drawable/heavycloudrain" />
-                android:id="@+id/hourly3weather"
             <TextView
                 android:id="@+id/hourly3temp"
                 android:layout_width="match_parent"
@@ -203,10 +203,10 @@
                 android:text="18:00"
                 android:textAlignment="center" />
             <ImageView
+                android:id="@+id/hourly4weather"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:src="@drawable/heavycloudrain" />
-                android:id="@+id/hourly4weather"
             <TextView
                 android:id="@+id/hourly4temp"
                 android:layout_width="match_parent"
@@ -253,10 +253,10 @@
                 android:text="24:00"
                 android:textAlignment="center" />
             <ImageView
+                android:id="@+id/hourly5weather"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:src="@drawable/heavycloudrain" />
-                android:id="@+id/hourly5weather"
             <TextView
                 android:id="@+id/hourly5temp"
                 android:layout_width="match_parent"
@@ -304,10 +304,10 @@
                 android:text="00:00"
                 android:textAlignment="center" />
             <ImageView
+                android:id="@+id/hourly6weather"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:src="@drawable/heavycloudrain" />
-                android:id="@+id/hourly6weather"
             <TextView
                 android:id="@+id/hourly6temp"
                 android:layout_width="match_parent"
