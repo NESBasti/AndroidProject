@@ -1,48 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/MyTemperatureLinLay"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+         >
 
-        <TextView
-            android:id="@+id/MyTemperature"
-            style="@style/WhiteText"
-            android:layout_width="244dp"
-            android:layout_height="match_parent"
-            android:text="99°C"
-            android:textSize="100dp" />
+            <TextView
+                android:id="@+id/MyTemperature"
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="99°C"
+                android:textSize="98dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/MyMinTemp"
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Min Temp: 20°C"
+                android:textSize="24dp"
+                app:layout_constraintTop_toBottomOf="@id/MyTemperatureLinLay" />
+
+            <TextView
+                android:id="@+id/MyMaxTemp"
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Max Temp: 120°C"
+                android:textSize="24dp"
+                app:layout_constraintTop_toBottomOf="@id/MyMinTemp" />
+        </LinearLayout>
+
 
         <ImageView
             android:id="@+id/MyIcon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:maxWidth="100dp"
-            android:maxHeight="100dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/moonrain" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/MyMinTemp"
-        style="@style/WhiteText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Min Temp: 20°C"
-        android:textSize="40dp" />
-    <TextView
-        style="@style/WhiteText"
-        android:id="@+id/MyMaxTemp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Max Temp: 120°C"
-        android:textSize="40dp" />
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
