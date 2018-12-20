@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private FusedLocationProviderClient fusedLocationProviderClient;
     private GoogleApiClient googleApiClient;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private LocationRequest locationRequest;
     private static final long UPDATE_INTERVAL = 120000, FASTEST_INTERVAL = 120000; // = 120 seconds
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -57,42 +57,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int ALL_PERMISSIONS_RESULT = 1011;
     private LocationManager locationManager;
 
-    // XML
-    private TextView cityName;
-    private TextView lastRefresh;
-    private TextView temperature;
-    private TextView minTemp;
-    private TextView maxTemp;
-    private ListView weatherData;
-    float x1, x2, y1, y2;
-
     // JSON
     private static String appid = "cfe31ebef1a89f6504ab9bac85dab8c4";
-    private WeatherForecast weatherForecast;
-    private WeatherCurrent weatherCurrent;
-    private Long lastUpdate = 0L;
     private int updateFrequency = 120000; // = 120 seconds
-    private LoadCurrentJSON loadCurrentJSON;
-    private LoadForecastJSON loadForecastJSON;
     private SharedPreferences  mPrefs;
 
+
     //Swipe Refresh
-    SwipeRefreshLayout swipeLayout;
+    private SwipeRefreshLayout swipeLayout;
+
+    //User Interface
+    private UserInterface ui;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         mPrefs = getPreferences(MODE_PRIVATE);
 
-        //set Views
-        cityName = findViewById(R.id.MyCityName);
-        lastRefresh = findViewById(R.id.MyLastRefresh);
-        temperature = findViewById(R.id.MyTemperature);
-        minTemp = findViewById(R.id.MyMinTemp);
-        maxTemp = findViewById(R.id.MyMaxTemp);
-
-        weatherData = findViewById(R.id.weatherData);
+        ui = new UserInterface(this);
 
         // adding permission to request the location
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -126,15 +111,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void onRefresh() {
                 onResume();
-                lastUpdate = 0L;
+                ui.setLastUpdate(0L);
                 getJSON();
-                // To keep animation for 4 seconds
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
-                        // Stop animation (This will be after 4 seconds)
-                        swipeLayout.setRefreshing(false);
+                        swipeLayout.setRefreshing(false); //stop animation after 4 seconds
                     }
-                }, 4000); // Delay in millis
+                }, 4000);
             }
         });
 
@@ -154,12 +137,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      *      5-day-weather-forecast from openweathermap.org
      */
     private void getJSON(){
-        if((System.currentTimeMillis() > lastUpdate + updateFrequency) & location != null){
-            loadCurrentJSON = new LoadCurrentJSON(MainActivity.this);
+        if((System.currentTimeMillis() > ui.getLastUpdate() + updateFrequency) & location != null){
+            LoadCurrentJSON loadCurrentJSON = new LoadCurrentJSON(MainActivity.this);
             loadCurrentJSON.execute(location);
-            loadForecastJSON = new LoadForecastJSON(MainActivity.this);
+            LoadForecastJSON loadForecastJSON = new LoadForecastJSON(MainActivity.this);
             loadForecastJSON.execute(location);
-            lastUpdate = System.currentTimeMillis();
+            ui.setLastUpdate(System.currentTimeMillis());
         }
         else if(location == null & locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) & locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
             Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
@@ -173,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      *      called in LoadCurrentJSON
      */
     public void updateCurrentWeather(WeatherCurrent current){
-        weatherCurrent = current;
-        updateInterface();
+        ui.setWeatherCurrent(current);
+        ui.updateInterface();
     }
 
     /**
@@ -182,46 +165,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      *      called in LoadForecastJSON
      */
     public void updateWeatherForecast(WeatherForecast forecast){
-        weatherForecast = forecast;
-        updateInterface();
+        ui.setWeatherForecast(forecast);
+        ui.updateInterface();
     }
 
-
-    /**
-     *      Updates the UI if a new JSON was fetched
-     */
-    private void updateInterface(){
-        if(weatherCurrent != null){
-            cityName.setText(weatherCurrent.getName());
-            lastRefresh.setText(new java.util.Date(lastUpdate).toString());
-            temperature.setText(String.valueOf((int) weatherCurrent.getMain().getTemp()) + "°C");
-            minTemp.setText("Min " + String.valueOf((int) weatherCurrent.getMain().getTemp_min()) + "°C");
-            maxTemp.setText("Max " + String.valueOf((int) weatherCurrent.getMain().getTemp_max()) + "°C");
-        }
-
-
-        if(weatherForecast != null){
-            String[] values = new String[]{"cod " + String.valueOf(weatherForecast.getCod()), "message " + String.valueOf(weatherForecast.getMessage()), "cnt " + String.valueOf(weatherForecast.getCnt()), "list " + String.valueOf(weatherForecast.getList().get(1).getMain().getTemp())};
-
-            weatherData.setAdapter(
-                    new ArrayAdapter<>(
-                            getApplicationContext(),
-                            android.R.layout.simple_list_item_1,
-                            values
-                    )
-
-            );
-        }
-        swipeLayout.setRefreshing(false);
-    }
 
 
     //region GPS functions
-    /****************************************
-
-            GPS functions
-
-     ***************************************/
 
     private void buildGoogleApiClient(){
         googleApiClient = new GoogleApiClient.Builder(this).
@@ -317,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void startLocationUpdates() {
-        locationRequest = new LocationRequest();
+        LocationRequest locationRequest = new LocationRequest();
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         locationRequest.setInterval(UPDATE_INTERVAL);
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
@@ -366,10 +316,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                     setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions(permissionsRejected.
-                                                        toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
-                                            }
+                                            requestPermissions(permissionsRejected.
+                                                toArray(new String[0]), ALL_PERMISSIONS_RESULT);
+
                                         }
                                     }).setNegativeButton("Cancel", null).create().show();
 
@@ -431,19 +380,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
     // endregion
 
-
-
+    //region save content
     @Override
     protected void onStop() {
         super.onStop();
 
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
-        String jsonCurrent = gson.toJson(weatherCurrent);
+        String jsonCurrent = gson.toJson(ui.getWeatherCurrent());
         prefsEditor.putString("weatherCurrent", jsonCurrent);
-        String jsonForecast = gson.toJson(weatherForecast);
+        String jsonForecast = gson.toJson(ui.getWeatherForecast());
         prefsEditor.putString("weatherForecast", jsonForecast);
-        String jsonUpdate = gson.toJson(lastUpdate);
+        String jsonUpdate = gson.toJson(ui.getLastUpdate());
         prefsEditor.putString("lastUpdate", jsonUpdate);
         prefsEditor.apply();
     }
@@ -453,15 +401,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onStart();
         Gson gson = new Gson();
         String jsonCurrent = mPrefs.getString("weatherCurrent", "");
-        weatherCurrent = gson.fromJson(jsonCurrent, WeatherCurrent.class);
+        ui.setWeatherCurrent(gson.fromJson(jsonCurrent, WeatherCurrent.class));
         String jsonForecast = mPrefs.getString("weatherForecast", "");
-        weatherForecast = gson.fromJson(jsonForecast, WeatherForecast.class);
+        ui.setWeatherForecast(gson.fromJson(jsonForecast, WeatherForecast.class));
         String jsonUpdate = mPrefs.getString("lastUpdate", "0");
-        lastUpdate = gson.fromJson(jsonUpdate, Long.class);
-        updateInterface();
+        ui.setLastUpdate(gson.fromJson(jsonUpdate, Long.class));
+        ui.updateInterface();
     }
+    //endregion
 
-    public void MySettingsOC(View view)
+      public void MySettingsOC(View view)
     {
         Intent i = new Intent(MainActivity.this, settings.class);
         startActivity(i);
