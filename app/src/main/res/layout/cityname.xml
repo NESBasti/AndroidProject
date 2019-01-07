@@ -15,12 +15,12 @@
             style="@style/WhiteText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="City Name"
-            android:layout_marginLeft="32dp"
             android:textAlignment="center"
             android:textSize="60dp"
-            android:layout_marginTop="16dp"
             android:textStyle="bold" />
 
         <ImageView
@@ -36,15 +36,18 @@
             android:transitionName="transition_setting">
         </ImageView>
 
+
+
     </LinearLayout>
 
-    <TextView
+
+    <TextClock
         style="@style/WhiteText"
-        android:id="@+id/MyTime"
-        android:layout_width="fill_parent"
+        android:id="@+id/textClock"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mittwoch - 19.12.2018"
+        android:format24Hour="EEE, dd. MMMM HH:mm"
         android:textSize="15dp"
         android:textAlignment="center" />
-
+    
 </LinearLayout>

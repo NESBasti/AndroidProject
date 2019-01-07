@@ -23,7 +23,6 @@ class UserInterface {
     private Activity mainActivity;
 
     private TextView cityName;
-    private TextView time;
 
     private TextView lastRefresh;
     private TextView temperature;
@@ -52,7 +51,7 @@ class UserInterface {
     private TextView hourlyTemp5;
     private TextView hourlyTemp6;
 
-    private TextView pressure;
+    private TextView weatherInfo;
 
     //region getter & setter
 
@@ -90,7 +89,6 @@ class UserInterface {
 
         //set Views
         cityName = this.mainActivity.findViewById(R.id.MyCityName);
-        time = this.mainActivity.findViewById(R.id.MyTime);
         lastRefresh = this.mainActivity.findViewById(R.id.MyLastRefresh);
         temperature = this.mainActivity.findViewById(R.id.MyTemperature);
         minTemp = this.mainActivity.findViewById(R.id.MyMinTemp);
@@ -118,15 +116,13 @@ class UserInterface {
         hourlyTemp5 = this.mainActivity.findViewById(R.id.hourly5temp);
         hourlyTemp6 = this.mainActivity.findViewById(R.id.hourly6temp);
 
-        pressure = this.mainActivity.findViewById(R.id.MyPressure);
+        weatherInfo = this.mainActivity.findViewById(R.id.MyPressure);
     }
 
     /**
      *      Updates the UI if a new JSON was fetched
      */
     void updateInterface(){
-        time.setText(new SimpleDateFormat("EE, dd. MMMM HH:mm", Locale.GERMANY).format(Calendar.getInstance().getTime()));
-
         if(weatherCurrent != null){
             updateCurrentInterface();
         }
@@ -141,6 +137,16 @@ class UserInterface {
         temperature.setText(String.valueOf((int) weatherCurrent.getMain().getTemp()) + "°");
         minTemp.setText("Min " + String.valueOf((int) weatherCurrent.getMain().getTemp_min()) + "°");
         maxTemp.setText("Max " + String.valueOf((int) weatherCurrent.getMain().getTemp_max()) + "°");
+
+        weatherInfo.setText("Pressure " + weatherCurrent.getMain().getPressure() + " hPa");
+        weatherInfo.append("\nHumidity " + weatherCurrent.getMain().getHumidity() + " %");
+        weatherInfo.append("\nWindspeed " + weatherCurrent.getWind().getSpeed() + " m/s");
+        weatherInfo.append("\nCloudiness " + weatherCurrent.getClouds().getAll() + " %");
+        Date sunrise = new Date(weatherCurrent.getSys().getSunrise()*1000L);
+        Date sunset = new Date(weatherCurrent.getSys().getSunset()*1000L);
+
+        weatherInfo.append("\nSunrise " + dateFormatFixed.format(sunrise));
+        weatherInfo.append("\nSunset " + dateFormatFixed.format(sunset));
     }
 
     void updateForecastInterface(){
@@ -253,16 +259,6 @@ class UserInterface {
         hourlyTemp4.setText(String.valueOf(Math.round(hourlyTemps.get(3))) + "°");
         hourlyTemp5.setText(String.valueOf(Math.round(hourlyTemps.get(4))) + "°");
         hourlyTemp6.setText(String.valueOf(Math.round(hourlyTemps.get(5))) + "°");
-
-        pressure.setText("Pressure " + weatherCurrent.getMain().getPressure() + " hPa");
-        pressure.append("\nHumidity " + weatherCurrent.getMain().getHumidity() + " %");
-        pressure.append("\nWindspeed " + weatherCurrent.getWind().getSpeed() + " m/s");
-        pressure.append("\nCloudiness " + weatherCurrent.getClouds().getAll() + " %");
-        Date sunrise = new Date(weatherCurrent.getSys().getSunrise()*1000L);
-        Date sunset = new Date(weatherCurrent.getSys().getSunset()*1000L);
-
-        pressure.append("\nSunrise " + dateFormatFixed.format(sunrise));
-        pressure.append("\nSunset " + dateFormatFixed.format(sunset));
 
 
     }
