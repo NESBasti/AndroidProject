@@ -2,7 +2,6 @@ package de.bastian.androidproject;
 
 import android.app.Activity;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -30,7 +29,6 @@ class UserInterface {
     private TextView temperature;
     private TextView minTemp;
     private TextView maxTemp;
-    private ListView weatherData;
     private SimpleDateFormat dateFormat;
     private SimpleDateFormat dateFormatFixed;
 
@@ -54,6 +52,7 @@ class UserInterface {
     private TextView hourlyTemp5;
     private TextView hourlyTemp6;
 
+    private TextView pressure;
 
     //region getter & setter
 
@@ -96,7 +95,6 @@ class UserInterface {
         temperature = this.mainActivity.findViewById(R.id.MyTemperature);
         minTemp = this.mainActivity.findViewById(R.id.MyMinTemp);
         maxTemp = this.mainActivity.findViewById(R.id.MyMaxTemp);
-        weatherData = this.mainActivity.findViewById(R.id.weatherData);
 
         //set View - hourly forecast
         hourlyTime1 = this.mainActivity.findViewById(R.id.hourly1time);
@@ -120,6 +118,7 @@ class UserInterface {
         hourlyTemp5 = this.mainActivity.findViewById(R.id.hourly5temp);
         hourlyTemp6 = this.mainActivity.findViewById(R.id.hourly6temp);
 
+        pressure = this.mainActivity.findViewById(R.id.MyPressure);
     }
 
     /**
@@ -254,6 +253,18 @@ class UserInterface {
         hourlyTemp4.setText(String.valueOf(Math.round(hourlyTemps.get(3))) + "°");
         hourlyTemp5.setText(String.valueOf(Math.round(hourlyTemps.get(4))) + "°");
         hourlyTemp6.setText(String.valueOf(Math.round(hourlyTemps.get(5))) + "°");
+
+        pressure.setText("Pressure " + weatherCurrent.getMain().getPressure() + " hPa");
+        pressure.append("\nHumidity " + weatherCurrent.getMain().getHumidity() + " %");
+        pressure.append("\nWindspeed " + weatherCurrent.getWind().getSpeed() + " m/s");
+        pressure.append("\nCloudiness " + weatherCurrent.getClouds().getAll() + " %");
+        Date sunrise = new Date(weatherCurrent.getSys().getSunrise()*1000L);
+        Date sunset = new Date(weatherCurrent.getSys().getSunset()*1000L);
+
+        pressure.append("\nSunrise " + dateFormatFixed.format(sunrise));
+        pressure.append("\nSunset " + dateFormatFixed.format(sunset));
+
+
     }
 
 }
