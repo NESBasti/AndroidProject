@@ -10,11 +10,11 @@ public class WeatherListElement {
     private weatherWind wind;
     private weatherRain rain;
     private weatherSnow snow;
-    private weatherSys sys;
+    private forecastSys sys;
     private String dt_txt;
 
 
-    public WeatherListElement(int dt, weatherMain main, List<weatherWeather> weather, weatherClouds clouds, weatherWind wind, weatherRain rain, weatherSnow snow, weatherSys sys, String dt_txt) {
+    public WeatherListElement(int dt, weatherMain main, List<weatherWeather> weather, weatherClouds clouds, weatherWind wind, weatherRain rain, weatherSnow snow, forecastSys sys, String dt_txt) {
         this.dt = dt;
         this.main = main;
         this.weather = weather;
@@ -82,11 +82,11 @@ public class WeatherListElement {
         this.snow = snow;
     }
 
-    public weatherSys getSys() {
+    public forecastSys getSys() {
         return sys;
     }
 
-    public void setSys(weatherSys sys) {
+    public void setSys(forecastSys sys) {
         this.sys = sys;
     }
 

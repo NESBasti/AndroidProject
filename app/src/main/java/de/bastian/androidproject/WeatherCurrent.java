@@ -7,6 +7,7 @@ public class WeatherCurrent {
     private List<weatherWeather> weather;
     private String base;
     private weatherMain main;
+    private int visibility;
     private weatherWind wind;
     private weatherClouds clouds;
     private weatherRain rain;
@@ -16,11 +17,12 @@ public class WeatherCurrent {
     private String name;
     private int cod;
 
-    public WeatherCurrent(Coord coord, List<weatherWeather> weather, String base, weatherMain main, weatherWind wind, weatherClouds clouds, weatherRain rain, int dt, weatherSys sys, int id, String name, int cod) {
+    public WeatherCurrent(Coord coord, List<weatherWeather> weather, String base, weatherMain main, int visibility, weatherWind wind, weatherClouds clouds, weatherRain rain, int dt, weatherSys sys, int id, String name, int cod) {
         this.coord = coord;
         this.weather = weather;
         this.base = base;
         this.main = main;
+        this.visibility = visibility;
         this.wind = wind;
         this.clouds = clouds;
         this.rain = rain;
@@ -30,6 +32,7 @@ public class WeatherCurrent {
         this.name = name;
         this.cod = cod;
     }
+
 
     public Coord getCoord() {
         return coord;
@@ -95,14 +98,6 @@ public class WeatherCurrent {
         this.dt = dt;
     }
 
-    public weatherSys getSys() {
-        return sys;
-    }
-
-    public void setSys(weatherSys sys) {
-        this.sys = sys;
-    }
-
     public int getId() {
         return id;
     }
@@ -125,5 +120,21 @@ public class WeatherCurrent {
 
     public void setCod(int cod) {
         this.cod = cod;
+    }
+
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(int visibility) {
+        this.visibility = visibility;
+    }
+
+    public weatherSys getSys() {
+        return sys;
+    }
+
+    public void setSys(weatherSys sys) {
+        this.sys = sys;
     }
 }
