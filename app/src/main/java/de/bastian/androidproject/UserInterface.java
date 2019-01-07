@@ -150,6 +150,13 @@ class UserInterface {
     }
 
     void updateForecastInterface(){
+        updateForecastHourly();
+
+        updateForecastDaily();
+
+    }
+
+    void updateForecastHourly(){
         //update time
         List<WeatherListElement> hourlyForecast = new ArrayList<>();
         Date[] hourly = {new Date(0), new Date(0), new Date(0), new Date(0), new Date(0), new Date(0)};
@@ -170,6 +177,7 @@ class UserInterface {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         hourlyTime1.setText(dateFormatFixed.format(hourly[0]));
         hourlyTime2.setText(dateFormatFixed.format(hourly[1]));
         hourlyTime3.setText(dateFormatFixed.format(hourly[2]));
@@ -259,8 +267,10 @@ class UserInterface {
         hourlyTemp4.setText(String.valueOf(Math.round(hourlyTemps.get(3))) + "°");
         hourlyTemp5.setText(String.valueOf(Math.round(hourlyTemps.get(4))) + "°");
         hourlyTemp6.setText(String.valueOf(Math.round(hourlyTemps.get(5))) + "°");
+    }
+
+    void updateForecastDaily(){
 
 
     }
-
 }

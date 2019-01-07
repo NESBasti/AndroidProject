@@ -47,7 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:format24Hour="EEE, dd. MMMM HH:mm"
+        android:format12Hour="EEE, MMMM dd. hh:mm a"
         android:textSize="15dp"
         android:textAlignment="center" />
-    
+
 </LinearLayout>
