@@ -34,6 +34,7 @@ class UserInterface {
     private TextView temperature;
     private TextView minTemp;
     private TextView maxTemp;
+    private ImageView currentIcon;
     private TextView weatherInfo;
     private SimpleDateFormat dateFormatJSON;
     private SimpleDateFormat dateFormatTime;
@@ -117,6 +118,7 @@ class UserInterface {
         temperature = this.mainActivity.findViewById(R.id.MyTemperature);
         minTemp = this.mainActivity.findViewById(R.id.MyMinTemp);
         maxTemp = this.mainActivity.findViewById(R.id.MyMaxTemp);
+        currentIcon = this.mainActivity.findViewById(R.id.MyIcon);
         weatherInfo = this.mainActivity.findViewById(R.id.MyPressure);
 
         //set Views - hourly forecast
@@ -188,6 +190,8 @@ class UserInterface {
         temperature.setText(String.valueOf((int) weatherCurrent.getMain().getTemp()) + "°");
         minTemp.setText("Min " + String.valueOf((int) weatherCurrent.getMain().getTemp_min()) + "°");
         maxTemp.setText("Max " + String.valueOf((int) weatherCurrent.getMain().getTemp_max()) + "°");
+        currentIcon.setImageResource(iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
+
 
         weatherInfo.setText("Pressure " + weatherCurrent.getMain().getPressure() + " hPa");
         weatherInfo.append("\nHumidity " + weatherCurrent.getMain().getHumidity() + " %");
