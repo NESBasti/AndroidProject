@@ -1,8 +1,14 @@
 package de.bastian.androidproject;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,6 +74,7 @@ class UserInterface {
     private TextView  weekday3;
     private TextView  weekday4;
     private TextView  weekday5;
+    private GraphView graph;
 
     //region getter & setter
 
@@ -151,6 +158,16 @@ class UserInterface {
         weekday3 = this.mainActivity.findViewById(R.id.daily3day);
         weekday4 = this.mainActivity.findViewById(R.id.daily4day);
         weekday5 = this.mainActivity.findViewById(R.id.daily5day);
+
+        //init daily temp graph
+        graph = this.mainActivity.findViewById(R.id.graph);
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMaxX(5);
+        graph.getViewport().setMinX(0);
+
     }
 
     /**
@@ -226,72 +243,24 @@ class UserInterface {
         //update weather
         List<Integer> hourlyIcons = new ArrayList<>();
         List<Double> hourlyTemps = new ArrayList<>();
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        series.setThickness(4);
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(8);
+        series.setAnimated(true);
+        series.setColor(Color.parseColor("#66EFEFEF"));
+
+        int count = 0;
 
         for(WeatherListElement k: hourlyForecast){
-            char daytime = k.getWeather().get(0).getIcon().charAt(2);
+            hourlyIcons.add(iconToResource(k.getWeather().get(0).getIcon()));
             hourlyTemps.add(k.getMain().getTemp());
-
-            switch (k.getWeather().get(0).getIcon().substring(0,2)){
-                case "01":
-                    if(daytime == 'd'){
-                        hourlyIcons.add(R.drawable.sun);
-                    }
-                    else hourlyIcons.add(R.drawable.moon);
-                    break;
-                case "02":
-                    if(daytime == 'd'){
-                        hourlyIcons.add(R.drawable.suncloud);
-                    }
-                    else hourlyIcons.add(R.drawable.mooncloud);
-                    break;
-                case "03":
-                    if(daytime == 'd'){
-                        hourlyIcons.add(R.drawable.cloud);
-                    }
-                    else hourlyIcons.add(R.drawable.cloud);
-                    break;
-                case "04":
-                    if(daytime == 'd'){
-                        hourlyIcons.add(R.drawable.heavycloud);
-                    }
-                    else hourlyIcons.add(R.drawable.heavycloud);
-                    break;
-                case "09":
-                    if(daytime == 'd'){
-                        hourlyIcons.add(R.drawable.heavycloudrain);
-                    }
-                    else hourlyIcons.add(R.drawable.heavycloudrain);
-                    break;
-                case "10":
-                    if(daytime == 'd'){
-                        hourlyIcons.add(R.drawable.sunrain);
-                    }
-                    else hourlyIcons.add(R.drawable.moonrain);
-                    break;
-                case "11":
-                    if(daytime == 'd'){
-                        hourlyIcons.add(R.drawable.thunder);
-                    }
-                    else hourlyIcons.add(R.drawable.thunder);
-                    break;
-                case "13":
-                    if(daytime == 'd'){
-                        hourlyIcons.add(R.drawable.snow);
-                    }
-                    else hourlyIcons.add(R.drawable.snow);
-                    break;
-                case "50":
-                    if(daytime == 'd'){
-                        hourlyIcons.add(R.drawable.sun);//TODO mist icon
-                    }
-                    else hourlyIcons.add(R.drawable.sun);
-                    break;
-                default:
-                    hourlyIcons.add(R.drawable.sun);
-                    break;
-            }
-
+            series.appendData(new DataPoint(count, k.getMain().getTemp()), true, 6);
+            count++;
         }
+
+        graph.removeAllSeries();
+        graph.addSeries(series);
         hourlyWeather1.setImageResource(hourlyIcons.get(0));
         hourlyWeather2.setImageResource(hourlyIcons.get(1));
         hourlyWeather3.setImageResource(hourlyIcons.get(2));
@@ -312,7 +281,7 @@ class UserInterface {
         Calendar currentDay = Calendar.getInstance();
 
         //update weekdays
-        lastDay.setTime(dateFormatJSON.parse(weatherForecast.getList().get(0).getDt_txt()));
+        lastDay.setTime(currentTime);
 
         lastDay.add(Calendar.DAY_OF_MONTH,1);
         weekday2.setText(dateFormatDate.format(lastDay.getTime()));
@@ -323,11 +292,13 @@ class UserInterface {
         lastDay.add(Calendar.DAY_OF_MONTH,1);
         weekday5.setText(dateFormatDate.format(lastDay.getTime()));
 
-        lastDay.setTime(dateFormatJSON.parse(weatherForecast.getList().get(0).getDt_txt()));
 
         //update temperature
+        lastDay.setTime(dateFormatJSON.parse(weatherForecast.getList().get(0).getDt_txt()));
+
         List<Integer> minTemp = new ArrayList<>();
         List<Integer> maxTemp = new ArrayList<>();
+        List<Integer> weatherIcons = new ArrayList<>();
         minTemp.add((int)Math.round(weatherForecast.getList().get(0).getMain().getTemp_min()));
         maxTemp.add((int)Math.round(weatherForecast.getList().get(0).getMain().getTemp_max()));
         int listFlag = 0;
@@ -342,6 +313,9 @@ class UserInterface {
                 if(weatherForecast.getList().get(i).getMain().getTemp_max() > maxTemp.get(listFlag) ){
                     maxTemp.set(listFlag, (int)Math.round(weatherForecast.getList().get(i).getMain().getTemp_max()));
                 }
+                if(dateFormatTime.format(dateFormatJSON.parse(weatherForecast.getList().get(i).getDt_txt())).compareTo(dateFormatTime.format(dateFormatTime.parse("12:00"))) == 0){
+                    weatherIcons.add(iconToResource(weatherForecast.getList().get(i).getWeather().get(0).getIcon()));
+                }
             }
             else{
                 lastDay.set(currentDay.get(Calendar.YEAR), currentDay.get(Calendar.MONTH), currentDay.get(Calendar.DAY_OF_MONTH));
@@ -353,14 +327,75 @@ class UserInterface {
             }
         }
 
+
         dailyTemp1.setText(maxTemp.get(0) + "°\n" + minTemp.get(0) + "°");
         dailyTemp2.setText(maxTemp.get(1) + "°\n" + minTemp.get(1) + "°");
         dailyTemp3.setText(maxTemp.get(2) + "°\n" + minTemp.get(2) + "°");
         dailyTemp4.setText(maxTemp.get(3) + "°\n" + minTemp.get(3) + "°");
         dailyTemp5.setText(maxTemp.get(4) + "°\n" + minTemp.get(4) + "°");
 
+        dailyWeather1.setImageResource(weatherIcons.get(0));
+        dailyWeather2.setImageResource(weatherIcons.get(1));
+        dailyWeather3.setImageResource(weatherIcons.get(2));
+        dailyWeather4.setImageResource(weatherIcons.get(3));
+        dailyWeather5.setImageResource(weatherIcons.get(4));
 
 
 
     }
+
+    private int iconToResource(String icon){
+        char daytime = icon.charAt(2);
+
+        switch (icon.substring(0,2)){
+            case "01":
+                if(daytime == 'd'){
+                    return R.drawable.sun;
+                }
+                else return R.drawable.moon;
+            case "02":
+                if(daytime == 'd'){
+                    return R.drawable.suncloud;
+                }
+                else return R.drawable.mooncloud;
+            case "03":
+                if(daytime == 'd'){
+                    return R.drawable.cloud;
+                }
+                else return R.drawable.cloud;
+            case "04":
+                if(daytime == 'd'){
+                    return R.drawable.heavycloud;
+                }
+                else return R.drawable.heavycloud;
+            case "09":
+                if(daytime == 'd'){
+                    return R.drawable.heavycloudrain;
+                }
+                else return R.drawable.heavycloudrain;
+            case "10":
+                if(daytime == 'd'){
+                    return R.drawable.sunrain;
+                }
+                else return R.drawable.moonrain;
+            case "11":
+                if(daytime == 'd'){
+                    return R.drawable.thunder;
+                }
+                else return R.drawable.thunder;
+            case "13":
+                if(daytime == 'd'){
+                    return R.drawable.snow;
+                }
+                else return R.drawable.snow;
+            case "50":
+                if(daytime == 'd'){
+                    return R.drawable.sun;//TODO mist icon
+                }
+                else return R.drawable.sun;
+            default:
+                return R.drawable.sun;
+        }
+    }
 }
+
