@@ -184,6 +184,7 @@ class UserInterface {
         }
     }
 
+
     void updateCurrentInterface(){
         cityName.setText(weatherCurrent.getName());
         lastRefresh.setText(new SimpleDateFormat("EEE HH:mm", Locale.GERMANY).format(new java.util.Date(lastUpdate)));
@@ -205,9 +206,8 @@ class UserInterface {
     }
 
     void updateForecastInterface(){
-        updateForecastHourly();
-
         try {
+            updateForecastHourly();
             updateForecastDaily();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -215,26 +215,23 @@ class UserInterface {
 
     }
 
-    void updateForecastHourly(){
+    void updateForecastHourly()throws ParseException{
         //update time
         List<WeatherListElement> hourlyForecast = new ArrayList<>();
         Date[] hourly = {new Date(0), new Date(0), new Date(0), new Date(0), new Date(0), new Date(0)};
         int maxHours = 6;
         int arrayIndex = 0;
 
-        try {
-            for(int j = 0; j < maxHours && j < weatherForecast.getCnt(); j++){
-                if(currentTime.after(dateFormatJSON.parse(weatherForecast.getList().get(j).getDt_txt()))){
-                    maxHours++;
-                }
-                else{
-                    hourly[arrayIndex] = dateFormatJSON.parse(weatherForecast.getList().get(j).getDt_txt());
-                    hourlyForecast.add(weatherForecast.getList().get(j));
-                    arrayIndex++;
-                }
+
+        for(int j = 0; j < maxHours && j < weatherForecast.getCnt(); j++){
+            if(currentTime.after(dateFormatJSON.parse(weatherForecast.getList().get(j).getDt_txt()))){
+                maxHours++;
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+            else{
+                hourly[arrayIndex] = dateFormatJSON.parse(weatherForecast.getList().get(j).getDt_txt());
+                hourlyForecast.add(weatherForecast.getList().get(j));
+                arrayIndex++;
+            }
         }
 
         hourlyTime1.setText(dateFormatTime.format(hourly[0]));
@@ -246,8 +243,9 @@ class UserInterface {
 
         //update weather
         List<Integer> hourlyIcons = new ArrayList<>();
-        List<Double> hourlyTemps = new ArrayList<>();
+        List<Integer> hourlyTemps = new ArrayList<>();
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+
         series.setThickness(4);
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(8);
@@ -258,13 +256,15 @@ class UserInterface {
 
         for(WeatherListElement k: hourlyForecast){
             hourlyIcons.add(iconToResource(k.getWeather().get(0).getIcon()));
-            hourlyTemps.add(k.getMain().getTemp());
-            series.appendData(new DataPoint(count, k.getMain().getTemp()), true, 6);
+            int currentTemp = (int) Math.round(k.getMain().getTemp());
+            hourlyTemps.add(currentTemp);
+            series.appendData(new DataPoint(count, currentTemp), true, 6);
             count++;
         }
 
         graph.removeAllSeries();
         graph.addSeries(series);
+
         hourlyWeather1.setImageResource(hourlyIcons.get(0));
         hourlyWeather2.setImageResource(hourlyIcons.get(1));
         hourlyWeather3.setImageResource(hourlyIcons.get(2));
@@ -272,12 +272,12 @@ class UserInterface {
         hourlyWeather5.setImageResource(hourlyIcons.get(4));
         hourlyWeather6.setImageResource(hourlyIcons.get(5));
 
-        hourlyTemp1.setText(String.valueOf(Math.round(hourlyTemps.get(0))) + "°");
-        hourlyTemp2.setText(String.valueOf(Math.round(hourlyTemps.get(1))) + "°");
-        hourlyTemp3.setText(String.valueOf(Math.round(hourlyTemps.get(2))) + "°");
-        hourlyTemp4.setText(String.valueOf(Math.round(hourlyTemps.get(3))) + "°");
-        hourlyTemp5.setText(String.valueOf(Math.round(hourlyTemps.get(4))) + "°");
-        hourlyTemp6.setText(String.valueOf(Math.round(hourlyTemps.get(5))) + "°");
+        hourlyTemp1.setText(hourlyTemps.get(0) + "°");
+        hourlyTemp2.setText(hourlyTemps.get(1) + "°");
+        hourlyTemp3.setText(hourlyTemps.get(2) + "°");
+        hourlyTemp4.setText(hourlyTemps.get(3) + "°");
+        hourlyTemp5.setText(hourlyTemps.get(4) + "°");
+        hourlyTemp6.setText(hourlyTemps.get(5) + "°");
     }
 
     void updateForecastDaily() throws ParseException {
@@ -348,6 +348,9 @@ class UserInterface {
 
     }
 
+    /**
+     * converts the icon String to an image resource
+     */
     private int iconToResource(String icon){
         char daytime = icon.charAt(2);
 
