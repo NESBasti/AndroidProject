@@ -345,7 +345,6 @@ class UserInterface {
         dailyWeather5.setImageResource(weatherIcons.get(4));
 
 
-
     }
 
     /**

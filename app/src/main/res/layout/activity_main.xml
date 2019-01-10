@@ -29,13 +29,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/MyLinearLayout">
+                android:id="@+id/MyLinearLayout">♦
 
                 <include
-                    android:layout_margin="30dp"
+                    android:layout_marginBottom="40dp"
                     android:id="@+id/container_temperature"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
@@ -51,10 +52,9 @@
                     android:id="@+id/container_daily"
                     layout="@layout/daily"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp" />
-
+                    android:layout_height="wrap_content" />
                 <View
+                    android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@android:color/darker_gray"/>
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="City Name"
-                        android:textSize="60dp"
+                        android:textSize="30dp"
                         android:textStyle="bold" />
 
                     <TextView

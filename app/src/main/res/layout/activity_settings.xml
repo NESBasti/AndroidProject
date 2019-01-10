@@ -7,10 +7,13 @@
     android:background="@drawable/background_image"
     tools:context=".settings"
     >
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="8dp">
 
@@ -39,7 +42,102 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/settings">
             </ImageView>
+        </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="8dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Einheit"
+                android:layout_weight="1"
+                style="@style/WhiteText"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="°C"
+                android:layout_weight="1"
+                style="@style/WhiteText"
+                android:gravity="center"/>
+
+            <Switch
+                android:id="@+id/switch_einheit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="°F"
+                android:layout_weight="1"
+                style="@style/WhiteText"
+                android:gravity="center"/>
+        </LinearLayout>
+        //Sprache
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="8dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Sprache"
+                android:layout_weight="3"
+                style="@style/WhiteText"
+                android:gravity="center_vertical"
+                />
+
+            <Button
+                android:id="@+id/MyLanguageButton"
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:text="Deutsch" />
+
+        </LinearLayout>
+        //Support
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kontakt"
+            style="@style/WhiteText"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:layout_margin="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="8dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Email"
+                    android:layout_weight="3"
+                    style="@style/WhiteText"
+                    android:gravity="center_vertical"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="email@email.com"
+                    android:layout_weight="1"
+                    style="@style/WhiteText"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
