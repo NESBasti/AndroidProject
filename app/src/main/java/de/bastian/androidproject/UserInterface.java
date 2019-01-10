@@ -264,7 +264,5 @@ class UserInterface {
         pressure.append("\nSunrise " + dateFormatFixed.format(sunrise));
         pressure.append("\nSunset " + dateFormatFixed.format(sunset));
 
-
     }
-
 }
