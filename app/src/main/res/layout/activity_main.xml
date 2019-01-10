@@ -131,12 +131,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#25EFEFEF">
+
+            <TextView
+                style="@style/WhiteText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="openweathermap.org"
+                android:autoLink="web"
+                android:textColorLink="@android:color/white"
+                />
+
             <TextView
                 style="@style/WhiteText"
                 android:gravity="right"
                 android:id="@+id/MyLastRefresh"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Last Refresh: 10:00Uhr"

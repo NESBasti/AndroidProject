@@ -36,8 +36,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/MyDaily"
-        tools:layout_editor_absoluteX="8dp">
+        app:layout_constraintTop_toBottomOf="@id/MyDaily">
 
         <LinearLayout
             android:id="@+id/MyDailyD1"
@@ -56,16 +55,19 @@
                 android:textAlignment="center" />
 
             <ImageView
+                android:id="@+id/daily1weather"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/heavycloudrain" />
 
             <TextView
+                android:id="@+id/daily1temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0%"
+                android:text="20° \n0°"
                 android:textAlignment="center" />
+
         </LinearLayout>
 
         <View
@@ -84,6 +86,7 @@
             android:onClick="MyDailyOpening2">
 
             <TextView
+                android:id="@+id/daily2day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -91,15 +94,17 @@
                 android:textAlignment="center" />
 
             <ImageView
+                android:id="@+id/daily2weather"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/sunrain" />
 
             <TextView
+                android:id="@+id/daily2temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0%"
+                android:text="20° \n0°"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -119,6 +124,7 @@
             android:onClick="MyDailyOpening3">
 
             <TextView
+                android:id="@+id/daily3day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -126,15 +132,17 @@
                 android:textAlignment="center" />
 
             <ImageView
+                android:id="@+id/daily3weather"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/sun" />
 
             <TextView
+                android:id="@+id/daily3temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0%"
+                android:text="20° \n0°"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -154,6 +162,7 @@
             android:onClick="MyDailyOpening4">
 
             <TextView
+                android:id="@+id/daily4day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -161,15 +170,17 @@
                 android:textAlignment="center" />
 
             <ImageView
+                android:id="@+id/daily4weather"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/cloud" />
 
             <TextView
+                android:id="@+id/daily4temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0%"
+                android:text="20° \n0°"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -189,6 +200,7 @@
             android:onClick="MyDailyOpening5">
 
             <TextView
+                android:id="@+id/daily5day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -196,52 +208,23 @@
                 android:textAlignment="center" />
 
             <ImageView
+                android:id="@+id/daily5weather"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/mooncloud" />
 
             <TextView
+                android:id="@+id/daily5temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0%"
+                android:text="20° \n0°"
                 android:textAlignment="center" />
         </LinearLayout>
 
-        <View
-            android:layout_marginTop="5dp"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/lightGray" />
-
-        <LinearLayout
-            android:id="@+id/MyDailyD6"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:onClick="MyDailyOpening6">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="MO."
-                android:textAlignment="center" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:scaleType="fitCenter"
-                android:src="@drawable/moonrain" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0%"
-                android:textAlignment="center" />
-        </LinearLayout>
     </LinearLayout>
+
+
+
+
 </android.support.constraint.ConstraintLayout>
