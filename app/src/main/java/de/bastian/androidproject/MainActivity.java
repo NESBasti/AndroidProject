@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             LoadForecastJSON loadForecastJSON = new LoadForecastJSON(MainActivity.this);
             loadForecastJSON.execute(location);
             ui.setLastUpdate(System.currentTimeMillis());
+            ui.setLocation(this.location);
         }
         else if(location == null & locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) & locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
             Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
@@ -407,12 +408,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
-        String jsonCurrent = gson.toJson(ui.getWeatherCurrent());
-        prefsEditor.putString("weatherCurrent", jsonCurrent);
-        String jsonForecast = gson.toJson(ui.getWeatherForecast());
-        prefsEditor.putString("weatherForecast", jsonForecast);
+        if(ui.getWeatherCurrent() != null){
+            String jsonCurrent = gson.toJson(ui.getWeatherCurrent());
+            prefsEditor.putString("weatherCurrent", jsonCurrent);
+        }
+        if(ui.getWeatherForecast() != null){
+            String jsonForecast = gson.toJson(ui.getWeatherForecast());
+            prefsEditor.putString("weatherForecast", jsonForecast);
+        }
         String jsonUpdate = gson.toJson(ui.getLastUpdate());
         prefsEditor.putString("lastUpdate", jsonUpdate);
+        //String jsonLocation = gson.toJson(location);
+        //prefsEditor.putString("location", jsonLocation);
         prefsEditor.apply();
     }
 
@@ -421,9 +428,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onStart();
         Gson gson = new Gson();
         String jsonCurrent = mPrefs.getString("weatherCurrent", "");
-        ui.setWeatherCurrent(gson.fromJson(jsonCurrent, WeatherCurrent.class));
+        if(gson.fromJson(jsonCurrent, WeatherCurrent.class) != null){
+            ui.setWeatherCurrent(gson.fromJson(jsonCurrent, WeatherCurrent.class));
+        }
         String jsonForecast = mPrefs.getString("weatherForecast", "");
-        ui.setWeatherForecast(gson.fromJson(jsonForecast, WeatherForecast.class));
+        if(gson.fromJson(jsonForecast, WeatherForecast.class) != null){
+            ui.setWeatherForecast(gson.fromJson(jsonForecast, WeatherForecast.class));
+        }
         String jsonUpdate = mPrefs.getString("lastUpdate", "0");
         ui.setLastUpdate(gson.fromJson(jsonUpdate, Long.class));
         ui.updateInterface();
