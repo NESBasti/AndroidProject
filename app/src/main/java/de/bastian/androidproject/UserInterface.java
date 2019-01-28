@@ -43,7 +43,6 @@ class UserInterface {
     private TextView minTemp;
     private TextView maxTemp;
     private ImageView currentIcon;
-    private TextView weatherInfo;
     private SimpleDateFormat dateFormatJSON;
     private SimpleDateFormat dateFormatTime;
     private SimpleDateFormat dateFormatDate;
@@ -67,6 +66,15 @@ class UserInterface {
     private TextView hourlyTemp4;
     private TextView hourlyTemp5;
     private TextView hourlyTemp6;
+
+    //other Informations
+    private TextView pressure;
+    private TextView humidity;
+    private TextView windspeed;
+    private TextView cloudiness;
+    private TextView sunrisetv;
+    private TextView sunsettv;
+
 
     //daily forecast
     private ImageView dailyWeather1;
@@ -136,7 +144,6 @@ class UserInterface {
         minTemp = this.mainActivity.findViewById(R.id.MyMinTemp);
         maxTemp = this.mainActivity.findViewById(R.id.MyMaxTemp);
         currentIcon = this.mainActivity.findViewById(R.id.MyIcon);
-        weatherInfo = this.mainActivity.findViewById(R.id.MyPressure);
 
         //set Views - hourly forecast
         hourlyTime1 = this.mainActivity.findViewById(R.id.hourly1time);
@@ -178,6 +185,14 @@ class UserInterface {
         weekday4 = this.mainActivity.findViewById(R.id.daily4day);
         weekday5 = this.mainActivity.findViewById(R.id.daily5day);
 
+        //other Informations
+        pressure = this.mainActivity.findViewById(R.id.MyPressure);
+        humidity = this.mainActivity.findViewById(R.id.MyHumidity);
+        windspeed = this.mainActivity.findViewById(R.id.MyWindspeed);
+        cloudiness = this.mainActivity.findViewById(R.id.MyCloudiness);
+        sunrisetv = this.mainActivity.findViewById(R.id.MySunrise);
+        sunsettv = this.mainActivity.findViewById(R.id.MySunset);
+
         //init daily temp graph
         graph = this.mainActivity.findViewById(R.id.graph);
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
@@ -211,18 +226,6 @@ class UserInterface {
         maxTemp.setText("Max " + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "°");
         currentIcon.setImageResource(iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
 
-
-        weatherInfo.setText("Pressure " + weatherCurrent.getMain().getPressure() + " hPa");
-        weatherInfo.append("\nHumidity " + weatherCurrent.getMain().getHumidity() + " %");
-        weatherInfo.append("\nWindspeed " + weatherCurrent.getWind().getSpeed() + " m/s");
-        weatherInfo.append("\nCloudiness " + weatherCurrent.getClouds().getAll() + " %");
-        Date sunrise = new Date(weatherCurrent.getSys().getSunrise()*1000L);
-        Date sunset = new Date(weatherCurrent.getSys().getSunset()*1000L);
-
-        weatherInfo.append("\nSunrise " + dateFormatTime.format(sunrise));
-        weatherInfo.append("\nSunset " + dateFormatTime.format(sunset));
-
-        updateWeatherWidget();
     }
 
     void updateForecastInterface(){
@@ -370,7 +373,15 @@ class UserInterface {
             dailyWeather4.setImageResource(weatherIcons.get(3));
             dailyWeather5.setImageResource(weatherIcons.get(4));
         }
-
+      
+        Date sunrise = new Date(weatherCurrent.getSys().getSunrise()*1000L);
+        Date sunset = new Date(weatherCurrent.getSys().getSunset()*1000L);
+        pressure.setText(weatherCurrent.getMain().getPressure() + " hPa");
+        humidity.setText(weatherCurrent.getMain().getHumidity() + " %");
+        windspeed.setText(weatherCurrent.getWind().getSpeed() + " m/s");
+        cloudiness.setText(weatherCurrent.getClouds().getAll() + " %");
+        sunrisetv.setText(dateFormatTime.format(sunrise));
+        sunsettv.setText(dateFormatTime.format(sunset));
     }
 
     /**

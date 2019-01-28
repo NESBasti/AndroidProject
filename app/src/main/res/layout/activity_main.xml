@@ -54,76 +54,31 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
                 <View
-                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="32dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
-                //Fülltext
-                    <TextView
-                        android:id="@+id/MyPressure"
-                        style="@style/WhiteText"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="City Name"
-                        android:textSize="30dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        style="@style/WhiteText"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="City Name"
-                        android:textSize="60dp"
-                        android:textStyle="bold" />
-                    <TextView
-                        style="@style/WhiteText"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="City Name"
-                        android:textSize="60dp"
-                        android:textStyle="bold" />
-                    <TextView
-                        style="@style/WhiteText"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="City Name"
-                        android:textSize="60dp"
-                        android:textStyle="bold" />
-                    <TextView
-                        style="@style/WhiteText"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="City Name"
-                        android:textSize="60dp"
-                        android:textStyle="bold" />
-                    <TextView
-                        style="@style/WhiteText"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="City Name"
-                        android:textSize="60dp"
-                        android:textStyle="bold" />
-                    <TextView
-                        style="@style/WhiteText"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="City Name"
-                        android:textSize="60dp"
-                        android:textStyle="bold" />
+                    android:background="@color/lightGray"/>
+                <include
+                    android:layout_margin="16dp"
+                    android:id="@+id/container_otherinformations"
+                    layout="@layout/otherinformations"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:layout_margin="16dp"
+                    android:id="@+id/container_otherinformations"
+                    layout="@layout/otherinformations"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:layout_margin="16dp"
+                    android:id="@+id/container_otherinformations"
+                    layout="@layout/otherinformations"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
 
                 </LinearLayout>
         </ScrollView>
@@ -136,21 +91,35 @@
 
             <TextView
                 style="@style/WhiteText"
-                android:layout_width="wrap_content"
+                android:textSize="14dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="openweathermap.org"
                 android:autoLink="web"
                 android:textColorLink="@android:color/white"
-                />
-
-            <TextView
-                style="@style/WhiteText"
-                android:gravity="right"
-                android:id="@+id/MyLastRefresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Last Refresh: 10:00Uhr"
-                android:textSize="20dp" />
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="3">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/refresh" />
+                <TextView
+                    android:textSize="14dp"
+                    style="@style/WhiteText"
+                    android:gravity="center_horizontal"
+                    android:id="@+id/MyLastRefresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Last Refresh: 10:00Uhr" />
+            </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

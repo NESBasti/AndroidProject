@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -8,46 +10,139 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/MyDaily"
+            style="@style/WhiteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="DETAILS"
+            android:gravity="right"
+            android:textAlignment="center"
+            android:textSize="20dp" />
         //Luftdruck
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content">
+
             <TextView
                 style="@style/WhiteText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Luftdruck"/>
+                android:layout_weight="2"
+                android:text="Luftdruck" />
+
+
             <TextView
+                android:id="@+id/MyPressure"
                 style="@style/WhiteText"
-                android:id="@+id/MyLuftdruck"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Luftdruck"/>
+                android:layout_weight="3"
+                android:text="Luftdruck" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="right"
+                android:src="@drawable/pressure"/>
         </LinearLayout>
         //Luftfeuchtigkeit
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 style="@style/WhiteText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Luftfeuchtigkeit"/>
+                android:layout_weight="2"
+                android:text="Luftfeuchtigkeit" />
+
             <TextView
+                android:id="@+id/MyHumidity"
                 style="@style/WhiteText"
-                android:id="@+id/MyLuftfeuchtigkeit"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Luftdruck"/>
+                android:layout_weight="3"
+                android:text="Luftdruck" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="right"
+                android:src="@drawable/humidity"/>
+
         </LinearLayout>
         //Windgeschwindigkeit
         <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Windgeschwindigkeit" />
+
+
+            <TextView
+                android:id="@+id/MyWindspeed"
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="right"
+                android:text="Luftdruck" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="right"
+                android:src="@drawable/windgeschwindigkeit"/>
+        </LinearLayout>
+        //Bewölkung
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Bewölkung" />
+
+            <TextView
+                android:id="@+id/MyCloudiness"
+                style="@style/WhiteText"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Luftdruck" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="right"
+                android:src="@drawable/cloudyness"/>
+
+        </LinearLayout>
+        //Sunrise
+        <LinearLayout
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -55,15 +150,51 @@
                 style="@style/WhiteText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Windgeschwindigkeit"/>
+                android:layout_weight="2"
+                android:text="Sonnenaufgang" />
             <TextView
+                android:id="@+id/MySunrise"
                 style="@style/WhiteText"
-                android:id="@+id/MyWindgeschwindigkeit"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Luftdruck"/>
+                android:layout_weight="3"
+                android:text="Luftdruck" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="right"
+                android:src="@drawable/sunrise"/>
+        </LinearLayout>
+        //Sunset
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Sonnenuntergang" />
+
+
+            <TextView
+                android:id="@+id/MySunset"
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="right"
+                android:text="Luftdruck" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:layout_gravity="right"
+                android:src="@drawable/sunset"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
