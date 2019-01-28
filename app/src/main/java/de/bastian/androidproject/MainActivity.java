@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private LinearLayout linearLayoutD3;
     private LinearLayout linearLayoutD4;
     private LinearLayout linearLayoutD5;
-    private LinearLayout linearLayoutD6;
     private LayoutInflater layoutInflater;
     private ScrollView scrollView;
 
@@ -141,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 getResources().getColor(android.R.color.holo_red_light)
         );
 
+        //Pop - Ups
         linearLayout = findViewById(R.id.MyLinearLayout);
         scrollView = findViewById(R.id.MyScrollView);
         linearLayoutD1 = findViewById(R.id.MyDailyD1);
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         linearLayoutD3 = findViewById(R.id.MyDailyD3);
         linearLayoutD4 = findViewById(R.id.MyDailyD4);
         linearLayoutD5 = findViewById(R.id.MyDailyD5);
-        linearLayoutD6 = findViewById(R.id.MyDailyD6);
+
     }
 
 
@@ -440,7 +440,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void MyDailyOpening1(View view) {
         //Scroll to
         View top = linearLayout.getChildAt(2);
-        scrollView.smoothScrollTo(0 , (int)top.getY());
+
+        scrollView.smoothScrollTo(0, (int)top.getY());
 
         layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         final ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_day1, null);
@@ -453,13 +454,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
             }
+
             linearLayout.addView(container, 3);
             isset = 1;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 linearLayoutD1.setBackground(getDrawable(R.drawable.topcorners_rounded));
             }
+
+
         }
 
         linearLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -475,7 +478,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
                     }
                 }
                 return true;
@@ -500,7 +502,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
             }
             linearLayout.addView(container, 3);
             isset = 2;
@@ -522,7 +523,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
                     }
                 }
                 return true;
@@ -547,7 +547,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
             }
             linearLayout.addView(container, 3);
             isset = 3;
@@ -569,7 +568,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
                     }
                 }
                 return true;
@@ -594,7 +592,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
             }
             linearLayout.addView(container, 3);
             isset = 4;
@@ -616,7 +613,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
                     }
                 }
                 return true;
@@ -641,7 +637,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
             }
             linearLayout.addView(container, 3);
             isset = 5;
@@ -663,7 +658,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
                         linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
                     }
                 }
                 return true;
@@ -671,51 +665,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         });
     }
 
-    //Tag 6 weitere Infos
-    public void MyDailyOpening6(View view) {
-        //Scroll to
-        View top = linearLayout.getChildAt(2);
-        scrollView.smoothScrollTo(0 , (int)top.getY());
 
-        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_day6, null);
 
-        if(isset != 6)
-        {
-            if(isset != 0) {
-                linearLayout.removeViewAt(3);
-                linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-            }
-            linearLayout.addView(container, 3);
-            isset = 6;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                linearLayoutD6.setBackground(getDrawable(R.drawable.topcorners_rounded));
-            }
-        }
 
-        linearLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(isset != 0)
-                {
-                    linearLayout.removeViewAt(3);
-                    isset = 0;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD6.setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
-                return true;
-            }
-        });
-    }
 
 }
