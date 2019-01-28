@@ -1,7 +1,13 @@
 package de.bastian.androidproject;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.Location;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,11 +26,13 @@ import java.util.Locale;
 
 class UserInterface {
 
-    private WeatherCurrent weatherCurrent;
-    private WeatherForecast weatherForecast;
+    private static WeatherCurrent weatherCurrent;
+    private static WeatherForecast weatherForecast;
+    private static Location location;
 
     private Long lastUpdate = 0L;
     private Date currentTime;
+    private SharedPreferences widgetData;
 
     private Activity mainActivity;
 
@@ -102,6 +110,15 @@ class UserInterface {
     void setLastUpdate(Long lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     //endregion
 
     UserInterface(Activity mainActivity) {
@@ -170,6 +187,7 @@ class UserInterface {
         graph.getViewport().setMaxX(5);
         graph.getViewport().setMinX(0);
 
+        widgetData = this.mainActivity.getApplicationContext().getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
     }
 
     /**
@@ -188,9 +206,9 @@ class UserInterface {
     void updateCurrentInterface(){
         cityName.setText(weatherCurrent.getName());
         lastRefresh.setText(new SimpleDateFormat("EEE HH:mm", Locale.GERMANY).format(new java.util.Date(lastUpdate)));
-        temperature.setText(String.valueOf((int) weatherCurrent.getMain().getTemp()) + "°");
-        minTemp.setText("Min " + String.valueOf((int) weatherCurrent.getMain().getTemp_min()) + "°");
-        maxTemp.setText("Max " + String.valueOf((int) weatherCurrent.getMain().getTemp_max()) + "°");
+        temperature.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp())) + "°");
+        minTemp.setText("Min " + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_min())) + "°");
+        maxTemp.setText("Max " + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "°");
         currentIcon.setImageResource(iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
 
 
@@ -203,6 +221,8 @@ class UserInterface {
 
         weatherInfo.append("\nSunrise " + dateFormatTime.format(sunrise));
         weatherInfo.append("\nSunset " + dateFormatTime.format(sunset));
+
+        updateWeatherWidget();
     }
 
     void updateForecastInterface(){
@@ -265,19 +285,23 @@ class UserInterface {
         graph.removeAllSeries();
         graph.addSeries(series);
 
-        hourlyWeather1.setImageResource(hourlyIcons.get(0));
-        hourlyWeather2.setImageResource(hourlyIcons.get(1));
-        hourlyWeather3.setImageResource(hourlyIcons.get(2));
-        hourlyWeather4.setImageResource(hourlyIcons.get(3));
-        hourlyWeather5.setImageResource(hourlyIcons.get(4));
-        hourlyWeather6.setImageResource(hourlyIcons.get(5));
+        if(hourlyIcons.size() >= 6){
+            hourlyWeather1.setImageResource(hourlyIcons.get(0));
+            hourlyWeather2.setImageResource(hourlyIcons.get(1));
+            hourlyWeather3.setImageResource(hourlyIcons.get(2));
+            hourlyWeather4.setImageResource(hourlyIcons.get(3));
+            hourlyWeather5.setImageResource(hourlyIcons.get(4));
+            hourlyWeather6.setImageResource(hourlyIcons.get(5));
+        }
 
-        hourlyTemp1.setText(hourlyTemps.get(0) + "°");
-        hourlyTemp2.setText(hourlyTemps.get(1) + "°");
-        hourlyTemp3.setText(hourlyTemps.get(2) + "°");
-        hourlyTemp4.setText(hourlyTemps.get(3) + "°");
-        hourlyTemp5.setText(hourlyTemps.get(4) + "°");
-        hourlyTemp6.setText(hourlyTemps.get(5) + "°");
+        if(hourlyTemps.size() >= 6){
+            hourlyTemp1.setText(hourlyTemps.get(0) + "°");
+            hourlyTemp2.setText(hourlyTemps.get(1) + "°");
+            hourlyTemp3.setText(hourlyTemps.get(2) + "°");
+            hourlyTemp4.setText(hourlyTemps.get(3) + "°");
+            hourlyTemp5.setText(hourlyTemps.get(4) + "°");
+            hourlyTemp6.setText(hourlyTemps.get(5) + "°");
+        }
     }
 
     void updateForecastDaily() throws ParseException {
@@ -331,19 +355,21 @@ class UserInterface {
             }
         }
 
+        if(maxTemp.size() >= 5 && minTemp.size() >= 5){
+            dailyTemp1.setText(maxTemp.get(0) + "°\n" + minTemp.get(0) + "°");
+            dailyTemp2.setText(maxTemp.get(1) + "°\n" + minTemp.get(1) + "°");
+            dailyTemp3.setText(maxTemp.get(2) + "°\n" + minTemp.get(2) + "°");
+            dailyTemp4.setText(maxTemp.get(3) + "°\n" + minTemp.get(3) + "°");
+            dailyTemp5.setText(maxTemp.get(4) + "°\n" + minTemp.get(4) + "°");
+        }
 
-        dailyTemp1.setText(maxTemp.get(0) + "°\n" + minTemp.get(0) + "°");
-        dailyTemp2.setText(maxTemp.get(1) + "°\n" + minTemp.get(1) + "°");
-        dailyTemp3.setText(maxTemp.get(2) + "°\n" + minTemp.get(2) + "°");
-        dailyTemp4.setText(maxTemp.get(3) + "°\n" + minTemp.get(3) + "°");
-        dailyTemp5.setText(maxTemp.get(4) + "°\n" + minTemp.get(4) + "°");
-
-        dailyWeather1.setImageResource(weatherIcons.get(0));
-        dailyWeather2.setImageResource(weatherIcons.get(1));
-        dailyWeather3.setImageResource(weatherIcons.get(2));
-        dailyWeather4.setImageResource(weatherIcons.get(3));
-        dailyWeather5.setImageResource(weatherIcons.get(4));
-
+        if(weatherIcons.size() >= 5){
+            dailyWeather1.setImageResource(weatherIcons.get(0));
+            dailyWeather2.setImageResource(weatherIcons.get(1));
+            dailyWeather3.setImageResource(weatherIcons.get(2));
+            dailyWeather4.setImageResource(weatherIcons.get(3));
+            dailyWeather5.setImageResource(weatherIcons.get(4));
+        }
 
     }
 
@@ -403,5 +429,30 @@ class UserInterface {
                 return R.drawable.sun;
         }
     }
+
+    private void updateWeatherWidget(){
+
+
+        SharedPreferences.Editor edit = widgetData.edit();
+        if(weatherCurrent != null) {
+            edit.putInt("TEMPERATURE", ((int) Math.round(weatherCurrent.getMain().getTemp())));
+            edit.putFloat("LATITUDE", (float)weatherCurrent.getCoord().getLat());
+            edit.putFloat("LONGITUDE", (float)weatherCurrent.getCoord().getLon());
+            edit.putString("LAST_UPDATE", (String) lastRefresh.getText());
+            edit.putString("LOCATION", weatherCurrent.getName());
+            edit.putInt("ICON", iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
+            edit.apply();
+        }
+
+        AppWidgetManager man = AppWidgetManager.getInstance(this.mainActivity.getApplicationContext());
+        int[] ids = man.getAppWidgetIds(
+                new ComponentName(this.mainActivity.getApplicationContext(),WeatherAppWidgetProvider.class));
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        updateIntent.putExtra(WeatherAppWidgetProvider.WIDGET_IDS_KEY, ids);
+        this.mainActivity.getApplicationContext().sendBroadcast(updateIntent);
+    }
+
+
 }
 
