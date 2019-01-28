@@ -355,7 +355,6 @@ class UserInterface {
             }
         }
 
-
         if(maxTemp.size() >= 5 && minTemp.size() >= 5){
             dailyTemp1.setText(maxTemp.get(0) + "°\n" + minTemp.get(0) + "°");
             dailyTemp2.setText(maxTemp.get(1) + "°\n" + minTemp.get(1) + "°");
@@ -371,6 +370,7 @@ class UserInterface {
             dailyWeather4.setImageResource(weatherIcons.get(3));
             dailyWeather5.setImageResource(weatherIcons.get(4));
         }
+
     }
 
     /**
