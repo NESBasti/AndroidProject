@@ -230,7 +230,6 @@
 
 
     <include
-        android:layout_margin="8dp"
         android:id="@+id/container_popup_day1"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -238,7 +237,6 @@
         app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
 
     <include
-        android:layout_margin="8dp"
         android:id="@+id/container_popup_day2"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -246,7 +244,6 @@
         app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
 
     <include
-        android:layout_margin="8dp"
         android:id="@+id/container_popup_day3"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -254,7 +251,6 @@
         app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
 
     <include
-        android:layout_margin="8dp"
         android:id="@+id/container_popup_day4"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -262,7 +258,6 @@
         app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
 
     <include
-        android:layout_margin="8dp"
         android:id="@+id/container_popup_day5"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
