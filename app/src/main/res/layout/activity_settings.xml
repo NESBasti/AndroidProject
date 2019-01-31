@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_image"
+    android:id="@+id/MySettingsBackground"
     tools:context=".settings"
     >
     <LinearLayout
@@ -33,8 +34,8 @@
 
             <ImageView
                 android:id="@+id/MySettingsBTM"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:clickable="true"
@@ -82,33 +83,6 @@
                 android:layout_weight="1"
                 style="@style/WhiteText"
                 android:gravity="center"/>
-        </LinearLayout>
-        //Sprache
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="8dp">
-
-            <TextView
-                android:id="@+id/MyTextViewLanguage"
-                style="@style/WhiteText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:gravity="center_vertical"
-                android:text="Sprache"
-                tools:text="@string/TextViewLanguage" />
-
-            <Button
-                android:id="@+id/MyLanguageButton"
-                style="@style/WhiteText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:text="Deutsch" />
         </LinearLayout>
         //Hintergrund
 

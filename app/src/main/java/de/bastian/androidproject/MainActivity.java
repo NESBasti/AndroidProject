@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -499,6 +500,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     {
         Intent i = new Intent(MainActivity.this, settings.class);
         startActivity(i);
+        finish();
     }
 
     //Tag 1 weitere Infos
@@ -528,6 +530,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //Tag 5 weitere Infos
     public void MyDailyOpening5(View view) {
         ui.openDaily(5);
+    }
+
+    public void MyDailyClosing(View view)
+    {
+        ui.setInvisible();
     }
 
     @SuppressWarnings("deprecation")

@@ -7,7 +7,8 @@
     android:orientation="vertical"
     tools:context=".MainActivity"
     android:id="@+id/background"
-    android:background="@drawable/background_image">
+    android:background="@drawable/background_image"
+    android:onClick="MyDailyClosing">
 
     <include
         android:layout_margin="8dp"
@@ -29,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:onClick="MyDailyClosing"
                 android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

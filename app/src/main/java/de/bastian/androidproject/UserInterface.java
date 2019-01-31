@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -50,6 +53,7 @@ class UserInterface {
     private ImageView currentIcon;
     private DateFormat dateFormatTime;
     private SimpleDateFormat dateFormatDate;
+    private ScrollView myScrollView;
 
     //hourly forecast
     private ArrayList<TextView> hourlyTime;
@@ -74,6 +78,18 @@ class UserInterface {
     private TextView cloudiness;
     private TextView sunrisetv;
     private TextView sunsettv;
+    private View myViewDaily;
+    private View myContainerTemp;
+    private View myContainerHourly;
+
+    //Daily
+    private LinearLayout myDailyD1;
+    private LinearLayout myDailyD2;
+    private LinearLayout myDailyD3;
+    private LinearLayout myDailyD4;
+    private LinearLayout myDailyD5;
+
+
 
 
 
@@ -120,7 +136,18 @@ class UserInterface {
         dateFormatDate = new SimpleDateFormat("EEE", Locale.getDefault());
         currentTime = Calendar.getInstance().getTime();
 
+        //Daily
+        myDailyD1 = this.mainActivity.findViewById(R.id.MyDailyD1);
+        myDailyD2 = this.mainActivity.findViewById(R.id.MyDailyD2);
+        myDailyD3 = this.mainActivity.findViewById(R.id.MyDailyD3);
+        myDailyD4 = this.mainActivity.findViewById(R.id.MyDailyD4);
+        myDailyD5 = this.mainActivity.findViewById(R.id.MyDailyD5);
+        myViewDaily = this.mainActivity.findViewById(R.id.MyViewDaily);
+        myContainerTemp = this.mainActivity.findViewById(R.id.container_temperature);
+        myContainerHourly = this.mainActivity.findViewById(R.id.container_hourly);
+
         //set Views
+        myScrollView = this.mainActivity.findViewById(R.id.MyScrollView);
         cityName = this.mainActivity.findViewById(R.id.MyCityName);
         lastRefresh = this.mainActivity.findViewById(R.id.MyLastRefresh);
         temperature = this.mainActivity.findViewById(R.id.MyTemperature);
@@ -512,29 +539,56 @@ class UserInterface {
     }
 
     void openDaily(int day){
+        setInvisible();
+
+        //Animation
+        myScrollView.smoothScrollTo(0, myContainerHourly.getHeight() + myContainerTemp.getHeight() + 120);
+        TranslateAnimation animate = new TranslateAnimation(-dailyFineLayout.get(0).getWidth(),0, 0, 0 );
+        animate.setDuration(300);
+        animate.setFillAfter(false);
+
         switch (day){
-            case 1: setInvisible();
+            case 1:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    myDailyD1.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                dailyFineLayout.get(0).startAnimation(animate);
                 dailyFineLayout.get(0).setVisibility(View.VISIBLE);
                 break;
-            case 2: setInvisible();
+            case 2:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    myDailyD2.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                dailyFineLayout.get(1).startAnimation(animate);
                 dailyFineLayout.get(1).setVisibility(View.VISIBLE);
                 break;
-            case 3: setInvisible();
+            case 3:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    myDailyD3.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                dailyFineLayout.get(2).startAnimation(animate);
                 dailyFineLayout.get(2).setVisibility(View.VISIBLE);
                 break;
-            case 4: setInvisible();
+            case 4:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    myDailyD4.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                dailyFineLayout.get(3).startAnimation(animate);
                 dailyFineLayout.get(3).setVisibility(View.VISIBLE);
                 break;
-            case 5: setInvisible();
+            case 5:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    myDailyD5.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                dailyFineLayout.get(4).startAnimation(animate);
                 dailyFineLayout.get(4).setVisibility(View.VISIBLE);
                 break;
             default:
-                setInvisible();
                 break;
         }
     }
 
     void setInvisible(){
+        myDailyD1.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myDailyD2.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myDailyD3.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myDailyD4.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myDailyD5.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
     for(ConstraintLayout day: dailyFineLayout){
         day.setVisibility(View.GONE);
         }
