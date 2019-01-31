@@ -15,7 +15,7 @@
         android:background="@color/lightGray"/>
 
     <TextView
-        android:id="@+id/MyDaily"
+        android:id="@+id/MyHourly"
         style="@style/WhiteText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,8 @@
         android:text="STÜNDLICH"
         android:textAlignment="center"
         android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@id/MyViewHourly" />
+        app:layout_constraintTop_toBottomOf="@id/MyViewHourly"
+        tools:text="@string/TextViewHourly" />
 
     <LinearLayout
         android:layout_marginTop="30dp"
@@ -37,7 +38,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/MyDaily">
+        app:layout_constraintTop_toBottomOf="@id/MyHourly">
 
         //Stunde1
         <LinearLayout
@@ -349,6 +350,6 @@
         android:orientation="horizontal"
         android:layout_marginRight="50dp"
         android:layout_marginLeft="50dp"
-        app:layout_constraintTop_toBottomOf="@id/MyDaily"/>
+        app:layout_constraintTop_toBottomOf="@id/MyHourly"/>
 
 </android.support.constraint.ConstraintLayout>

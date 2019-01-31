@@ -67,19 +67,13 @@
                     layout="@layout/otherinformations"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
-                <include
-                    android:layout_margin="16dp"
-                    android:id="@+id/container_otherinformations"
-                    layout="@layout/otherinformations"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-                <include
-                    android:layout_margin="16dp"
-                    android:id="@+id/container_otherinformations"
-                    layout="@layout/otherinformations"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
 
+                <include
+                    android:id="@+id/container_whattowear"
+                    layout="@layout/whattowear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp" />
                 </LinearLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

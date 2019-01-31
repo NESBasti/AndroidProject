@@ -10,7 +10,7 @@
     <string name="TextViewAirpressure">Air Pressure</string>
     <string name="TextViewHumidity">Humidity</string>
     <string name="TextViewWindspeed">Wind Speed</string>
-    <string name="TextViewCloudyness">Cloudiness</string>
     <string name="TextViewSunrise">Sunrise</string>
+    <string name="TextViewCloudyness">Cloudiness</string>
     <string name="TextViewSunset">Sunset</string>
 </resources>
