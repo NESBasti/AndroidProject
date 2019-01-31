@@ -1,16 +1,21 @@
 package de.bastian.androidproject;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,11 +23,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -35,8 +42,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -74,9 +81,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private LinearLayout linearLayoutD5;
     private LayoutInflater layoutInflater;
     private ScrollView scrollView;
+    private LinearLayout linearLayoutBackground;
 
     private Integer isset = 0;
 
+    //Language
+    private TextView dailyText;
+    private TextView hourlyText;
+    private TextView airpressureText;
+    private TextView humidityText;
+    private TextView windspeedText;
+    private TextView cloudynessText;
+    private TextView sunriseText;
+    private TextView sunsetText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 getResources().getColor(android.R.color.holo_red_light)
         );
 
+       
+
         //Pop - Ups
         linearLayout = findViewById(R.id.MyLinearLayout);
         scrollView = findViewById(R.id.MyScrollView);
@@ -144,6 +163,43 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         linearLayoutD3 = findViewById(R.id.MyDailyD3);
         linearLayoutD4 = findViewById(R.id.MyDailyD4);
         linearLayoutD5 = findViewById(R.id.MyDailyD5);
+
+        linearLayoutBackground = findViewById(R.id.background);
+
+        dailyText = findViewById(R.id.MyDaily);
+        hourlyText = findViewById(R.id.MyHourly);
+        airpressureText = findViewById(R.id.MyPressureText);
+        humidityText = findViewById(R.id.MyHumidityText);
+        windspeedText = findViewById(R.id.MyWindspeedText);
+        cloudynessText = findViewById(R.id.MyCloudinessText);
+        sunriseText = findViewById(R.id.MySunriseText);
+        sunsetText = findViewById(R.id.MySunsetText);
+
+        //Language
+        String TVDaily = getResources().getString(R.string.TextViewDaily);
+        dailyText.setText(TVDaily);
+
+        String TVHourly = getResources().getString(R.string.TextViewHourly);
+        hourlyText.setText(TVHourly);
+
+        String TVairpressure = getResources().getString(R.string.TextViewAirpressure);
+        airpressureText.setText(TVairpressure);
+
+
+        String TVhumidity = getResources().getString(R.string.TextViewHumidity);
+        humidityText.setText(TVhumidity);
+
+        String TVwindspeed = getResources().getString(R.string.TextViewWindspeed);
+        windspeedText.setText(TVwindspeed);
+
+        String TVcloudyness = getResources().getString(R.string.TextViewCloudyness);
+        cloudynessText.setText(TVcloudyness);
+
+        String TVsunrise= getResources().getString(R.string.TextViewSunrise);
+        sunriseText.setText(TVsunrise);
+
+        String TVsunset = getResources().getString(R.string.TextViewSunset);
+        sunsetText.setText(TVsunset);
 
     }
 
@@ -265,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onConnected(@Nullable Bundle bundle) {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                &&  ActivityCompat.checkSelfPermission(this,
+                && ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -275,6 +331,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         if (location != null) {
             getJSON();
+        }
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String background = preferences.getString("Background", "0");
+        if (background != null) {
+            switch (background) {
+                case "1":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image);
+                    break;
+                case "2":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image1);
+                    break;
+                case "3":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image2);
+                    break;
+                case "4":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image3);
+                    break;
+                default:
+                    break;
+            }
         }
 
     }
@@ -471,6 +548,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void MyDailyOpening5(View view) {
         ui.openDaily(5);
     }
+
+    @SuppressWarnings("deprecation")
+    public static void forceLocale(Context context, String localeCode) {
+        String localeCodeLowerCase = localeCode.toLowerCase();
+
+        Resources resources = context.getApplicationContext().getResources();
+        Configuration overrideConfiguration = resources.getConfiguration();
+        Locale overrideLocale = new Locale(localeCodeLowerCase);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            overrideConfiguration.setLocale(overrideLocale);
+        } else {
+            overrideConfiguration.locale = overrideLocale;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.getApplicationContext().createConfigurationContext(overrideConfiguration);
+        } else {
+            resources.updateConfiguration(overrideConfiguration, null);
+        }
+    }
+
 
 
 

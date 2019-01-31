@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="TextViewSettings">Einstellungen</string>
+    <string name="TextViewUnit">Einheit</string>
+    <string name="TextViewLanguage">Sprache</string>
+    <string name="TextViewBackground">Hintergrund</string>
+    <string name="TextViewContact">Kontakt</string>
+    <string name="TextViewHourly">STÜNDLICH</string>
+    <string name="TextViewDaily">TÄGLICH</string>
+    <string name="TextViewAirpressure">Luftdruck</string>
+    <string name="TextViewHumidity">Luftfeuchtigkeit</string>
+    <string name="TextViewWindspeed">Windgeschwindigkeit</string>
+    <string name="TextViewSunrise">Sonnenaufgang</string>
+    <string name="TextViewSunset">Sonnenuntergang</string>
+    <string name="TextViewCloudyness">Bewölkung</string>
+</resources>

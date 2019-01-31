@@ -28,7 +28,8 @@
                 android:text="Einstellungen"
                 android:textAlignment="center"
                 android:textSize="36sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="@string/TextViewSettings" />
 
             <ImageView
                 android:id="@+id/MySettingsBTM"
@@ -50,13 +51,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="8dp">
+
             <TextView
+                android:id="@+id/MyTextViewUnit"
+                style="@style/WhiteText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Einheit"
                 android:layout_weight="1"
-                style="@style/WhiteText"
-                />
+                android:text="Einheit"
+                tools:text="@string/TextViewUnit" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -86,14 +89,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="8dp">
+
             <TextView
+                android:id="@+id/MyTextViewLanguage"
+                style="@style/WhiteText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Sprache"
                 android:layout_weight="3"
-                style="@style/WhiteText"
                 android:gravity="center_vertical"
-                />
+                android:text="Sprache"
+                tools:text="@string/TextViewLanguage" />
 
             <Button
                 android:id="@+id/MyLanguageButton"
@@ -104,17 +109,91 @@
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:text="Deutsch" />
+        </LinearLayout>
+        //Hintergrund
+
+        <TextView
+            android:id="@+id/MyTextViewBackground"
+            style="@style/WhiteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Hintergrund"
+            android:textAlignment="center"
+            tools:text="@string/TextViewBackground" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+            <ImageButton
+                android:id="@+id/backgroundselection1"
+                android:onClick="setBackground1"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/background_image"
+                android:background="#000000"
+                android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1dp"/>
+            <ImageButton
+                android:id="@+id/backgroundselection2"
+                android:onClick="setBackground2"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/background_image1"
+                android:background="#000000"
+                android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1dp"/>
+            <ImageButton
+                android:id="@+id/backgroundselection3"
+                android:onClick="setBackground3"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/background_image2"
+                android:background="#000000"
+                android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1dp"/>
+            <ImageButton
+                android:id="@+id/backgroundselection4"
+                android:onClick="setBackground4"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/background_image3"
+                android:background="#000000"
+                android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1dp"/>
 
         </LinearLayout>
         //Support
+
         <TextView
+            android:id="@+id/MyTextViewContact"
+            style="@style/WhiteText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Kontakt"
-            style="@style/WhiteText"
-            android:gravity="center_vertical"
+            android:layout_margin="8dp"
             android:layout_marginTop="20dp"
-            android:layout_margin="8dp" />
+            android:text="Kontakt"
+            android:textAlignment="center"
+            tools:text="@string/TextViewContact" />
 
             <LinearLayout
                 android:layout_width="match_parent"
