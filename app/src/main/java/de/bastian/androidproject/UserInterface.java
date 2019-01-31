@@ -23,6 +23,7 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,8 +51,7 @@ class UserInterface {
     private TextView minTemp;
     private TextView maxTemp;
     private ImageView currentIcon;
-    private SimpleDateFormat dateFormatJSON;
-    private SimpleDateFormat dateFormatTime;
+    private DateFormat dateFormatTime;
     private SimpleDateFormat dateFormatDate;
     private ScrollView myScrollView;
 
@@ -132,9 +132,8 @@ class UserInterface {
     UserInterface(Activity mainActivity) {
         this.mainActivity = mainActivity;
 
-        dateFormatJSON = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
-        dateFormatTime = new SimpleDateFormat("HH:mm", Locale.GERMANY);
-        dateFormatDate = new SimpleDateFormat("EEE",Locale.GERMANY);
+        dateFormatTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
+        dateFormatDate = new SimpleDateFormat("EEE", Locale.getDefault());
         currentTime = Calendar.getInstance().getTime();
 
         //Daily
@@ -367,6 +366,7 @@ class UserInterface {
         minTemp.add((int)Math.round(weatherForecast.getList().get(0).getMain().getTemp_min()));
         maxTemp.add((int)Math.round(weatherForecast.getList().get(0).getMain().getTemp_max()));
         int listFlag = 0;
+        int midOfDay = 0;
 
         for(WeatherListElement k: weatherForecast.getList()){
             currentDay.setTime(new Date(k.getDt() * 1000L));
@@ -378,13 +378,15 @@ class UserInterface {
                 if(k.getMain().getTemp_max() > maxTemp.get(listFlag) ){
                     maxTemp.set(listFlag, (int)Math.round(k.getMain().getTemp_max()));
                 }
-                if(dateFormatTime.format(k.getDt() * 1000L).compareTo(dateFormatTime.format(dateFormatTime.parse("10:30"))) >= 0 && dateFormatTime.format(k.getDt() * 1000L).compareTo(dateFormatTime.format(dateFormatTime.parse("13:30"))) <= 0){
+                if(midOfDay == 4 || (listFlag == 0 && midOfDay == 0)){
                     dailyWeather.get(listFlag).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
                 }
+                midOfDay++;
             }
             else{
                 lastDay.set(currentDay.get(Calendar.YEAR), currentDay.get(Calendar.MONTH), currentDay.get(Calendar.DAY_OF_MONTH));
                 listFlag++;
+                midOfDay = 0;
                 if(listFlag >= 5)
                     break;
                 minTemp.add((int)Math.round(k.getMain().getTemp_min()));

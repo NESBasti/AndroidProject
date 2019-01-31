@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import retrofit2.Call;
@@ -19,6 +20,7 @@ import static de.bastian.androidproject.UserInterface.iconToResource;
 public class WidgetUpdateJSON extends Thread {
     private static final String appid = "cfe31ebef1a89f6504ab9bac85dab8c4";
 
+    private SharedPreferences mPrefs;
     private Context context;
     private Location location;
     private WeatherCurrent weatherCurrent;
@@ -29,9 +31,13 @@ public class WidgetUpdateJSON extends Thread {
         this.context = context;
         this.location = location;
         widgetData = context.getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
     }
 
     public void run() {
+        String unit = mPrefs.getString("UNIT", "metric");
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -40,7 +46,7 @@ public class WidgetUpdateJSON extends Thread {
         Api api = retrofit.create(Api.class);
 
         if (location != null) {
-            Call<WeatherCurrent> call1 = api.getCurrentWeatherFromCoordinates(appid, location.getLatitude(), location.getLongitude(), "metric", "de");
+            Call<WeatherCurrent> call1 = api.getCurrentWeatherFromCoordinates(appid, location.getLatitude(), location.getLongitude(), unit, "de");
 
             call1.enqueue(new Callback<WeatherCurrent>() {
                 @Override
