@@ -25,9 +25,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -64,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private LocationManager locationManager;
 
     // JSON
-    private static String appid = "cfe31ebef1a89f6504ab9bac85dab8c4";
     private int updateFrequency = 120000; // = 120 seconds
     private SharedPreferences  mPrefs;
 
@@ -525,233 +522,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     //Tag 1 weitere Infos
     public void MyDailyOpening1(View view) {
-        //Scroll to
-        View top = linearLayout.getChildAt(2);
-
-        scrollView.smoothScrollTo(0, (int)top.getY());
-
-        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_day1, null);
-
-        if(isset != 1)
-        {
-            if(isset != 0) {
-                linearLayout.removeViewAt(3);
-                linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-            }
-
-            linearLayout.addView(container, 3);
-            isset = 1;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                linearLayoutD1.setBackground(getDrawable(R.drawable.topcorners_rounded));
-            }
-
-
-        }
-
-        linearLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(isset != 0)
-                {
-                    linearLayout.removeViewAt(3);
-                    isset = 0;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
-                return true;
-            }
-        });
+        ui.openDaily(1);
     }
+
 
     //Tag 2 weitere Infos
     public void MyDailyOpening2(View view) {
-        //Scroll to
-        View top = linearLayout.getChildAt(2);
-        scrollView.smoothScrollTo(0 , (int)top.getY());
+        ui.openDaily(2);
 
-        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_day2, null);
-
-        if(isset != 2)
-        {
-            if(isset != 0) {
-                linearLayout.removeViewAt(3);
-                linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-            }
-            linearLayout.addView(container, 3);
-            isset = 2;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                linearLayoutD2.setBackground(getDrawable(R.drawable.topcorners_rounded));
-            }
-        }
-
-        linearLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(isset != 0)
-                {
-                    linearLayout.removeViewAt(3);
-                    isset = 0;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
-                return true;
-            }
-        });
     }
 
     //Tag 3 weitere Infos
     public void MyDailyOpening3(View view) {
-        //Scroll to
-        View top = linearLayout.getChildAt(2);
-        scrollView.smoothScrollTo(0 , (int)top.getY());
+        ui.openDaily(3);
 
-        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_day3, null);
-
-        if(isset != 3)
-        {
-            if(isset != 0) {
-                linearLayout.removeViewAt(3);
-                linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-            }
-            linearLayout.addView(container, 3);
-            isset = 3;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                linearLayoutD3.setBackground(getDrawable(R.drawable.topcorners_rounded));
-            }
-        }
-
-        linearLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(isset != 0)
-                {
-                    linearLayout.removeViewAt(3);
-                    isset = 0;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
-                return true;
-            }
-        });
     }
 
     //Tag 4 weitere Infos
     public void MyDailyOpening4(View view) {
-        //Scroll to
-        View top = linearLayout.getChildAt(2);
-        scrollView.smoothScrollTo(0 , (int)top.getY());
+        ui.openDaily(4);
 
-        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_day4, null);
-
-        if(isset != 4)
-        {
-            if(isset != 0) {
-                linearLayout.removeViewAt(3);
-                linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-            }
-            linearLayout.addView(container, 3);
-            isset = 4;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                linearLayoutD4.setBackground(getDrawable(R.drawable.topcorners_rounded));
-            }
-        }
-
-        linearLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(isset != 0)
-                {
-                    linearLayout.removeViewAt(3);
-                    isset = 0;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
-                return true;
-            }
-        });
     }
 
     //Tag 5 weitere Infos
     public void MyDailyOpening5(View view) {
-        //Scroll to
-        View top = linearLayout.getChildAt(2);
-        scrollView.smoothScrollTo(0 , (int)top.getY());
-
-        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.popup_day5, null);
-
-        if(isset != 5)
-        {
-            if(isset != 0) {
-                linearLayout.removeViewAt(3);
-                linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-            }
-            linearLayout.addView(container, 3);
-            isset = 5;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                linearLayoutD5.setBackground(getDrawable(R.drawable.topcorners_rounded));
-            }
-        }
-
-        linearLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(isset != 0)
-                {
-                    linearLayout.removeViewAt(3);
-                    isset = 0;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        linearLayoutD1.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD2.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD3.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD4.setBackgroundColor(Color.TRANSPARENT);
-                        linearLayoutD5.setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
-                return true;
-            }
-        });
-
-
+        ui.openDaily(5);
     }
 
     @SuppressWarnings("deprecation")
