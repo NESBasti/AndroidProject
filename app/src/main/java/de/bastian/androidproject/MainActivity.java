@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -23,12 +22,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +38,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -73,17 +70,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private UserInterface ui;
 
     //Animation
-    private LinearLayout linearLayout;
-    private LinearLayout linearLayoutD1;
-    private LinearLayout linearLayoutD2;
-    private LinearLayout linearLayoutD3;
-    private LinearLayout linearLayoutD4;
-    private LinearLayout linearLayoutD5;
-    private LayoutInflater layoutInflater;
-    private ScrollView scrollView;
     private LinearLayout linearLayoutBackground;
 
-    private Integer isset = 0;
 
     //Language
     private TextView dailyText;
@@ -94,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView cloudynessText;
     private TextView sunriseText;
     private TextView sunsetText;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,16 +144,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         );
 
        
-
-        //Pop - Ups
-        linearLayout = findViewById(R.id.MyLinearLayout);
-        scrollView = findViewById(R.id.MyScrollView);
-        linearLayoutD1 = findViewById(R.id.MyDailyD1);
-        linearLayoutD2 = findViewById(R.id.MyDailyD2);
-        linearLayoutD3 = findViewById(R.id.MyDailyD3);
-        linearLayoutD4 = findViewById(R.id.MyDailyD4);
-        linearLayoutD5 = findViewById(R.id.MyDailyD5);
-
+        //TODO in ui
         linearLayoutBackground = findViewById(R.id.background);
 
         dailyText = findViewById(R.id.MyDaily);

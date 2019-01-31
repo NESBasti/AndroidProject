@@ -1,31 +1,22 @@
 package de.bastian.androidproject;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +29,7 @@ public class settings extends AppCompatActivity {
     private ImageButton backbutton2;
     private ImageButton backbutton3;
     private ImageButton backbutton4;
-    private Switch switchEinheit;
+    private Switch switchUnits;
 
     //Language
     private TextView textViewSettings;
@@ -66,7 +57,7 @@ public class settings extends AppCompatActivity {
         backbutton2 = findViewById(R.id.backgroundselection2);
         backbutton3 = findViewById(R.id.backgroundselection3);
         backbutton4 = findViewById(R.id.backgroundselection4);
-        switchEinheit = findViewById(R.id.switch_einheit);
+        switchUnits = findViewById(R.id.switch_einheit);
         //Language
         textViewSettings = findViewById(R.id.MySettingsTag);
         textViewUnit = findViewById(R.id.MyTextViewUnit);
@@ -170,19 +161,28 @@ public class settings extends AppCompatActivity {
                     break;
             }
         }
-        switchEinheit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switchUnits.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(isChecked)
             {
+                editor.putString("UNIT", "imperial");
+                editor.apply();
                 //Fahrenheit
             }
             else
             {
+                editor.putString("UNIT", "metric");
+                editor.apply();
                 //Celsius
             }
         }
     });
+
+        if( preferences.getString("UNIT", "metric").compareTo("metric") == 0){
+            switchUnits.setChecked(false);
+        }
+        else switchUnits.setChecked(true);
     }
 
 
