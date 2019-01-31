@@ -1,13 +1,10 @@
 package de.bastian.androidproject;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -40,7 +37,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -536,30 +532,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     {
         ui.setInvisible();
     }
-
-    @SuppressWarnings("deprecation")
-    public static void forceLocale(Context context, String localeCode) {
-        String localeCodeLowerCase = localeCode.toLowerCase();
-
-        Resources resources = context.getApplicationContext().getResources();
-        Configuration overrideConfiguration = resources.getConfiguration();
-        Locale overrideLocale = new Locale(localeCodeLowerCase);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            overrideConfiguration.setLocale(overrideLocale);
-        } else {
-            overrideConfiguration.locale = overrideLocale;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context.getApplicationContext().createConfigurationContext(overrideConfiguration);
-        } else {
-            resources.updateConfiguration(overrideConfiguration, null);
-        }
-    }
-
-
-
 
 
 

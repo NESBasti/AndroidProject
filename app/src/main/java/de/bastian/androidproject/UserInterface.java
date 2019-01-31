@@ -11,6 +11,7 @@ import android.location.Location;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.text.format.DateUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -543,7 +544,10 @@ class UserInterface {
 
         //Animation
         myScrollView.smoothScrollTo(0, myContainerHourly.getHeight() + myContainerTemp.getHeight() + 120);
-        TranslateAnimation animate = new TranslateAnimation(-dailyFineLayout.get(0).getWidth(),0, 0, 0 );
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.mainActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        TranslateAnimation animate = new TranslateAnimation(-width,0, 0, 0 );
         animate.setDuration(300);
         animate.setFillAfter(false);
 
