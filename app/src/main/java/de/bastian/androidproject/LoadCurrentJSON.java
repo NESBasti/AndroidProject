@@ -2,7 +2,10 @@ package de.bastian.androidproject;
 
 import android.location.Location;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
+
+import java.lang.ref.WeakReference;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -11,16 +14,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoadCurrentJSON extends AsyncTask<Location,Boolean, Integer> {
-    private MainActivity mainActivity;
+    private WeakReference<MainActivity> weakMainActivity;
     private WeatherCurrent weatherCurrent;
     private static String appid = "cfe31ebef1a89f6504ab9bac85dab8c4";
 
-    public LoadCurrentJSON(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-    }
-
-    public WeatherCurrent getWeatherCurrent() {
-        return weatherCurrent;
+    LoadCurrentJSON(MainActivity mainActivity) {
+        weakMainActivity = new WeakReference<>(mainActivity);
     }
 
     @Override
@@ -43,15 +42,14 @@ public class LoadCurrentJSON extends AsyncTask<Location,Boolean, Integer> {
 
             call1.enqueue(new Callback<WeatherCurrent>() {
                 @Override
-                public void onResponse(Call<WeatherCurrent> call, Response<WeatherCurrent> response) {
+                public void onResponse(@NonNull Call<WeatherCurrent> call, @NonNull Response<WeatherCurrent> response) {
                     weatherCurrent = response.body();
                     publishProgress(true);
 
                 }
 
                 @Override
-                public void onFailure(Call<WeatherCurrent> call, Throwable t) {
-
+                public void onFailure(@NonNull Call<WeatherCurrent> call, @NonNull Throwable t) {
                     publishProgress(false);
                 }
             });
@@ -64,12 +62,14 @@ public class LoadCurrentJSON extends AsyncTask<Location,Boolean, Integer> {
     @Override
     protected void onProgressUpdate(Boolean... values) {
         super.onProgressUpdate(values);
+        MainActivity mainActivity = weakMainActivity.get();
 
-        if(values[0]){
-            mainActivity.updateCurrentWeather(weatherCurrent);
+        if(mainActivity != null){
+            if(values[0]) {
+                mainActivity.updateCurrentWeather(weatherCurrent);
+            }
+            else Toast.makeText(mainActivity, "Error retrieving weather data", Toast.LENGTH_SHORT).show();
         }
-        else Toast.makeText(mainActivity, "No Connection", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
