@@ -7,7 +7,9 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bottomcorners_rounded"
     android:id="@+id/popup1"
-    android:layout_marginBottom="30dp">
+    android:layout_marginBottom="30dp"
+    android:animateLayoutChanges="true"
+    android:visibility="visible">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,9 +34,10 @@
             //Stunde1
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
                 <TextView
                     android:id="@+id/MyPopUpD1H1"
                     android:textAlignment="center"
@@ -59,12 +62,14 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/lightGray"/>
+                android:background="@color/lightGray"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/MyPopUpD1H2"
@@ -90,12 +95,14 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/lightGray"/>
+                android:background="@color/lightGray"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -121,12 +128,14 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/lightGray"/>
+                android:background="@color/lightGray"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/MyPopUpD1H4"
@@ -152,12 +161,14 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/lightGray"/>
+                android:background="@color/lightGray"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/MyPopUpD1H5"
@@ -183,12 +194,14 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/lightGray"/>
+                android:background="@color/lightGray"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <TextView
 
@@ -210,15 +223,19 @@
                     android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
+
+            //Stunde7
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/lightGray"/>
+                android:background="@color/lightGray"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <TextView
 
@@ -240,15 +257,19 @@
                     android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
+
+            //Stunde8
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/lightGray"/>
+                android:background="@color/lightGray"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"

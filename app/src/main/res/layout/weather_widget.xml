@@ -3,35 +3,55 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/widget">
 
+
+    <ImageView
+        android:id="@+id/widgetIcon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/sun"/>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/widgetIcon"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/sun"/>
-        <TextView
-            android:id="@+id/widgetTemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test"
-            android:textSize="20dp"
-            style="@style/WhiteText"
-            android:textAlignment="center"
-            android:textStyle="bold"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/widgetIcon">
 
         <TextView
+            android:id="@+id/widgetLocation"
             style="@style/WhiteText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="location"
             android:textSize="20dp" />
 
+        <TextView
+            android:id="@+id/widgetTemp"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="temp"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/widgetLastUpdate"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="last update"
+            android:textSize="20dp" />
 
 
     </LinearLayout>
+
+
+
+
+
+
 
 
 </RelativeLayout>

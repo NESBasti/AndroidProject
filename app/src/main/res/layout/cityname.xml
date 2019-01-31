@@ -15,7 +15,7 @@
             android:id="@+id/MyCityName"
             style="@style/WhiteText"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"

@@ -41,7 +41,7 @@
         <LinearLayout
             android:id="@+id/MyDailyD1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:clickable="true"
@@ -69,6 +69,7 @@
                 android:textAlignment="center" />
 
         </LinearLayout>
+
 
         <View
             android:layout_marginTop="5dp"
@@ -222,7 +223,50 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
+
+
     </LinearLayout>
+
+
+    <include
+        android:layout_margin="8dp"
+        android:id="@+id/container_popup_day1"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/popup_day1"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+
+    <include
+        android:layout_margin="8dp"
+        android:id="@+id/container_popup_day2"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/popup_day2"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+
+    <include
+        android:layout_margin="8dp"
+        android:id="@+id/container_popup_day3"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/popup_day3"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+
+    <include
+        android:layout_margin="8dp"
+        android:id="@+id/container_popup_day4"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/popup_day4"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+
+    <include
+        android:layout_margin="8dp"
+        android:id="@+id/container_popup_day5"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/popup_day5"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
 
 
 
