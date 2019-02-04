@@ -25,7 +25,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -279,13 +278,10 @@ class UserInterface {
         updateWeatherWidget();
     }
 
-    private void updateForecastInterface(){
-        try {
-            updateForecastHourly();
-            updateForecastDaily();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    private void updateForecastInterface() {
+
+        updateForecastHourly();
+        updateForecastDaily();
 
     }
 
@@ -328,13 +324,12 @@ class UserInterface {
 
             if(k.getRain() != null) {
                 precipitation += k.getRain().getRain();
-                hourlyRain.get(count).setText(k.getRain().getRain() + " mm");
             }
             if(k.getSnow() != null){
                 precipitation += k.getSnow().getSnow();
             }
 
-            hourlyRain.get(count).setText(String.format("%.2f mm", precipitation));
+            hourlyRain.get(count).setText(String.format("%.2f l", precipitation));
             precipitation = 0;
 
             series.appendData(new DataPoint(count, currentTemp), true, 6);
@@ -345,7 +340,7 @@ class UserInterface {
         graph.addSeries(series);
     }
 
-    private void updateForecastDaily() throws ParseException {
+    private void updateForecastDaily(){
         Calendar lastDay = Calendar.getInstance();
         Calendar currentDay = Calendar.getInstance();
 
@@ -379,12 +374,22 @@ class UserInterface {
                 if(k.getMain().getTemp_max() > maxTemp.get(listFlag) ){
                     maxTemp.set(listFlag, (int)Math.round(k.getMain().getTemp_max()));
                 }
-                if(midOfDay == 4 || (listFlag == 0 && midOfDay == 0)){
+                if(midOfDay == 3 || (listFlag == 0 && midOfDay == 0)){
                     dailyWeather.get(listFlag).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
                 }
                 midOfDay++;
             }
             else{
+                if(midOfDay == 0){ //in case current day has no entries
+                    if(weatherCurrent != null) {
+                        minTemp.set(listFlag, (int) Math.round(weatherCurrent.getMain().getTemp_min()));
+                        maxTemp.set(listFlag, (int) Math.round(weatherCurrent.getMain().getTemp_max()));
+                    }
+                    else{
+                        minTemp.set(listFlag, 0);
+                        maxTemp.set(listFlag, 0);
+                    }
+                }
                 lastDay.set(currentDay.get(Calendar.YEAR), currentDay.get(Calendar.MONTH), currentDay.get(Calendar.DAY_OF_MONTH));
                 listFlag++;
                 midOfDay = 0;
@@ -467,51 +472,51 @@ class UserInterface {
         switch (icon.substring(0,2)){
             case "01":
                 if(daytime == 'd'){
-                    return R.drawable.sun;
+                    return R.drawable.sunx128;
                 }
-                else return R.drawable.moon;
+                else return R.drawable.moonx128;
             case "02":
                 if(daytime == 'd'){
-                    return R.drawable.suncloud;
+                    return R.drawable.suncloudx128;
                 }
-                else return R.drawable.mooncloud;
+                else return R.drawable.mooncloudx128;
             case "03":
                 if(daytime == 'd'){
-                    return R.drawable.cloud;
+                    return R.drawable.cloudx128;
                 }
-                else return R.drawable.cloud;
+                else return R.drawable.cloudx128;
             case "04":
                 if(daytime == 'd'){
-                    return R.drawable.heavycloud;
+                    return R.drawable.heavycloudx128;
                 }
-                else return R.drawable.heavycloud;
+                else return R.drawable.heavycloudx128;
             case "09":
                 if(daytime == 'd'){
-                    return R.drawable.heavycloudrain;
+                    return R.drawable.heavycloudrainx128;
                 }
-                else return R.drawable.heavycloudrain;
+                else return R.drawable.heavycloudrainx128;
             case "10":
                 if(daytime == 'd'){
-                    return R.drawable.sunrain;
+                    return R.drawable.sunrainx128;
                 }
-                else return R.drawable.moonrain;
+                else return R.drawable.moonrainx128;
             case "11":
                 if(daytime == 'd'){
-                    return R.drawable.thunder;
+                    return R.drawable.thunderx128;
                 }
-                else return R.drawable.thunder;
+                else return R.drawable.thunderx128;
             case "13":
                 if(daytime == 'd'){
-                    return R.drawable.snow;
+                    return R.drawable.snowx128;
                 }
-                else return R.drawable.snow;
+                else return R.drawable.snowx128;
             case "50":
                 if(daytime == 'd'){
-                    return R.drawable.sun;//TODO mist icon
+                    return R.drawable.fogx128;
                 }
-                else return R.drawable.sun;
+                else return R.drawable.fogx128;
             default:
-                return R.drawable.sun;
+                return R.drawable.sunx128;
         }
     }
 
