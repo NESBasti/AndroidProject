@@ -31,7 +31,7 @@ public class WidgetUpdateService extends Service {
                 RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.weather_widget);
 
                 remoteViews.setTextViewText(R.id.widgetTemp, Integer.toString(extras.getInt("TEMPERATURE", 0)) + "°");
-                remoteViews.setTextViewText(R.id.widgetLocation, extras.getString("LOCATION", "") + " " + widgetId);
+                remoteViews.setTextViewText(R.id.widgetLocation, extras.getString("LOCATION", ""));
                 remoteViews.setTextViewText(R.id.widgetLastUpdate, new SimpleDateFormat("EEE HH:mm", Locale.GERMANY).format(new java.util.Date(extras.getLong("LAST_UPDATE", 0))));
                 remoteViews.setImageViewResource(R.id.widgetIcon, extras.getInt("ICON",0));
 
