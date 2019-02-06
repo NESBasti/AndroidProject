@@ -1,5 +1,6 @@
 package de.bastian.androidproject;
 
+import android.app.Notification;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -15,8 +16,6 @@ public class WidgetUpdateService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
-
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         Bundle extras = intent.getExtras();
         int[] appWidgetIds = new int[0];
@@ -25,8 +24,9 @@ public class WidgetUpdateService extends Service {
         }
 
 
-        assert appWidgetIds != null;
-        if (appWidgetIds.length > 0) {
+
+
+        if ((appWidgetIds != null ? appWidgetIds.length : 0) > 0) {
             for (int widgetId : appWidgetIds) {
                 RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.weather_widget);
 
@@ -46,8 +46,11 @@ public class WidgetUpdateService extends Service {
         return START_STICKY;
     }
 
-
-
+    @Override
+    public void onCreate() {
+        startForeground(1, new Notification());
+        super.onCreate();
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
