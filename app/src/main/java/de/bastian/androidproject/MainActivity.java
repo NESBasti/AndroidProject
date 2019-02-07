@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
     public void updateCurrentWeather(WeatherCurrent current){
         ui.setWeatherCurrent(current);
-        ui.updateInterface();
+        ui.updateCurrentInterface();
     }
 
     /**
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
     public void updateWeatherForecast(WeatherForecast forecast){
         ui.setWeatherForecast(forecast);
-        ui.updateInterface();
+        ui.updateForecastInterface();
     }
 
 

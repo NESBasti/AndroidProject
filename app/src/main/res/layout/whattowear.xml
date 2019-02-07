@@ -16,14 +16,14 @@
         android:background="@color/lightGray"/>
 
     <TextView
-        android:id="@+id/MyKleidungsempfehlung"
+        android:id="@+id/MyWhatToWear"
         style="@style/WhiteText"
         android:layout_width="match_parent"
         android:layout_height="26dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
-        android:text="KLEIDUNGSEMPFEHLUNG"
+        android:text="@string/TextViewClothes"
         android:textAlignment="center"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,11 +31,12 @@
         app:layout_constraintTop_toBottomOf="@id/MyViewWear" />
     <HorizontalScrollView
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@id/MyKleidungsempfehlung"
+        app:layout_constraintTop_toBottomOf="@id/MyWhatToWear"
         android:id="@+id/MyHorizontalScrollView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:fadeScrollbars="true">
+        android:fadeScrollbars="true"
+        android:scrollbarSize="0dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,8 +49,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Heute"/>
+                    android:text="@string/TextViewToday"/>
                 <ImageView
+                    android:id="@+id/MyClothes1Icon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/cloud"/>
@@ -59,11 +61,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/MyClothes2Day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Dienstag"/>
                 <ImageView
+                    android:id="@+id/MyClothes2Icon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/cloud"/>
@@ -73,11 +77,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/MyClothes3Day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Mittwoch"/>
                 <ImageView
+                    android:id="@+id/MyClothes3Icon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/cloud"/>
@@ -87,11 +93,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/MyClothes4Day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Donnerstag"/>
                 <ImageView
+                    android:id="@+id/MyClothes4Icon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/cloud"/>
@@ -101,11 +109,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/MyClothes5Day"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Freitag"/>
                 <ImageView
+                    android:id="@+id/MyClothes5Icon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/cloud"/>

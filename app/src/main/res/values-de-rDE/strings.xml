@@ -13,5 +13,6 @@
     <string name="TextViewSunrise">Sonnenaufgang</string>
     <string name="TextViewSunset">Sonnenuntergang</string>
     <string name="TextViewCloudyness">Bewölkung</string>
+    <string name="TextViewClothes">WAS SOLL ICH ANZIEHEN</string>
     <string name="TextViewToday">Heute</string>
 </resources>

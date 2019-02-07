@@ -13,5 +13,6 @@
     <string name="TextViewSunrise">Amanecer</string>
     <string name="TextViewCloudyness">Abundancia de nubes</string>
     <string name="TextViewSunset">Puesta de sol</string>
-    <string name="TextViewToday">hoy</string>
+    <string name="TextViewClothes">QUE ME PONGO</string>
+    <string name="TextViewToday">Hoy</string>
 </resources>

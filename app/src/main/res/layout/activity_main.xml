@@ -112,7 +112,7 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/refresh" />
+                    android:src="@drawable/refreshx128" />
                 <TextView
                     android:textSize="14dp"
                     style="@style/WhiteText"
