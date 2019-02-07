@@ -1,33 +1,36 @@
 package de.bastian.androidproject;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class settings extends AppCompatActivity  {
     private Button languageButton;
-    private LinearLayout linearLayout;
+    private View linearLayout;
     private Activity mainActivity;
     private ImageButton backbutton1;
     private ImageButton backbutton2;
@@ -43,10 +46,32 @@ public class settings extends AppCompatActivity  {
     private TextView textViewBackground;
     private TextView textViewContact;
 
+    //Cities
+    private TextView textViewCities;
+    private TextView city1;
+    private TextView city2;
+    private TextView city3;
+    private TextView city4;
+    private TextView city5;
+
+    private View myCity1delete;
+    private View myCity2delete;
+    private View myCity3delete;
+    private View myCity4delete;
+    private View myCity5delete;
+
+    private int cityCounter;
+
+    private EditText MyAddCity;
+    private TextView MyAddCityButton;
+
 
 
     //Vibration
     private Vibrator myVib;
+
+    //Cities
+    private String[] mLocationList;
 
 
     //Hardware Backbutton
@@ -63,18 +88,27 @@ public class settings extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
-        this.mainActivity = mainActivity;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        linearLayout = findViewById(R.id.background);
+
         backbutton1 = findViewById(R.id.backgroundselection1);
         backbutton2 = findViewById(R.id.backgroundselection2);
         backbutton3 = findViewById(R.id.backgroundselection3);
         backbutton4 = findViewById(R.id.backgroundselection4);
         mySettingsBackground = findViewById(R.id.MySettingsBackground);
         switchUnits = findViewById(R.id.switch_einheit);
+
+        mLocationList = loadArray("myCitynames");
+
+        if(mLocationList.length == 0)
+        {
+            mLocationList = new String[6];
+            saveArray(mLocationList, "myCitynames");
+        }
+
+        textViewCities = findViewById(R.id.MyTextViewCities);
 
         //Language
         textViewSettings = findViewById(R.id.MySettingsTag);
@@ -188,6 +222,9 @@ public class settings extends AppCompatActivity  {
             backbutton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
             backbutton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
         }
+        Location targetLocation1 = new Location("");//provider name is unnecessary
+        targetLocation1.setLatitude(10.0d);//your coords of course
+        targetLocation1.setLongitude(20.0d);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Background","1");
@@ -241,5 +278,173 @@ public class settings extends AppCompatActivity  {
         recreate();
     }
 
+
+    public boolean saveArray(String[] array, String arrayName) {
+        SharedPreferences prefs = getSharedPreferences("sharedLocations", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(arrayName +"_size", array.length);
+        for(int i=0;i<array.length;i++)
+            editor.putString(arrayName + "_" + i, (String) array[i]);
+        return editor.commit();
+    }
+    public String[] loadArray(String arrayName) {
+        SharedPreferences prefs = getSharedPreferences("sharedLocations", MODE_PRIVATE);
+        int size = prefs.getInt(arrayName + "_size", 0);
+        String array[] = new String[size];
+        for(int i=0;i<size;i++)
+            array[i] = prefs.getString(arrayName + "_" + i, null);
+        return array;
+    }
+
+    public void AddCity(View view) {
+        Geocoder geocoder = new Geocoder(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        cityCounter = preferences.getInt("CityCount", 0);
+        cityCounter++;
+        mLocationList = loadArray("myCitynames");
+        MyAddCity = findViewById(R.id.addCity);
+        try {
+            List<Address> address = geocoder.getFromLocationName(MyAddCity.getText().toString(), 5);
+            if (!address.isEmpty()) {
+                if (address.get(0).getLatitude() != 0.0) {
+                    String content = MyAddCity.getText().toString(); //gets you the contents of edit text
+                    mLocationList[cityCounter] = address.get(0).getFeatureName();
+                    saveArray(mLocationList, "myCitynames");
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putInt("CityCount", cityCounter);
+                    editor.apply();
+                    MyCities(view);
+                    MyCities(view);
+                }
+            }
+            else
+            {
+                Toast.makeText(this, "Stadt konnte nicht gefunden werden", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void CityDelete1(View view)
+    {
+        CityDelete(1, view);
+    }
+    public void CityDelete2(View view)
+    {
+        CityDelete(2, view);
+    }
+    public void CityDelete3(View view)
+    {
+        CityDelete(3, view);
+    }
+    public void CityDelete4(View view)
+    {
+        CityDelete(4, view);
+    }
+    public void CityDelete5(View view)
+    {
+        CityDelete(5, view);
+    }
+
+    public void CityDelete(int cityNumber, View view)
+    {
+        mLocationList = loadArray("myCitynames");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        cityCounter = preferences.getInt("CityCount", 0);
+        for(int i = cityNumber; i < cityCounter; i++)
+        {
+            mLocationList[i] = mLocationList[i + 1];
+        }
+        mLocationList[cityCounter] = null;
+        cityCounter--;
+        saveArray(mLocationList, "myCitynames");
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("CityCount",cityCounter);
+        editor.apply();
+        MyCities(view);
+        MyCities(view);
+    }
+
+    public void MyCities(View view) {
+            linearLayout = findViewById(R.id.container_cities);
+
+            if(linearLayout.getVisibility() == View.VISIBLE) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    textViewCities.setBackgroundColor(this.getResources().getColor(android.R.color.transparent));
+                }
+                linearLayout.setVisibility(View.GONE);
+
+            }
+            else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    textViewCities.setBackground(this.getDrawable(R.drawable.topcorners_rounded));
+                }
+                linearLayout.setVisibility(View.VISIBLE);
+            }
+
+            myCity1delete = findViewById(R.id.MyCityDelete1);
+            myCity2delete = findViewById(R.id.MyCityDelete2);
+            myCity3delete = findViewById(R.id.MyCityDelete3);
+            myCity4delete = findViewById(R.id.MyCityDelete4);
+            myCity5delete = findViewById(R.id.MyCityDelete5);
+            MyAddCity = findViewById(R.id.addCity);
+            MyAddCityButton = findViewById(R.id.addCityButton);
+            mLocationList = loadArray("myCitynames");
+
+            myCity1delete.setVisibility(View.GONE);
+            myCity2delete.setVisibility(View.GONE);
+            myCity3delete.setVisibility(View.GONE);
+            myCity4delete.setVisibility(View.GONE);
+            myCity5delete.setVisibility(View.GONE);
+
+            city1 = findViewById(R.id.MyCity1);
+            city2 = findViewById(R.id.MyCity2);
+            city3 = findViewById(R.id.MyCity3);
+            city4 = findViewById(R.id.MyCity4);
+            city5 = findViewById(R.id.MyCity5);
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            cityCounter = preferences.getInt("CityCount", 0);
+
+            for (int i = 1; i < mLocationList.length; i++) {
+                if (i <= cityCounter) {
+                    switch (i) {
+                        case 1:
+                            myCity1delete.setVisibility(View.VISIBLE);
+                            city1.setText(mLocationList[i]);
+                            MyAddCityButton.setVisibility(View.VISIBLE);
+                            MyAddCity.setVisibility(View.VISIBLE);
+                            break;
+                        case 2:
+                            myCity2delete.setVisibility(View.VISIBLE);
+                            city2.setText(mLocationList[i]);
+                            break;
+                        case 3:
+                            myCity3delete.setVisibility(View.VISIBLE);
+                            city3.setText(mLocationList[i]);
+                            break;
+                        case 4:
+                            myCity4delete.setVisibility(View.VISIBLE);
+                            city4.setText(mLocationList[i]);
+                            break;
+                        case 5:
+                            myCity5delete.setVisibility(View.VISIBLE);
+                            city5.setText(mLocationList[i]);
+                            MyAddCityButton.setVisibility(View.GONE);
+                            MyAddCity.setVisibility(View.GONE);
+
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            }
+    }
 
 }

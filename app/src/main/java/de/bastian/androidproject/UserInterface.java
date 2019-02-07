@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
@@ -23,6 +25,7 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -282,10 +285,25 @@ class UserInterface {
         }
     }
 
-
-    void updateCurrentInterface(){
-        currentTime = Calendar.getInstance().getTime();
-        cityName.setText(weatherCurrent.getName());
+    private void updateCurrentInterface(){
+        Geocoder geocoder = new Geocoder(this.mainActivity);
+        List<Address> address = null;
+        if(location != null) {
+            try {
+                address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 5);
+                if (address.isEmpty()) {
+                    cityName.setText(weatherCurrent.getName());
+                } else {
+                    cityName.setText(address.get(0).getLocality());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            cityName.setText(weatherCurrent.getName());
+        }
         lastRefresh.setText(new SimpleDateFormat("EEE HH:mm", Locale.GERMANY).format(new java.util.Date(lastUpdate)));
         temperature.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp())) + "°");
         minMaxTemp.setText("↓" + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_min())) + "°/↑" + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "°");
@@ -587,7 +605,7 @@ class UserInterface {
         setInvisible();
 
         //Animation
-        myScrollView.smoothScrollTo(0, myContainerHourly.getHeight() + myContainerTemp.getHeight() + 120);
+        myScrollView.smoothScrollTo(0, myContainerHourly.getHeight() + myContainerTemp.getHeight() + 180);
         DisplayMetrics metrics = new DisplayMetrics();
         this.mainActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;

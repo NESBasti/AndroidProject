@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -37,12 +39,15 @@ import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     // GPS
+
     private Location location;
+    private Location[]  locationCities = new Location[6];
     private LocationCallback locationCallback;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private GoogleApiClient googleApiClient;
@@ -53,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private ArrayList<String> permissions = new ArrayList<>();
     private static final int ALL_PERMISSIONS_RESULT = 1011;
     private LocationManager locationManager;
+    private int aktuelleStadt = 0;
+    private String[] mLocationList = new String[6];;
 
     // JSON
     private int updateFrequency = 120000; // = 120 seconds
@@ -80,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView sunsetText;
 
 
+    private int cityCounter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +98,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mPrefs = getPreferences(MODE_PRIVATE);
 
         ui = new UserInterface(this);
+
+        mLocationList = loadArray("myCitynames");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        cityCounter = preferences.getInt("CityCount", 0);
+
+        for(int i = 0; i < 6; i++)
+        {
+           locationCities[i] = new Location("");
+        }
+        for(int i = 1; i < mLocationList.length; i++)
+        {
+            List<Address> address;
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                address = geocoder.getFromLocationName(mLocationList[i], 5);
+                if (address != null) {
+                    locationCities[i].setLatitude(address.get(0).getLatitude());
+                    locationCities[i].setLongitude(address.get(0).getLongitude());
+                }
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
 
         // adding permission to request the location
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -109,9 +143,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onLocationResult(LocationResult locationResult) {
                 location = locationResult.getLastLocation();
                 onLocationChanged(locationResult.getLastLocation());
+                locationCities[0] = location;
             }
 
         };
+
+
 
         //Swipe Refresh
         // Getting SwipeContainerLayout
@@ -122,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onRefresh() {
                 onResume();
                 ui.setLastUpdate(0L);
-                getJSON();
+                getJSON(locationCities[aktuelleStadt]);
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
                         swipeLayout.setRefreshing(false); //stop animation after 4 seconds
@@ -162,7 +199,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         String TVairpressure = getResources().getString(R.string.TextViewAirpressure);
         airpressureText.setText(TVairpressure);
 
-
         String TVhumidity = getResources().getString(R.string.TextViewHumidity);
         humidityText.setText(TVhumidity);
 
@@ -178,21 +214,60 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         String TVsunset = getResources().getString(R.string.TextViewSunset);
         sunsetText.setText(TVsunset);
 
+
+
+
+
+
+
+
+        linearLayoutBackground.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+            public void onSwipeTop() {
+                Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                aktuelleStadt--;
+                if(aktuelleStadt < 0)
+                    aktuelleStadt = cityCounter;
+                ui.setLastUpdate(0L);
+                getJSON(locationCities[aktuelleStadt]);
+                ui.updateInterface();
+
+
+            }
+            public void onSwipeLeft() {
+                aktuelleStadt++;
+                if(aktuelleStadt > cityCounter)
+                    aktuelleStadt = 0;
+                ui.setLastUpdate(0L);
+                getJSON(locationCities[aktuelleStadt]);
+                ui.updateInterface();
+
+
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(MainActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
     }
+
+
 
 
     /**
      *      Uses Retrofit and GSON Converter to grab a JSON of current weather and the
      *      5-day-weather-forecast from openweathermap.org
      */
-    private void getJSON(){
+    private void getJSON(Location location){
         if((System.currentTimeMillis() > ui.getLastUpdate() + updateFrequency) & location != null){
             LoadCurrentJSON loadCurrentJSON = new LoadCurrentJSON(MainActivity.this);
             loadCurrentJSON.execute(location);
             LoadForecastJSON loadForecastJSON = new LoadForecastJSON(MainActivity.this);
             loadForecastJSON.execute(location);
             ui.setLastUpdate(System.currentTimeMillis());
-            ui.setLocation(this.location);
+            ui.setLocation(location);
         }
         else if(location == null & locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) & locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
             Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
@@ -307,9 +382,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         fusedLocationProviderClient.getLastLocation();
         startLocationUpdates();
 
-        if (location != null) {
-            getJSON();
-        }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String background = preferences.getString("Background", "0");
@@ -363,12 +435,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
-    @Override
-    public void onLocationChanged(Location location) {
-        if (location != null) {
-            getJSON();
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -488,6 +554,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
         String jsonUpdate = mPrefs.getString("lastUpdate", "0");
         ui.setLastUpdate(gson.fromJson(jsonUpdate, Long.class));
+        //mLocationList[0] = location;
         ui.updateInterface();
     }
     //endregion
@@ -534,5 +601,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
+    public String[] loadArray(String arrayName) {
+        SharedPreferences prefs = getSharedPreferences("sharedLocations", MODE_PRIVATE);
+        int size = prefs.getInt(arrayName + "_size", 0);
+        String array[] = new String[size];
+        for(int i=0;i<size;i++)
+            array[i] = prefs.getString(arrayName + "_" + i, null);
+        return array;
+    }
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
 }
