@@ -5,12 +5,13 @@
     <string name="TextViewLanguage">Idioma</string>
     <string name="TextViewBackground">Fondo</string>
     <string name="TextViewContact">Contacto</string>
-    <string name="TextViewHourly">" CADA HORA"</string>
-    <string name="TextViewDaily">" DIARIO"</string>
+    <string name="TextViewHourly">CADA HORA</string>
+    <string name="TextViewDaily">DIARIO</string>
     <string name="TextViewAirpressure">Presión del aire</string>
     <string name="TextViewHumidity">Humedad</string>
     <string name="TextViewWindspeed">Velocidad del viento</string>
     <string name="TextViewSunrise">Amanecer</string>
     <string name="TextViewCloudyness">Abundancia de nubes</string>
     <string name="TextViewSunset">Puesta de sol</string>
+    <string name="TextViewToday">hoy</string>
 </resources>

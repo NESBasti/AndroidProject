@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottomcorners_rounded">
+
+    <TextView
+        android:layout_margin="8dp"
+        style="@style/WhiteText"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aktueller Standort" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:id="@+id/MyCityDelete1"
+        android:visibility="gone">
+        <TextView
+            style="@style/WhiteText"
+            android:layout_weight="1"
+            android:id="@+id/MyCity1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:onClick="CityDelete1"
+            android:src="@drawable/delete" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:id="@+id/MyCityDelete2"
+        android:visibility="gone">
+        <TextView
+            style="@style/WhiteText"
+            android:layout_weight="1"
+            android:id="@+id/MyCity2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:onClick="CityDelete2"
+            android:src="@drawable/delete" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:id="@+id/MyCityDelete3"
+        android:visibility="gone">
+        <TextView
+            style="@style/WhiteText"
+            android:layout_weight="1"
+            android:id="@+id/MyCity3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:onClick="CityDelete3"
+            android:src="@drawable/delete" />
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="8dp"
+    android:id="@+id/MyCityDelete4"
+    android:visibility="gone">
+    <TextView
+        style="@style/WhiteText"
+        android:layout_weight="1"
+        android:id="@+id/MyCity4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:onClick="CityDelete4"
+        android:src="@drawable/delete" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:id="@+id/MyCityDelete5"
+        android:visibility="gone">
+        <TextView
+            style="@style/WhiteText"
+            android:layout_weight="1"
+            android:id="@+id/MyCity5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:onClick="CityDelete5"
+            android:src="@drawable/delete" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_marginLeft="96dp"
+        android:layout_marginRight="96dp"
+        android:textAlignment="center"
+        style="@style/WhiteText"
+        android:id="@+id/addCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="20"
+        android:inputType="textAutoComplete"
+        android:text="Stadt hinzufügen" />
+    <TextView
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:id="@+id/addCityButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:onClick="AddCity" />
+</LinearLayout>

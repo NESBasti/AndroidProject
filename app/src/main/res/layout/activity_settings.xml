@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="8dp">
+            android:layout_margin="20dp">
 
             <TextView
                 android:id="@+id/MyTextViewUnit"
@@ -91,7 +91,6 @@
             style="@style/WhiteText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:text="Hintergrund"
             android:textAlignment="center"
@@ -157,13 +156,35 @@
 
         </LinearLayout>
         //Support
+        <TextView
+            android:id="@+id/MyTextViewCities"
+            style="@style/WhiteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Städte"
+            android:textAlignment="center"
+            android:onClick="MyCities"/>
+        <include
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="24dp"
+            android:visibility="gone"
+            android:id="@+id/container_cities"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/cities"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+
+
 
         <TextView
             android:id="@+id/MyTextViewContact"
             style="@style/WhiteText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:layout_marginTop="20dp"
             android:text="Kontakt"
             android:textAlignment="center"
@@ -173,7 +194,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_margin="8dp">
+                android:layout_margin="20dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

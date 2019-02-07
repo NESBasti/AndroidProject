@@ -35,7 +35,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/MyLinearLayout">♦
+                android:id="@+id/MyLinearLayout">
+                <View
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightGray"/>
 
                 <include
                     android:layout_marginBottom="40dp"

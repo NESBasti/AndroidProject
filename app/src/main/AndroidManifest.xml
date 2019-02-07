@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="AndroidProject"

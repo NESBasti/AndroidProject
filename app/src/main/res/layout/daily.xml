@@ -49,11 +49,13 @@
             android:onClick="MyDailyOpening1">
 
             <TextView
+                android:id="@+id/MyToday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="HEUTE"
-                android:textAlignment="center" />
+                android:text="Today"
+                android:textAlignment="center"
+                tools:text="@string/TextViewToday" />
 
             <ImageView
                 android:id="@+id/daily1weather"
