@@ -14,8 +14,6 @@ import android.widget.RemoteViews;
 public class WeatherAppWidgetProvider extends AppWidgetProvider {
 
     public static final String WIDGET_IDS_KEY = "WeatherWidgetids";
-    private long lastUpdate = 0L;
-    private long updateFrequency = 60000L;
     int uniqueId;
 
     @Override
@@ -73,19 +71,19 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.hasExtra(WIDGET_IDS_KEY)) {
-            if(intent.getAction()!= null){
-                if(!intent.getAction().equals("GET_JSON")){
-                    SharedPreferences widgetData = context.getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
+        if(intent.getAction()!= null){
+            if(!intent.getAction().equals("GET_JSON")){
+                SharedPreferences widgetData = context.getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
 
-                    lastUpdate = System.currentTimeMillis();
-                    Location location = new Location("widget");
-                    location.setLatitude(widgetData.getFloat("LATITUDE", 0));
-                    location.setLongitude(widgetData.getFloat("LONGITUDE", 0));
-                    WidgetUpdateJSON widgetUpdateJSON = new WidgetUpdateJSON(context, location);
-                    widgetUpdateJSON.run();
-                }
+                Location location = new Location("widget");
+                location.setLatitude(widgetData.getFloat("LATITUDE", 0));
+                location.setLongitude(widgetData.getFloat("LONGITUDE", 0));
+                WidgetUpdateJSON widgetUpdateJSON = new WidgetUpdateJSON(context, location);
+                widgetUpdateJSON.run();
             }
+        }
+
+        if (intent.hasExtra(WIDGET_IDS_KEY)) {
             int[] ids = intent.getExtras().getIntArray(WIDGET_IDS_KEY);
 
             this.onUpdate(context, AppWidgetManager.getInstance(context), ids);

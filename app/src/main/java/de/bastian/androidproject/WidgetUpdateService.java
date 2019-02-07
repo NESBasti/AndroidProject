@@ -16,6 +16,7 @@ public class WidgetUpdateService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         Bundle extras = intent.getExtras();
         int[] appWidgetIds = new int[0];
