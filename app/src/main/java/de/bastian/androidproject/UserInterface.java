@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
-import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -25,7 +24,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +32,8 @@ import java.util.List;
 import java.util.Locale;
 
 class UserInterface {
+    private Activity mainActivity;
+
 
     private static WeatherCurrent weatherCurrent;
     private static WeatherForecast weatherForecast;
@@ -42,26 +42,22 @@ class UserInterface {
     private Long lastUpdate = 0L;
     private Date currentTime;
     private SharedPreferences widgetData;
-
-    private Activity mainActivity;
-
-    private TextView cityName;
-
-    private TextView lastRefresh;
-    private TextView temperature;
-    private TextView minTemp;
-    private TextView maxTemp;
-    private ImageView currentIcon;
     private DateFormat dateFormatTime;
     private SimpleDateFormat dateFormatDate;
-    private ScrollView myScrollView;
+
+    //current weather
+    private TextView cityName;
+    private TextView lastRefresh;
+    private TextView temperature;
+    private TextView minMaxTemp;
+    private TextView windchill;
+    private ImageView currentIcon;
 
     //hourly forecast
     private ArrayList<TextView> hourlyTime;
     private ArrayList<ImageView> hourlyWeather;
     private ArrayList<TextView> hourlyTemp;
     private ArrayList<TextView> hourlyRain;
-
 
     //daily forecast
     private ArrayList<ImageView> dailyWeather;
@@ -70,25 +66,26 @@ class UserInterface {
     private GraphView graph;
     private ArrayList<ArrayList<ArrayList<TextView>>> dailyPopupText;
     private ArrayList<ArrayList<ImageView>> dailyPopupIcon;
-    private ArrayList<ConstraintLayout> dailyFineLayout;
 
-    //other Informations
-    private TextView pressure;
-    private TextView humidity;
-    private TextView windspeed;
-    private TextView cloudiness;
-    private TextView sunrisetv;
-    private TextView sunsettv;
-    private View myViewDaily;
+    //daily forecast - layout
+    private ArrayList<LinearLayout> myDaily;
+    private ArrayList<ConstraintLayout> dailyFineLayout;
+    private ScrollView myScrollView;
     private View myContainerTemp;
     private View myContainerHourly;
 
-    //Daily
-    private LinearLayout myDailyD1;
-    private LinearLayout myDailyD2;
-    private LinearLayout myDailyD3;
-    private LinearLayout myDailyD4;
-    private LinearLayout myDailyD5;
+    //other information
+    private TextView pressure;
+    private TextView humidity;
+    private TextView windSpeed;
+    private TextView cloudiness;
+    private TextView sunrise;
+    private TextView sunset;
+
+
+    //clothes
+    private ArrayList<ImageView> clothesIcon;
+    private ArrayList<TextView> clothesDay;
 
 
 
@@ -133,27 +130,19 @@ class UserInterface {
     UserInterface(Activity mainActivity) {
         this.mainActivity = mainActivity;
 
+        widgetData = this.mainActivity.getApplicationContext().getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
         dateFormatTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
         dateFormatDate = new SimpleDateFormat("EEE", Locale.getDefault());
         currentTime = Calendar.getInstance().getTime();
 
-        //Daily
-        myDailyD1 = this.mainActivity.findViewById(R.id.MyDailyD1);
-        myDailyD2 = this.mainActivity.findViewById(R.id.MyDailyD2);
-        myDailyD3 = this.mainActivity.findViewById(R.id.MyDailyD3);
-        myDailyD4 = this.mainActivity.findViewById(R.id.MyDailyD4);
-        myDailyD5 = this.mainActivity.findViewById(R.id.MyDailyD5);
-        myViewDaily = this.mainActivity.findViewById(R.id.MyViewDaily);
-        myContainerTemp = this.mainActivity.findViewById(R.id.container_temperature);
-        myContainerHourly = this.mainActivity.findViewById(R.id.container_hourly);
-
-        //set Views
+        //region set Views
+        //set Views - current weather
         myScrollView = this.mainActivity.findViewById(R.id.MyScrollView);
         cityName = this.mainActivity.findViewById(R.id.MyCityName);
         lastRefresh = this.mainActivity.findViewById(R.id.MyLastRefresh);
         temperature = this.mainActivity.findViewById(R.id.MyTemperature);
-        minTemp = this.mainActivity.findViewById(R.id.MyMinTemp);
-        maxTemp = this.mainActivity.findViewById(R.id.MyMaxTemp);
+        minMaxTemp = this.mainActivity.findViewById(R.id.MyMinMaxTemp);
+        windchill = this.mainActivity.findViewById(R.id.MyWindchill);
         currentIcon = this.mainActivity.findViewById(R.id.MyIcon);
 
         //set Views - hourly forecast
@@ -234,13 +223,40 @@ class UserInterface {
         }
 
 
-        //other Informations
+        //set views - other Informations
         pressure = this.mainActivity.findViewById(R.id.MyPressure);
         humidity = this.mainActivity.findViewById(R.id.MyHumidity);
-        windspeed = this.mainActivity.findViewById(R.id.MyWindspeed);
+        windSpeed = this.mainActivity.findViewById(R.id.MyWindspeed);
         cloudiness = this.mainActivity.findViewById(R.id.MyCloudiness);
-        sunrisetv = this.mainActivity.findViewById(R.id.MySunrise);
-        sunsettv = this.mainActivity.findViewById(R.id.MySunset);
+        sunrise = this.mainActivity.findViewById(R.id.MySunrise);
+        sunset = this.mainActivity.findViewById(R.id.MySunset);
+
+        //set views - clothes
+        clothesDay = new ArrayList<>();
+        clothesIcon = new ArrayList<>();
+
+        for(int i = 1; i <= 5; i++){
+            String idName = "MyClothes" + i + "Icon";
+            int resId = this.mainActivity.getResources().getIdentifier(idName, "id", this.mainActivity.getPackageName());
+            clothesIcon.add((ImageView) this.mainActivity.findViewById(resId));
+
+            if(i != 1){
+                idName = "MyClothes" + i + "Day";
+                resId = this.mainActivity.getResources().getIdentifier(idName, "id", this.mainActivity.getPackageName());
+                clothesDay.add((TextView) this.mainActivity.findViewById(resId));
+            }
+        }
+
+        //set Views - daily forecast animations
+        myDaily = new ArrayList<>();
+        for(int i = 1; i <= 5; i++){
+            String idName = "MyDailyD" + i;
+            int resId = this.mainActivity.getResources().getIdentifier(idName, "id", this.mainActivity.getPackageName());
+            myDaily.add((LinearLayout)this.mainActivity.findViewById(resId));
+        }
+        myContainerTemp = this.mainActivity.findViewById(R.id.container_temperature);
+        myContainerHourly = this.mainActivity.findViewById(R.id.container_hourly);
+        //endregion
 
         //init daily temp graph
         graph = this.mainActivity.findViewById(R.id.graph);
@@ -251,7 +267,6 @@ class UserInterface {
         graph.getViewport().setMaxX(5);
         graph.getViewport().setMinX(0);
 
-        widgetData = this.mainActivity.getApplicationContext().getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
     }
 
     /**
@@ -268,24 +283,27 @@ class UserInterface {
     }
 
 
-    private void updateCurrentInterface(){
+    void updateCurrentInterface(){
+        currentTime = Calendar.getInstance().getTime();
         cityName.setText(weatherCurrent.getName());
         lastRefresh.setText(new SimpleDateFormat("EEE HH:mm", Locale.GERMANY).format(new java.util.Date(lastUpdate)));
         temperature.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp())) + "°");
-        minTemp.setText("Min " + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_min())) + "°");
-        maxTemp.setText("Max " + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "°");
+        minMaxTemp.setText("↓" + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_min())) + "°/↑" + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "°");
+        int windchillTemp = (int) Math.round(weatherCurrent.getMain().getTemp());
+        if(Math.round(weatherCurrent.getMain().getTemp()) <= 10 && (weatherCurrent.getWind().getSpeed() * 3.6) >= 5) { //windchill is defined with temperatures of 10°C or lower and 5km/h wind speed or more
+            windchillTemp = (int) ((13.12 + 0.6125 * weatherCurrent.getMain().getTemp()) + (0.3965 * weatherCurrent.getMain().getTemp() - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
+        }
+        windchill.setText("Windchill " + windchillTemp + "°");
         currentIcon.setImageResource(iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
 
         updateWeatherWidget();
     }
 
-    private void updateForecastInterface(){
-        try {
-            updateForecastHourly();
-            updateForecastDaily();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    void updateForecastInterface() {
+
+        currentTime = Calendar.getInstance().getTime();
+        updateForecastHourly();
+        updateForecastDaily();
 
     }
 
@@ -328,13 +346,12 @@ class UserInterface {
 
             if(k.getRain() != null) {
                 precipitation += k.getRain().getRain();
-                hourlyRain.get(count).setText(k.getRain().getRain() + " mm");
             }
             if(k.getSnow() != null){
                 precipitation += k.getSnow().getSnow();
             }
 
-            hourlyRain.get(count).setText(String.format("%.2f mm", precipitation));
+            hourlyRain.get(count).setText(String.format("%.2f l", precipitation));
             precipitation = 0;
 
             series.appendData(new DataPoint(count, currentTemp), true, 6);
@@ -345,7 +362,7 @@ class UserInterface {
         graph.addSeries(series);
     }
 
-    private void updateForecastDaily() throws ParseException {
+    private void updateForecastDaily(){
         Calendar lastDay = Calendar.getInstance();
         Calendar currentDay = Calendar.getInstance();
 
@@ -355,6 +372,7 @@ class UserInterface {
         for(int i = 0; i < 4; i++){
             lastDay.add(Calendar.DAY_OF_MONTH,1);
             weekday.get(i).setText(dateFormatDate.format(lastDay.getTime()));
+            clothesDay.get(i).setText(dateFormatDate.format(lastDay.getTime()));
         }
 
 
@@ -379,12 +397,22 @@ class UserInterface {
                 if(k.getMain().getTemp_max() > maxTemp.get(listFlag) ){
                     maxTemp.set(listFlag, (int)Math.round(k.getMain().getTemp_max()));
                 }
-                if(midOfDay == 4 || (listFlag == 0 && midOfDay == 0)){
+                if(midOfDay == 3 || (listFlag == 0 && midOfDay == 0)){
                     dailyWeather.get(listFlag).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
                 }
                 midOfDay++;
             }
             else{
+                if(midOfDay == 0){ //in case current day has no entries
+                    if(weatherCurrent != null) {
+                        minTemp.set(listFlag, (int) Math.round(weatherCurrent.getMain().getTemp_min()));
+                        maxTemp.set(listFlag, (int) Math.round(weatherCurrent.getMain().getTemp_max()));
+                    }
+                    else{
+                        minTemp.set(listFlag, 0);
+                        maxTemp.set(listFlag, 0);
+                    }
+                }
                 lastDay.set(currentDay.get(Calendar.YEAR), currentDay.get(Calendar.MONTH), currentDay.get(Calendar.DAY_OF_MONTH));
                 listFlag++;
                 midOfDay = 0;
@@ -399,24 +427,28 @@ class UserInterface {
             dailyTemp.get(i).setText(maxTemp.get(i) + "°\n" + minTemp.get(i) + "°");
         }
 
-        Date sunrise = new Date(weatherCurrent.getSys().getSunrise()*1000L);
-        Date sunset = new Date(weatherCurrent.getSys().getSunset()*1000L);
+        //update other weather information
+        Date sunriseTime = new Date(weatherCurrent.getSys().getSunrise()*1000L);
+        Date sunsetTime = new Date(weatherCurrent.getSys().getSunset()*1000L);
         pressure.setText(weatherCurrent.getMain().getPressure() + " hPa");
         humidity.setText(weatherCurrent.getMain().getHumidity() + " %");
-        windspeed.setText(weatherCurrent.getWind().getSpeed() + " m/s");
+        windSpeed.setText(weatherCurrent.getWind().getSpeed() + " m/s");
         cloudiness.setText(weatherCurrent.getClouds().getAll() + " %");
-        sunrisetv.setText(dateFormatTime.format(sunrise));
-        sunsettv.setText(dateFormatTime.format(sunset));
+        this.sunrise.setText(dateFormatTime.format(sunriseTime));
+        sunset.setText(dateFormatTime.format(sunsetTime));
 
         updateForecastDailyFine();
     }
 
+    /**
+     * fill daily-popup
+     */
     private void updateForecastDailyFine(){
         int indexHourToday = 0;
         int indexHour = 0;
         int indexDay = 1;
 
-        for(int i = 0; i <= 7; i++){
+        for(int i = 0; i <= 7; i++){ //set all current day entries to GONE to only show the ones we have after
             LinearLayout parent = (LinearLayout) dailyPopupText.get(0).get(0).get(i).getParent();
             parent.setVisibility(View.GONE);
             LinearLayout parentParent = (LinearLayout) parent.getParent();
@@ -426,15 +458,23 @@ class UserInterface {
 
         }
 
+        Calendar currentDay = Calendar.getInstance();
+        Calendar elementDay = Calendar.getInstance();
+        currentDay.setTime(currentTime);
 
         for(WeatherListElement k: weatherForecast.getList()){
-            if(DateUtils.isToday(k.getDt() * 1000L)){
+            elementDay.setTime(new Date(k.getDt() * 1000L));
+            if(currentDay.get(Calendar.DAY_OF_YEAR) == elementDay.get(Calendar.DAY_OF_YEAR) &&
+                    currentDay.get(Calendar.YEAR) == elementDay.get(Calendar.YEAR)){
+
                 dailyPopupText.get(0).get(0).get(indexHourToday).setText(dateFormatTime.format(new Date(k.getDt() * 1000L)));
                 dailyPopupText.get(0).get(1).get(indexHourToday).setText(Math.round(k.getMain().getTemp()) + "°");
                 dailyPopupIcon.get(0).get(indexHourToday).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
+
                 LinearLayout parent = (LinearLayout) dailyPopupText.get(0).get(0).get(indexHourToday).getParent();
                 parent.setVisibility(View.VISIBLE);
                 LinearLayout parentParent = (LinearLayout) parent.getParent();
+
                 if(indexHourToday >= 1){
                     parentParent.getChildAt((indexHourToday*2)-1).setVisibility(View.VISIBLE);
                 }
@@ -448,6 +488,7 @@ class UserInterface {
                         break;
                     }
                 }
+
                 dailyPopupText.get(indexDay).get(0).get(indexHour).setText(dateFormatTime.format(new Date(k.getDt() * 1000L)));
                 dailyPopupIcon.get(indexDay).get(indexHour).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
                 dailyPopupText.get(indexDay).get(1).get(indexHour).setText(Math.round(k.getMain().getTemp()) + "°");
@@ -467,51 +508,51 @@ class UserInterface {
         switch (icon.substring(0,2)){
             case "01":
                 if(daytime == 'd'){
-                    return R.drawable.sun;
+                    return R.drawable.sunx128;
                 }
-                else return R.drawable.moon;
+                else return R.drawable.moonx128;
             case "02":
                 if(daytime == 'd'){
-                    return R.drawable.suncloud;
+                    return R.drawable.suncloudx128;
                 }
-                else return R.drawable.mooncloud;
+                else return R.drawable.mooncloudx128;
             case "03":
                 if(daytime == 'd'){
-                    return R.drawable.cloud;
+                    return R.drawable.cloudx128;
                 }
-                else return R.drawable.cloud;
+                else return R.drawable.cloudx128;
             case "04":
                 if(daytime == 'd'){
-                    return R.drawable.heavycloud;
+                    return R.drawable.heavycloudx128;
                 }
-                else return R.drawable.heavycloud;
+                else return R.drawable.heavycloudx128;
             case "09":
                 if(daytime == 'd'){
-                    return R.drawable.heavycloudrain;
+                    return R.drawable.heavycloudrainx128;
                 }
-                else return R.drawable.heavycloudrain;
+                else return R.drawable.heavycloudrainx128;
             case "10":
                 if(daytime == 'd'){
-                    return R.drawable.sunrain;
+                    return R.drawable.sunrainx128;
                 }
-                else return R.drawable.moonrain;
+                else return R.drawable.moonrainx128;
             case "11":
                 if(daytime == 'd'){
-                    return R.drawable.thunder;
+                    return R.drawable.thunderx128;
                 }
-                else return R.drawable.thunder;
+                else return R.drawable.thunderx128;
             case "13":
                 if(daytime == 'd'){
-                    return R.drawable.snow;
+                    return R.drawable.snowx128;
                 }
-                else return R.drawable.snow;
+                else return R.drawable.snowx128;
             case "50":
                 if(daytime == 'd'){
-                    return R.drawable.sun;//TODO mist icon
+                    return R.drawable.fogx128;
                 }
-                else return R.drawable.sun;
+                else return R.drawable.fogx128;
             default:
-                return R.drawable.sun;
+                return R.drawable.sunx128;
         }
     }
 
@@ -539,6 +580,9 @@ class UserInterface {
         this.mainActivity.getApplicationContext().sendBroadcast(updateIntent);
     }
 
+    /**
+     * open daily-popup with animation
+     */
     void openDaily(int day){
         setInvisible();
 
@@ -554,31 +598,31 @@ class UserInterface {
         switch (day){
             case 1:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    myDailyD1.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                    myDaily.get(0).setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 dailyFineLayout.get(0).startAnimation(animate);
                 dailyFineLayout.get(0).setVisibility(View.VISIBLE);
                 break;
             case 2:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    myDailyD2.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                    myDaily.get(1).setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 dailyFineLayout.get(1).startAnimation(animate);
                 dailyFineLayout.get(1).setVisibility(View.VISIBLE);
                 break;
             case 3:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    myDailyD3.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                    myDaily.get(2).setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 dailyFineLayout.get(2).startAnimation(animate);
                 dailyFineLayout.get(2).setVisibility(View.VISIBLE);
                 break;
             case 4:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    myDailyD4.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                    myDaily.get(3).setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 dailyFineLayout.get(3).startAnimation(animate);
                 dailyFineLayout.get(3).setVisibility(View.VISIBLE);
                 break;
             case 5:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    myDailyD5.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                    myDaily.get(4).setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 dailyFineLayout.get(4).startAnimation(animate);
                 dailyFineLayout.get(4).setVisibility(View.VISIBLE);
                 break;
@@ -587,14 +631,15 @@ class UserInterface {
         }
     }
 
+    /**
+     * close daily-popup
+     */
     void setInvisible(){
-        myDailyD1.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-        myDailyD2.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-        myDailyD3.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-        myDailyD4.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-        myDailyD5.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-    for(ConstraintLayout day: dailyFineLayout){
-        day.setVisibility(View.GONE);
+        for(LinearLayout daily: myDaily){
+            daily.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        }
+        for(ConstraintLayout day: dailyFineLayout){
+            day.setVisibility(View.GONE);
         }
     }
 

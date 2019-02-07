@@ -66,10 +66,12 @@ public class WidgetUpdateJSON extends Thread {
                     AppWidgetManager man = AppWidgetManager.getInstance(context);
                     int[] ids = man.getAppWidgetIds(
                             new ComponentName(context, WeatherAppWidgetProvider.class));
-                    Intent updateIntent = new Intent();
-                    updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                    Intent updateIntent = new Intent(context, WeatherAppWidgetProvider.class);
+                    updateIntent.setAction("GET_JSON");
                     updateIntent.putExtra(WeatherAppWidgetProvider.WIDGET_IDS_KEY, ids);
                     context.sendBroadcast(updateIntent);
+
+
                 }
 
                 @Override
@@ -80,4 +82,5 @@ public class WidgetUpdateJSON extends Thread {
 
         }
     }
+
 }

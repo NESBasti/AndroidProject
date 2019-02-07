@@ -38,6 +38,7 @@ public class LoadCurrentJSON extends AsyncTask<Location,Boolean, Integer> {
     protected Integer doInBackground(Location... locations) {
 
         String unit = mPrefs.getString("UNIT", "metric");
+        String language = mPrefs.getString("Language", "en");
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
@@ -47,7 +48,7 @@ public class LoadCurrentJSON extends AsyncTask<Location,Boolean, Integer> {
         Api api = retrofit.create(Api.class);
 
         if(locations != null) {
-            Call<WeatherCurrent> call1 = api.getCurrentWeatherFromCoordinates(appid, locations[0].getLatitude(), locations[0].getLongitude(), unit, "de");
+            Call<WeatherCurrent> call1 = api.getCurrentWeatherFromCoordinates(appid, locations[0].getLatitude(), locations[0].getLongitude(), unit, language);
 
             call1.enqueue(new Callback<WeatherCurrent>() {
                 @Override
