@@ -85,12 +85,9 @@ class UserInterface {
     private TextView sunrise;
     private TextView sunset;
 
-
     //clothes
     private ArrayList<ImageView> clothesIcon;
     private ArrayList<TextView> clothesDay;
-
-
 
 
 
@@ -285,9 +282,9 @@ class UserInterface {
         }
     }
 
-    private void updateCurrentInterface(){
+    void updateCurrentInterface(){
         Geocoder geocoder = new Geocoder(this.mainActivity);
-        List<Address> address = null;
+        List<Address> address;
         if(location != null) {
             try {
                 address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 5);

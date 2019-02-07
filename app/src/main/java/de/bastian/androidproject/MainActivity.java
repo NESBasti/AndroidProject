@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int ALL_PERMISSIONS_RESULT = 1011;
     private LocationManager locationManager;
     private int aktuelleStadt = 0;
-    private String[] mLocationList = new String[6];;
+    private String[] mLocationList = new String[6];
 
     // JSON
     private int updateFrequency = 120000; // = 120 seconds
@@ -410,6 +410,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onConnectionSuspended(int i) {
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
     private void startLocationUpdates() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
@@ -610,8 +615,5 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         return array;
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
 
-    }
 }
