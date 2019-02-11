@@ -1,11 +1,6 @@
 package de.bastian.androidproject;
 
 import android.app.Activity;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -44,7 +39,6 @@ class UserInterface {
 
     private Long lastUpdate = 0L;
     private Date currentTime;
-    private SharedPreferences widgetData;
     private DateFormat dateFormatTime;
     private SimpleDateFormat dateFormatDate;
 
@@ -125,12 +119,14 @@ class UserInterface {
         UserInterface.location = location;
     }
 
+    public TextView getCityName() {
+        return cityName;
+    }
     //endregion
 
     UserInterface(Activity mainActivity) {
         this.mainActivity = mainActivity;
 
-        widgetData = this.mainActivity.getApplicationContext().getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
         dateFormatTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
         dateFormatDate = new SimpleDateFormat("EEE", Locale.getDefault());
         currentTime = Calendar.getInstance().getTime();
@@ -311,7 +307,7 @@ class UserInterface {
         windchill.setText("Windchill " + windchillTemp + "°");
         currentIcon.setImageResource(iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
 
-        updateWeatherWidget();
+
     }
 
     void updateForecastInterface() {
@@ -571,29 +567,6 @@ class UserInterface {
         }
     }
 
-    /**
-     * updates all AppWidgets on the home screen with latest data
-     */
-    private void updateWeatherWidget(){
-        SharedPreferences.Editor edit = widgetData.edit();
-        if(weatherCurrent != null) {
-            edit.putInt("TEMPERATURE", ((int) Math.round(weatherCurrent.getMain().getTemp())));
-            edit.putFloat("LATITUDE", (float)weatherCurrent.getCoord().getLat());
-            edit.putFloat("LONGITUDE", (float)weatherCurrent.getCoord().getLon());
-            edit.putLong("LAST_UPDATE", lastUpdate);
-            edit.putString("LOCATION", weatherCurrent.getName());
-            edit.putInt("ICON", iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
-            edit.apply();
-        }
-
-        AppWidgetManager man = AppWidgetManager.getInstance(this.mainActivity.getApplicationContext());
-        int[] ids = man.getAppWidgetIds(
-                new ComponentName(this.mainActivity.getApplicationContext(),WeatherAppWidgetProvider.class));
-        Intent updateIntent = new Intent();
-        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        updateIntent.putExtra(WeatherAppWidgetProvider.WIDGET_IDS_KEY, ids);
-        this.mainActivity.getApplicationContext().sendBroadcast(updateIntent);
-    }
 
     /**
      * open daily-popup with animation
@@ -657,6 +630,7 @@ class UserInterface {
             day.setVisibility(View.GONE);
         }
     }
+
 
 }
 

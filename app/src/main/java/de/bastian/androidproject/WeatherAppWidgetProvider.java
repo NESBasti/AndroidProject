@@ -15,10 +15,10 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider {
 
     public static final String WIDGET_IDS_KEY = "WeatherWidgetids";
     int uniqueId;
+    int currentCity;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
         SharedPreferences widgetData = context.getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
         uniqueId = (int) System.currentTimeMillis();
 
@@ -43,24 +43,27 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider {
             extras.putFloat("LONGITUDE", widgetData.getFloat("LONGITUDE",0));
             serviceIntent.putExtras(extras);
 
-
             ContextCompat.startForegroundService(context, serviceIntent);
 
             Intent jsonIntent = new Intent(context, WeatherAppWidgetProvider.class);
             jsonIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             jsonIntent.putExtra(WeatherAppWidgetProvider.WIDGET_IDS_KEY, appWidgetIds);
 
-            PendingIntent pendingIntent;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, jsonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            }else pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, jsonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent nextCityIntent = new Intent(context, WeatherAppWidgetProvider.class);
+            nextCityIntent.setAction("NEXT_CITY");
+            nextCityIntent.putExtra(WeatherAppWidgetProvider.WIDGET_IDS_KEY, appWidgetIds);
+
+
+            PendingIntent jsonPI;
+            jsonPI = PendingIntent.getBroadcast(context, appWidgetId, jsonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent nextCityPI;
+            nextCityPI = PendingIntent.getBroadcast(context, appWidgetId, nextCityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget);
-            views.setOnClickPendingIntent(R.id.widget, pendingIntent);
-
-            views.setImageViewResource(R.id.widgetIcon, R.drawable.cloud);
+            views.setOnClickPendingIntent(R.id.widget, jsonPI);
+            views.setOnClickPendingIntent(R.id.MyNextCityButton, nextCityPI);
 
             //views.setTextViewText(R.id.widgetTemp, "" + widgetData.getInt("TEMPERATURE", 0));
 
@@ -71,13 +74,47 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(intent.getAction()!= null){
-            if(!intent.getAction().equals("GET_JSON")){
-                SharedPreferences widgetData = context.getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
+        SharedPreferences widgetData = context.getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
+        currentCity = widgetData.getInt("CURRENTCITY", 0);
 
+        if(intent.getAction()!= null){
+            if(intent.getAction().equals("NEXT_CITY")){
+                currentCity++;
+                if(currentCity > widgetData.getInt("CITYCOUNTER", 0)){
+                    currentCity = 0;
+                }
+                SharedPreferences.Editor widgetDataEdit = widgetData.edit();
+                widgetDataEdit.putInt("CURRENTCITY", currentCity);
+                widgetDataEdit.apply();
+            }
+           if(!intent.getAction().equals("GET_JSON")){
                 Location location = new Location("widget");
-                location.setLatitude(widgetData.getFloat("LATITUDE", 0));
-                location.setLongitude(widgetData.getFloat("LONGITUDE", 0));
+                switch (currentCity){
+                    case 0:
+                        location.setLatitude(widgetData.getFloat("LATITUDE", 0));
+                        location.setLongitude(widgetData.getFloat("LONGITUDE", 0));
+                        break;
+                    case 1:
+                        location.setLatitude(widgetData.getFloat("LATITUDE2", 0));
+                        location.setLongitude(widgetData.getFloat("LONGITUDE2", 0));
+                        break;
+                    case 2:
+                        location.setLatitude(widgetData.getFloat("LATITUDE3", 0));
+                        location.setLongitude(widgetData.getFloat("LONGITUDE3", 0));
+                        break;
+                    case 3:
+                        location.setLatitude(widgetData.getFloat("LATITUDE4", 0));
+                        location.setLongitude(widgetData.getFloat("LONGITUDE4", 0));
+                        break;
+                    case 4:
+                        location.setLatitude(widgetData.getFloat("LATITUDE5", 0));
+                        location.setLongitude(widgetData.getFloat("LONGITUDE5", 0));
+                        break;
+                    default:
+                        location.setLatitude(widgetData.getFloat("LATITUDE", 0));
+                        location.setLongitude(widgetData.getFloat("LONGITUDE", 0));
+                        break;
+                }
                 WidgetUpdateJSON widgetUpdateJSON = new WidgetUpdateJSON(context, location);
                 widgetUpdateJSON.run();
             }
@@ -91,6 +128,5 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider {
 
         } else super.onReceive(context, intent);
     }
-
 
 }

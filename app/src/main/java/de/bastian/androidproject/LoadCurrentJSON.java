@@ -77,6 +77,7 @@ public class LoadCurrentJSON extends AsyncTask<Location,Boolean, Integer> {
         if(mainActivity != null){
             if(values[0]) {
                 mainActivity.updateCurrentWeather(weatherCurrent);
+                mainActivity.updateWeatherWidget();
             }
             else Toast.makeText(mainActivity, "Error retrieving weather data", Toast.LENGTH_SHORT).show();
         }

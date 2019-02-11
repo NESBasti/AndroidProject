@@ -6,11 +6,8 @@
 
     <ImageView
         android:id="@+id/widgetIcon"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/sun"/>
-
-
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,13 +33,31 @@
             android:textSize="20dp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/widgetLastUpdate"
-            style="@style/WhiteText"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/refreshx128"/>
+
+            <TextView
+                android:id="@+id/widgetLastUpdate"
+                style="@style/WhiteText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="last update"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="last update"
-            android:textSize="20dp" />
+            android:text="next"
+            android:id="@+id/MyNextCityButton"/>
 
 
     </LinearLayout>

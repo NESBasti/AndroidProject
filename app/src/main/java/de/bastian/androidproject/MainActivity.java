@@ -1,6 +1,10 @@
 package de.bastian.androidproject;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,11 +45,12 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.bastian.androidproject.UserInterface.iconToResource;
+
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     // GPS
-
     private Location location;
     private Location[]  locationCities = new Location[6];
     private LocationCallback locationCallback;
@@ -58,23 +63,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private ArrayList<String> permissions = new ArrayList<>();
     private static final int ALL_PERMISSIONS_RESULT = 1011;
     private LocationManager locationManager;
-    private int aktuelleStadt = 0;
+    private int currentCity = 0;
     private String[] mLocationList = new String[6];
 
     // JSON
     private int updateFrequency = 120000; // = 120 seconds
-    private SharedPreferences  mPrefs;
-
 
     //Swipe Refresh
     private SwipeRefreshLayout swipeLayout;
 
     //User Interface
     private UserInterface ui;
+    private SharedPreferences widgetData;
+    private SharedPreferences  mPrefs;
 
     //Animation
     private LinearLayout linearLayoutBackground;
-
 
     //Language
     private TextView dailyText;
@@ -90,12 +94,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private int cityCounter;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         mPrefs = getPreferences(MODE_PRIVATE);
+        widgetData = this.getApplicationContext().getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
+
 
         ui = new UserInterface(this);
 
@@ -103,12 +110,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         cityCounter = preferences.getInt("CityCount", 0);
 
-        for(int i = 0; i < 6; i++)
-        {
-           locationCities[i] = new Location("");
+        for (int i = 0; i < 6; i++) {
+            locationCities[i] = new Location("");
         }
-        for(int i = 1; i < mLocationList.length; i++)
-        {
+        for (int i = 1; i < mLocationList.length; i++) {
             List<Address> address;
             Geocoder geocoder = new Geocoder(this);
             try {
@@ -117,8 +122,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     locationCities[i].setLatitude(address.get(0).getLatitude());
                     locationCities[i].setLongitude(address.get(0).getLongitude());
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
@@ -149,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         };
 
 
-
         //Swipe Refresh
         // Getting SwipeContainerLayout
         swipeLayout = findViewById(R.id.swipe_container);
@@ -159,9 +162,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onRefresh() {
                 onResume();
                 ui.setLastUpdate(0L);
-                getJSON(locationCities[aktuelleStadt]);
+                getJSON(locationCities[currentCity]);
                 new Handler().postDelayed(new Runnable() {
-                    @Override public void run() {
+                    @Override
+                    public void run() {
                         swipeLayout.setRefreshing(false); //stop animation after 4 seconds
                     }
                 }, 4000);
@@ -176,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 getResources().getColor(android.R.color.holo_red_light)
         );
 
-       
+
         //TODO in ui
         linearLayoutBackground = findViewById(R.id.background);
 
@@ -208,52 +212,41 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         String TVcloudyness = getResources().getString(R.string.TextViewCloudyness);
         cloudynessText.setText(TVcloudyness);
 
-        String TVsunrise= getResources().getString(R.string.TextViewSunrise);
+        String TVsunrise = getResources().getString(R.string.TextViewSunrise);
         sunriseText.setText(TVsunrise);
 
         String TVsunset = getResources().getString(R.string.TextViewSunset);
         sunsetText.setText(TVsunset);
 
 
-
-
-
-
-
-
         linearLayoutBackground.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
-            public void onSwipeTop() {
-                Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
-            }
             public void onSwipeRight() {
-                aktuelleStadt--;
-                if(aktuelleStadt < 0)
-                    aktuelleStadt = cityCounter;
-                ui.setLastUpdate(0L);
-                getJSON(locationCities[aktuelleStadt]);
-                ui.updateInterface();
-
-
+                if(cityCounter > 0){
+                    currentCity--;
+                    if (currentCity < 0)
+                        currentCity = cityCounter;
+                    ui.setLastUpdate(0L);
+                    getJSON(locationCities[currentCity]);
+                    ui.updateInterface();
+                }
             }
+
             public void onSwipeLeft() {
-                aktuelleStadt++;
-                if(aktuelleStadt > cityCounter)
-                    aktuelleStadt = 0;
-                ui.setLastUpdate(0L);
-                getJSON(locationCities[aktuelleStadt]);
-                ui.updateInterface();
-
+                if(cityCounter > 0){
+                    currentCity++;
+                    if (currentCity > cityCounter)
+                        currentCity = 0;
+                    ui.setLastUpdate(0L);
+                    getJSON(locationCities[currentCity]);
+                    ui.updateInterface();
+                }
 
             }
-            public void onSwipeBottom() {
-                Toast.makeText(MainActivity.this, "bottom", Toast.LENGTH_SHORT).show();
-            }
-
         });
 
+        updateWeatherWidget();
+
     }
-
-
 
 
     /**
@@ -293,6 +286,44 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ui.setWeatherForecast(forecast);
         ui.updateForecastInterface();
     }
+
+    /**
+     * updates all AppWidgets on the home screen with latest data
+     */
+    void updateWeatherWidget(){
+        SharedPreferences.Editor edit = widgetData.edit();
+        if(ui.getWeatherCurrent() != null) {
+            edit.putInt("TEMPERATURE", ((int) Math.round(ui.getWeatherCurrent().getMain().getTemp())));
+            if(location != null){
+                edit.putFloat("LATITUDE", (float)location.getLatitude());
+                edit.putFloat("LONGITUDE", (float)location.getLongitude());
+            }
+            edit.putLong("LAST_UPDATE", ui.getLastUpdate());
+            edit.putString("LOCATION", (String)ui.getCityName().getText());
+            edit.putInt("CITYCOUNTER", cityCounter);
+            edit.putFloat("LATITUDE2", (float)locationCities[1].getLatitude());
+            edit.putFloat("LONGITUDE2", (float)locationCities[1].getLongitude());
+            edit.putFloat("LATITUDE3", (float)locationCities[2].getLatitude());
+            edit.putFloat("LONGITUDE3", (float)locationCities[2].getLongitude());
+            edit.putFloat("LATITUDE4", (float)locationCities[3].getLatitude());
+            edit.putFloat("LONGITUDE4", (float)locationCities[3].getLongitude());
+            edit.putFloat("LATITUDE5", (float)locationCities[4].getLatitude());
+            edit.putFloat("LONGITUDE5", (float)locationCities[4].getLongitude());
+            edit.putInt("ICON", iconToResource(ui.getWeatherCurrent().getWeather().get(0).getIcon()));
+            edit.apply();
+        }
+
+        AppWidgetManager man = AppWidgetManager.getInstance(this.getApplicationContext());
+        int[] ids = man.getAppWidgetIds(
+                new ComponentName(this.getApplicationContext(),WeatherAppWidgetProvider.class));
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        updateIntent.putExtra(WeatherAppWidgetProvider.WIDGET_IDS_KEY, ids);
+        this.getApplicationContext().sendBroadcast(updateIntent);
+    }
+
+
+
 
 
 
@@ -412,7 +443,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onLocationChanged(Location location) {
-
+        if(currentCity == 0){
+            getJSON(location);
+        }
     }
 
     private void startLocationUpdates() {
@@ -436,6 +469,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         if(!(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) & location == null) {
             highAccuracyDisabled();
+        }
+
+        if(currentCity == 0 && location != null){
+            getJSON(location);
         }
     }
 
@@ -538,10 +575,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             String jsonForecast = gson.toJson(ui.getWeatherForecast());
             prefsEditor.putString("weatherForecast", jsonForecast);
         }
-        String jsonUpdate = gson.toJson(ui.getLastUpdate());
-        prefsEditor.putString("lastUpdate", jsonUpdate);
-        //String jsonLocation = gson.toJson(location);
-        //prefsEditor.putString("location", jsonLocation);
+        prefsEditor.putLong("lastUpdate", ui.getLastUpdate());
+        prefsEditor.putInt("currentCity", currentCity);
         prefsEditor.apply();
     }
 
@@ -557,9 +592,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if(gson.fromJson(jsonForecast, WeatherForecast.class) != null){
             ui.setWeatherForecast(gson.fromJson(jsonForecast, WeatherForecast.class));
         }
-        String jsonUpdate = mPrefs.getString("lastUpdate", "0");
-        ui.setLastUpdate(gson.fromJson(jsonUpdate, Long.class));
-        //mLocationList[0] = location;
+        Long prefsUpdate = mPrefs.getLong("lastUpdate", 0);
+        ui.setLastUpdate(prefsUpdate);
+        currentCity = mPrefs.getInt("currentCity", 0);
         ui.updateInterface();
     }
     //endregion
