@@ -86,11 +86,10 @@ public class WidgetUpdateService extends Service {
         super.onCreate();
     }
 
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
-
-
 }
+

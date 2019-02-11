@@ -162,6 +162,8 @@ class UserInterface {
         myClothingDay4 = this.mainActivity.findViewById(R.id.ClothingDay4);
         myClothingDay5 = this.mainActivity.findViewById(R.id.ClothingDay5);
 
+
+
         for(int i = 1; i <= 6; i++){
             String idName = "hourly" + i + "time";
             int resId = this.mainActivity.getResources().getIdentifier(idName, "id", this.mainActivity.getPackageName());
@@ -312,6 +314,7 @@ class UserInterface {
         {
             cityName.setText(weatherCurrent.getName());
         }
+
         lastRefresh.setText(new SimpleDateFormat("EEE HH:mm", Locale.GERMANY).format(new java.util.Date(lastUpdate)));
         temperature.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp())) + "°");
         minMaxTemp.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "° / " + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_min())) + "°");

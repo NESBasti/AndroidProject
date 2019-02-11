@@ -93,6 +93,7 @@
         android:background="#25EFEFEF">
 
             <TextView
+                android:layout_marginLeft="8dp"
                 style="@style/WhiteText"
                 android:textSize="14dp"
                 android:layout_width="match_parent"
