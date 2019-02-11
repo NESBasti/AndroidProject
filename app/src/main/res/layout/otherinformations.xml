@@ -49,7 +49,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:gravity="right"
-                android:src="@drawable/pressurex128"/>
+                android:src="@drawable/ic_pressure"/>
         </LinearLayout>
         //Luftfeuchtigkeit
         <LinearLayout
@@ -78,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:gravity="right"
-                android:src="@drawable/humidityx128"/>
+                android:src="@drawable/ic_humidity"/>
 
         </LinearLayout>
         //Windgeschwindigkeit
@@ -109,7 +109,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:gravity="right"
-                android:src="@drawable/windspeedx128"/>
+                android:src="@drawable/ic_windspeed"/>
         </LinearLayout>
 
         //Bewölkung
@@ -139,7 +139,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:gravity="right"
-                android:src="@drawable/cloudx128"/>
+                android:src="@drawable/ic_cloud"/>
 
         </LinearLayout>
         //Sunrise
@@ -168,7 +168,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:gravity="right"
-                android:src="@drawable/sunrisex128"/>
+                android:src="@drawable/ic_sunrise"/>
         </LinearLayout>
         //Sunset
         <LinearLayout
@@ -198,7 +198,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:layout_gravity="right"
-                android:src="@drawable/sunsetx128"/>
+                android:src="@drawable/ic_sunset"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -60,8 +60,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="fitCenter"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/moonrain" />
+            android:layout_marginLeft="10dp"/>
 
 
     </LinearLayout>

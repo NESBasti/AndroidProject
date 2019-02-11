@@ -48,8 +48,7 @@
                 <ImageView
                     android:id="@+id/MyPopUpD1H1W"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:src="@drawable/heavycloudrain" />
+                    android:layout_height="32dp" />
                 <TextView
                     android:id="@+id/MyPopUpD1H1T"
                     android:layout_width="match_parent"
@@ -81,8 +80,7 @@
                 <ImageView
                     android:id="@+id/MyPopUpD1H2W"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:src="@drawable/heavycloudrain" />
+                    android:layout_height="32dp"/>
                 <TextView
                     android:id="@+id/MyPopUpD1H2T"
                     android:layout_width="match_parent"
@@ -114,8 +112,7 @@
                 <ImageView
                     android:id="@+id/MyPopUpD1H3W"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:src="@drawable/heavycloudrain" />
+                    android:layout_height="32dp"/>
                 <TextView
                     android:id="@+id/MyPopUpD1H3T"
                     android:layout_width="match_parent"
@@ -147,8 +144,7 @@
                 <ImageView
                     android:id="@+id/MyPopUpD1H4W"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:src="@drawable/heavycloudrain" />
+                    android:layout_height="32dp" />
                 <TextView
                     android:id="@+id/MyPopUpD1H4T"
                     android:layout_width="match_parent"
@@ -180,8 +176,7 @@
                 <ImageView
                     android:id="@+id/MyPopUpD1H5W"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:src="@drawable/heavycloudrain" />
+                    android:layout_height="32dp" />
                 <TextView
                     android:id="@+id/MyPopUpD1H5T"
                     android:layout_width="match_parent"
@@ -214,8 +209,7 @@
                 <ImageView
                     android:id="@+id/MyPopUpD1H6W"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:src="@drawable/heavycloudrain" />
+                    android:layout_height="32dp"/>
                 <TextView
                     android:id="@+id/MyPopUpD1H6T"
                     android:layout_width="match_parent"
@@ -248,8 +242,7 @@
                 <ImageView
                     android:id="@+id/MyPopUpD1H7W"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:src="@drawable/heavycloudrain" />
+                    android:layout_height="32dp"/>
                 <TextView
                     android:id="@+id/MyPopUpD1H7T"
                     android:layout_width="match_parent"
@@ -281,8 +274,7 @@
                 <ImageView
                     android:id="@+id/MyPopUpD1H8W"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:src="@drawable/heavycloudrain" />
+                    android:layout_height="32dp"/>
                 <TextView
                     android:id="@+id/MyPopUpD1H8T"
                     android:layout_width="match_parent"

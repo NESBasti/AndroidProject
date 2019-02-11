@@ -63,6 +63,7 @@ class UserInterface {
     private GraphView graph;
     private ArrayList<ArrayList<ArrayList<TextView>>> dailyPopupText;
     private ArrayList<ArrayList<ImageView>> dailyPopupIcon;
+    private float dailyRain[];
 
     //daily forecast - layout
     private ArrayList<LinearLayout> myDaily;
@@ -88,7 +89,6 @@ class UserInterface {
     //clothes
     private ArrayList<ImageView> clothesIcon;
     private ArrayList<TextView> clothesDay;
-
     private TextView clothingText;
 
 
@@ -416,6 +416,7 @@ class UserInterface {
         maxTemp.add((int)Math.round(weatherForecast.getList().get(0).getMain().getTemp_max()));
         int listFlag = 0;
         int midOfDay = 0;
+        dailyRain = new float[5];
 
         for(WeatherListElement k: weatherForecast.getList()){
             currentDay.setTime(new Date(k.getDt() * 1000L));
@@ -429,6 +430,9 @@ class UserInterface {
                 }
                 if(midOfDay == 3 || (listFlag == 0 && midOfDay == 0)){
                     dailyWeather.get(listFlag).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
+                }
+                if(k.getRain() != null){
+                    dailyRain[listFlag] += k.getRain().getRain();
                 }
                 midOfDay++;
             }
@@ -455,6 +459,30 @@ class UserInterface {
 
         for(int i = 0; i < dailyTemp.size(); i++){
             dailyTemp.get(i).setText(maxTemp.get(i) + "°\n" + minTemp.get(i) + "°");
+            if(minTemp.get(i) < 5){
+                if(dailyRain[i] > 5){
+                    clothesIcon.get(i).setImageResource(R.drawable.ic_coat_umbrella);
+                }else
+                    clothesIcon.get(i).setImageResource(R.drawable.ic_coat);
+            }
+            else if(minTemp.get(i) < 13){
+                if(dailyRain[i] > 5){
+                    clothesIcon.get(i).setImageResource(R.drawable.ic_jacket_umbrella);
+                }else
+                    clothesIcon.get(i).setImageResource(R.drawable.ic_jacket);
+            }
+            else if(minTemp.get(i) < 20){
+                if(dailyRain[i] > 5){
+                    clothesIcon.get(i).setImageResource(R.drawable.ic_hoodie_umbrella);
+                }else
+                    clothesIcon.get(i).setImageResource(R.drawable.ic_hoodie);
+            }
+            else{
+                if(dailyRain[i] > 5){
+                    clothesIcon.get(i).setImageResource(R.drawable.ic_tshirt_umbrella);
+                }else
+                    clothesIcon.get(i).setImageResource(R.drawable.ic_tshirt);
+            }
         }
 
         //update other weather information
@@ -538,51 +566,51 @@ class UserInterface {
         switch (icon.substring(0,2)){
             case "01":
                 if(daytime == 'd'){
-                    return R.drawable.sunx128;
+                    return R.drawable.ic_sun;
                 }
-                else return R.drawable.moonx128;
+                else return R.drawable.ic_moon;
             case "02":
                 if(daytime == 'd'){
-                    return R.drawable.suncloudx128;
+                    return R.drawable.ic_suncloud;
                 }
-                else return R.drawable.mooncloudx128;
+                else return R.drawable.ic_mooncloud;
             case "03":
                 if(daytime == 'd'){
-                    return R.drawable.cloudx128;
+                    return R.drawable.ic_cloud;
                 }
-                else return R.drawable.cloudx128;
+                else return R.drawable.ic_cloud;
             case "04":
                 if(daytime == 'd'){
-                    return R.drawable.heavycloudx128;
+                    return R.drawable.ic_heavycloud;
                 }
-                else return R.drawable.heavycloudx128;
+                else return R.drawable.ic_heavycloud;
             case "09":
                 if(daytime == 'd'){
-                    return R.drawable.heavycloudrainx128;
+                    return R.drawable.ic_heavycloudrain;
                 }
-                else return R.drawable.heavycloudrainx128;
+                else return R.drawable.ic_heavycloudrain;
             case "10":
                 if(daytime == 'd'){
-                    return R.drawable.sunrainx128;
+                    return R.drawable.ic_sunrain;
                 }
-                else return R.drawable.moonrainx128;
+                else return R.drawable.ic_moonrain;
             case "11":
                 if(daytime == 'd'){
-                    return R.drawable.thunderx128;
+                    return R.drawable.ic_thunder;
                 }
-                else return R.drawable.thunderx128;
+                else return R.drawable.ic_thunder;
             case "13":
                 if(daytime == 'd'){
-                    return R.drawable.snowx128;
+                    return R.drawable.ic_snow;
                 }
-                else return R.drawable.snowx128;
+                else return R.drawable.ic_snow;
             case "50":
                 if(daytime == 'd'){
-                    return R.drawable.fogx128;
+                    return R.drawable.ic_fog;
                 }
-                else return R.drawable.fogx128;
+                else return R.drawable.ic_fog;
             default:
-                return R.drawable.sunx128;
+                return R.drawable.ic_sun;
         }
     }
 
@@ -611,32 +639,53 @@ class UserInterface {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     myClothingDay1.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 }
-                clothingText.setText("Nummer1");
+                if(dailyRain[day-1] > 5){
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
+                }
+                else
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
 
                 break;
             case 2:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     myClothingDay2.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 }
-                clothingText.setText("Nummer2");
+                if(dailyRain[day-1] > 5){
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2.\n Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
+                }
+                else
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2.\nDu wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
+
                 break;
             case 3:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     myClothingDay3.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 }
-                clothingText.setText("Nummer3");
+                if(dailyRain[day-1] > 5){
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
+                }
+                else
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
                 break;
             case 4:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     myClothingDay4.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 }
-                clothingText.setText("Nummer4");
+                if(dailyRain[day-1] > 5){
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
+                }
+                else
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
                 break;
             case 5:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     myClothingDay5.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
                 }
-                clothingText.setText("Nummer5");
+                if(dailyRain[day-1] > 5){
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
+                }
+                else
+                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
                 break;
         }
     }
