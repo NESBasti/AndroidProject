@@ -79,9 +79,17 @@ class UserInterface {
     private TextView sunrise;
     private TextView sunset;
 
+    private View myClothingDay1;
+    private View myClothingDay2;
+    private View myClothingDay3;
+    private View myClothingDay4;
+    private View myClothingDay5;
+
     //clothes
     private ArrayList<ImageView> clothesIcon;
     private ArrayList<TextView> clothesDay;
+
+    private TextView clothingText;
 
 
 
@@ -146,6 +154,13 @@ class UserInterface {
         hourlyWeather = new ArrayList<>();
         hourlyTemp = new ArrayList<>();
         hourlyRain = new ArrayList<>();
+
+        clothingText = this.mainActivity.findViewById(R.id.clothing_informations);
+        myClothingDay1 = this.mainActivity.findViewById(R.id.ClothingDay1);
+        myClothingDay2 = this.mainActivity.findViewById(R.id.ClothingDay2);
+        myClothingDay3 = this.mainActivity.findViewById(R.id.ClothingDay3);
+        myClothingDay4 = this.mainActivity.findViewById(R.id.ClothingDay4);
+        myClothingDay5 = this.mainActivity.findViewById(R.id.ClothingDay5);
 
         for(int i = 1; i <= 6; i++){
             String idName = "hourly" + i + "time";
@@ -299,12 +314,13 @@ class UserInterface {
         }
         lastRefresh.setText(new SimpleDateFormat("EEE HH:mm", Locale.GERMANY).format(new java.util.Date(lastUpdate)));
         temperature.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp())) + "°");
-        minMaxTemp.setText("↓" + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_min())) + "°/↑" + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "°");
+        minMaxTemp.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "° / " + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_min())) + "°");
         int windchillTemp = (int) Math.round(weatherCurrent.getMain().getTemp());
         if(Math.round(weatherCurrent.getMain().getTemp()) <= 10 && (weatherCurrent.getWind().getSpeed() * 3.6) >= 5) { //windchill is defined with temperatures of 10°C or lower and 5km/h wind speed or more
             windchillTemp = (int) ((13.12 + 0.6125 * weatherCurrent.getMain().getTemp()) + (0.3965 * weatherCurrent.getMain().getTemp() - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
         }
-        windchill.setText("Windchill " + windchillTemp + "°");
+        String TVwindchill = this.mainActivity.getResources().getString(R.string.TextViewWindchill);
+        windchill.setText(TVwindchill + " "+ windchillTemp + "°");
         currentIcon.setImageResource(iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
 
 
@@ -571,6 +587,56 @@ class UserInterface {
     /**
      * open daily-popup with animation
      */
+    void openClothing(int day)
+    {
+        setInvisibleClothing();
+
+        //Animation
+        myScrollView.smoothScrollTo(0, myContainerHourly.getHeight() + myContainerTemp.getHeight() + 180);
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.mainActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        TranslateAnimation animate = new TranslateAnimation(-width,0, 0, 0 );
+        animate.setDuration(300);
+        animate.setFillAfter(false);
+
+        clothingText.startAnimation(animate);
+        clothingText.setVisibility(View.VISIBLE);
+
+        switch (day){
+            case 1:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    myClothingDay1.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                }
+                clothingText.setText("Nummer1");
+
+                break;
+            case 2:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    myClothingDay2.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                }
+                clothingText.setText("Nummer2");
+                break;
+            case 3:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    myClothingDay3.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                }
+                clothingText.setText("Nummer3");
+                break;
+            case 4:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    myClothingDay4.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                }
+                clothingText.setText("Nummer4");
+                break;
+            case 5:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    myClothingDay5.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
+                }
+                clothingText.setText("Nummer5");
+                break;
+        }
+    }
     void openDaily(int day){
         setInvisible();
 
@@ -631,6 +697,14 @@ class UserInterface {
         }
     }
 
+    void setInvisibleClothing(){
+        clothingText.setVisibility(View.GONE);
+        myClothingDay1.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myClothingDay2.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myClothingDay3.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myClothingDay4.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myClothingDay5.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+    }
 
 }
 

@@ -45,7 +45,7 @@
                     android:background="@color/lightGray"/>
 
                 <include
-                    android:layout_marginBottom="40dp"
+                    android:layout_marginBottom="24dp"
                     android:id="@+id/container_temperature"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
@@ -62,10 +62,17 @@
                     layout="@layout/daily"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
+
+                <include
+                    android:layout_marginTop="32dp"
+                    android:id="@+id/container_whattowear"
+                    layout="@layout/whattowear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
                 <View
                     android:layout_marginBottom="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="32dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -76,14 +83,7 @@
                     layout="@layout/otherinformations"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
-
-                <include
-                    android:id="@+id/container_whattowear"
-                    layout="@layout/whattowear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp" />
-                </LinearLayout>
+            </LinearLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
     <LinearLayout
