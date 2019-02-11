@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,6 +18,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -36,7 +36,7 @@ public class settings extends AppCompatActivity  {
     private ImageButton backbutton2;
     private ImageButton backbutton3;
     private ImageButton backbutton4;
-    private ConstraintLayout mySettingsBackground;
+    private LinearLayout mySettingsBackground;
     private Switch switchUnits;
 
     //Language
@@ -47,6 +47,8 @@ public class settings extends AppCompatActivity  {
     private TextView textViewContact;
 
     //Cities
+    private TextView cities;
+    private TextView textViewLocation;
     private TextView textViewCities;
     private TextView city1;
     private TextView city2;
@@ -62,10 +64,15 @@ public class settings extends AppCompatActivity  {
 
     private int cityCounter;
 
+    private ImageView myArrowDownView;
+    private ImageView myArrowUpView;
+
     private EditText MyAddCity;
     private TextView MyAddCityButton;
 
+    private LinearLayout myLinLayCities;
 
+    private View MyViewAddCity;
 
     //Vibration
     private Vibrator myVib;
@@ -99,6 +106,8 @@ public class settings extends AppCompatActivity  {
         backbutton4 = findViewById(R.id.backgroundselection4);
         mySettingsBackground = findViewById(R.id.MySettingsBackground);
         switchUnits = findViewById(R.id.switch_einheit);
+        myLinLayCities = findViewById(R.id.MyLinLayCities);
+        MyAddCity = findViewById(R.id.addCity);
 
         mLocationList = loadArray("myCitynames");
 
@@ -109,12 +118,15 @@ public class settings extends AppCompatActivity  {
         }
 
         textViewCities = findViewById(R.id.MyTextViewCities);
+        myArrowUpView = findViewById(R.id.myArrowUp);
+        myArrowDownView = findViewById(R.id.myArrowDown);
 
         //Language
         textViewSettings = findViewById(R.id.MySettingsTag);
         textViewUnit = findViewById(R.id.MyTextViewUnit);
         textViewBackground = findViewById(R.id.MyTextViewBackground);
         textViewContact = findViewById(R.id.MyTextViewContact);
+        textViewLocation = findViewById(R.id.MyLocation);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor editor = preferences.edit();
@@ -131,6 +143,16 @@ public class settings extends AppCompatActivity  {
 
         String TVContact = getResources().getString(R.string.TextViewContact);
         textViewContact.setText(TVContact);
+
+        String TVCities = getResources().getString(R.string.TextViewCities);
+        textViewCities.setText(TVCities);
+
+        String TVLocation = getResources().getString(R.string.TextViewLocation);
+        textViewLocation.setText(TVLocation);
+
+        String TVAddCity = getResources().getString(R.string.TextViewAddCity);
+        MyAddCity.setHintTextColor(getResources().getColor(R.color.Gray));
+        MyAddCity.setHint(TVAddCity);
 
         String backgroundcolor = preferences.getString("Background", "0");
         if (backgroundcolor != null) {
@@ -230,7 +252,7 @@ public class settings extends AppCompatActivity  {
         editor.putString("Background","1");
         editor.apply();
         Toast.makeText(this, "Hintergrund erfolgreich geändert", Toast.LENGTH_SHORT).show();
-        recreate();
+        mySettingsBackground.setBackgroundResource(R.drawable.background_image);
     }
     public void setBackground2(View view) {
         myVib.vibrate(50);
@@ -245,7 +267,7 @@ public class settings extends AppCompatActivity  {
         editor.putString("Background","2");
         editor.apply();
         Toast.makeText(this, "Hintergrund erfolgreich geändert", Toast.LENGTH_SHORT).show();
-        recreate();
+        mySettingsBackground.setBackgroundResource(R.drawable.background_image1);
     }
     public void setBackground3(View view) {
         myVib.vibrate(50);
@@ -260,7 +282,7 @@ public class settings extends AppCompatActivity  {
         editor.putString("Background","3");
         editor.apply();
         Toast.makeText(this, "Hintergrund erfolgreich geändert", Toast.LENGTH_SHORT).show();
-        recreate();
+        mySettingsBackground.setBackgroundResource(R.drawable.background_image2);
     }
     public void setBackground4(View view) {
         myVib.vibrate(50);
@@ -275,7 +297,7 @@ public class settings extends AppCompatActivity  {
         editor.putString("Background","4");
         editor.apply();
         Toast.makeText(this, "Hintergrund erfolgreich geändert", Toast.LENGTH_SHORT).show();
-        recreate();
+        mySettingsBackground.setBackgroundResource(R.drawable.background_image3);
     }
 
 
@@ -302,7 +324,6 @@ public class settings extends AppCompatActivity  {
         cityCounter = preferences.getInt("CityCount", 0);
         cityCounter++;
         mLocationList = loadArray("myCitynames");
-        MyAddCity = findViewById(R.id.addCity);
         try {
             List<Address> address = geocoder.getFromLocationName(MyAddCity.getText().toString(), 5);
             if (!address.isEmpty()) {
@@ -373,16 +394,14 @@ public class settings extends AppCompatActivity  {
             linearLayout = findViewById(R.id.container_cities);
 
             if(linearLayout.getVisibility() == View.VISIBLE) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    textViewCities.setBackgroundColor(this.getResources().getColor(android.R.color.transparent));
-                }
+                myArrowDownView.setVisibility(View.VISIBLE);
+                myArrowUpView.setVisibility(View.GONE);
                 linearLayout.setVisibility(View.GONE);
 
             }
             else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    textViewCities.setBackground(this.getDrawable(R.drawable.topcorners_rounded));
-                }
+                myArrowDownView.setVisibility(View.GONE);
+                myArrowUpView.setVisibility(View.VISIBLE);
                 linearLayout.setVisibility(View.VISIBLE);
             }
 
@@ -391,7 +410,6 @@ public class settings extends AppCompatActivity  {
             myCity3delete = findViewById(R.id.MyCityDelete3);
             myCity4delete = findViewById(R.id.MyCityDelete4);
             myCity5delete = findViewById(R.id.MyCityDelete5);
-            MyAddCity = findViewById(R.id.addCity);
             MyAddCityButton = findViewById(R.id.addCityButton);
             mLocationList = loadArray("myCitynames");
 
@@ -436,8 +454,6 @@ public class settings extends AppCompatActivity  {
                             city5.setText(mLocationList[i]);
                             MyAddCityButton.setVisibility(View.GONE);
                             MyAddCity.setVisibility(View.GONE);
-
-
                             break;
                         default:
                             break;
