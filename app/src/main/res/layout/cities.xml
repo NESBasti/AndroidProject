@@ -6,15 +6,28 @@
     android:orientation="vertical"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/MyLocation"
-        style="@style/WhiteText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="Aktueller Standort"
-        tools:text="@string/TextViewCities" />
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
+        <ImageView
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_width="24dp"
+            android:src="@drawable/gps"
+            android:layout_marginRight="8dp"/>
+        <TextView
+            android:id="@+id/MyLocation"
+            style="@style/WhiteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Aktueller Standort"
+            tools:text="@string/TextViewCities" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,8 +44,9 @@
             android:layout_height="wrap_content"
             android:text="TextView" />
         <ImageView
+            android:layout_height="16dp"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_weight="3"
             android:onClick="CityDelete1"
             android:src="@drawable/delete" />
@@ -54,7 +68,8 @@
             android:text="TextView" />
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
             android:layout_weight="3"
             android:onClick="CityDelete2"
             android:src="@drawable/delete" />
@@ -76,8 +91,9 @@
             android:layout_height="wrap_content"
             android:text="TextView" />
         <ImageView
+            android:layout_height="16dp"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_weight="3"
             android:onClick="CityDelete3"
             android:src="@drawable/delete" />
@@ -98,8 +114,9 @@
         android:layout_height="wrap_content"
         android:text="TextView" />
     <ImageView
+        android:layout_height="16dp"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_weight="3"
         android:onClick="CityDelete4"
         android:src="@drawable/delete" />
@@ -120,8 +137,9 @@
             android:layout_height="wrap_content"
             android:text="TextView" />
         <ImageView
+            android:layout_height="16dp"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_weight="3"
             android:onClick="CityDelete5"
             android:src="@drawable/delete" />
@@ -145,6 +163,7 @@
             android:layout_weight="2"
             android:textAlignment="center"
             android:textSize="20dp"
+            android:layout_marginLeft="8dp"
             android:id="@+id/addCityButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

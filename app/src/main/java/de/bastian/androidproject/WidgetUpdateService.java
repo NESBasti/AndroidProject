@@ -1,11 +1,16 @@
 package de.bastian.androidproject;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import java.text.SimpleDateFormat;
@@ -49,13 +54,57 @@ public class WidgetUpdateService extends Service {
 
     @Override
     public void onCreate() {
-        startForeground(1, new Notification());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String NOTIFICATION_CHANNEL_ID = "de.bastian.androidproject";
+            String channelName = "My background service";
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            assert manager != null;
+            manager.createNotificationChannel(channel);
+
+            Notification.Builder builder = new Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
+                    .setContentTitle("APPNAME")
+                    .setContentText("foreground service")
+                    .setAutoCancel(true);
+
+            Notification notification = builder.build();
+            startForeground(1, notification);
+
+        } else {
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                    .setContentTitle("APPNAME")
+                    .setContentText("foreground service")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setAutoCancel(true);
+
+            Notification notification = builder.build();
+
+            startForeground(1, notification);
+        }
         super.onCreate();
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
+    private void createNotificationChannel() {
+// Create the NotificationChannel, but only on API 26+ because
+// the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Test";
+            String description = "Hallo";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("1", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }}
 }
+

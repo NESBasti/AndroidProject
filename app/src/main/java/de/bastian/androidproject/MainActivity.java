@@ -27,6 +27,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,6 +92,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView sunsetText;
     private TextView todayText;
     private TextView whattowearText;
+
+    //Selected City
+    private ImageView cityShow1;
+    private ImageView cityShow2;
+    private ImageView cityShow3;
+    private ImageView cityShow4;
+    private ImageView cityShow5;
+    private ImageView cityShow6;
+
+    private ImageView myGPS;
 
 
     private int cityCounter;
@@ -182,7 +193,43 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 getResources().getColor(android.R.color.holo_red_light)
         );
 
+        //Selected City
+        cityShow1 = findViewById(R.id.MyCityShow1);
+        cityShow2 = findViewById(R.id.MyCityShow2);
+        cityShow3 = findViewById(R.id.MyCityShow3);
+        cityShow4 = findViewById(R.id.MyCityShow4);
+        cityShow5 = findViewById(R.id.MyCityShow5);
+        cityShow6 = findViewById(R.id.MyCityShow6);
 
+        myGPS = findViewById(R.id.MyGPS);
+
+
+        if(cityCounter > 0) {
+            for (int i = 0; i <= cityCounter; i++) {
+                switch (i) {
+                    case 0:
+                        cityShow1.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        cityShow2.setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        cityShow3.setVisibility(View.VISIBLE);
+                        break;
+                    case 3:
+                        cityShow4.setVisibility(View.VISIBLE);
+                        break;
+                    case 4:
+                        cityShow5.setVisibility(View.VISIBLE);
+                        break;
+                    case 5:
+                        cityShow6.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         //TODO in ui
         linearLayoutBackground = findViewById(R.id.background);
 
@@ -235,6 +282,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     currentCity--;
                     if (currentCity < 0)
                         currentCity = cityCounter;
+
+                    updateSelectedCity(currentCity);
                     ui.setLastUpdate(0L);
                     getJSON(locationCities[currentCity]);
                     ui.updateInterface();
@@ -246,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     currentCity++;
                     if (currentCity > cityCounter)
                         currentCity = 0;
+                    updateSelectedCity(currentCity);
                     ui.setLastUpdate(0L);
                     getJSON(locationCities[currentCity]);
                     ui.updateInterface();
@@ -675,5 +725,40 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
     public void MyClothingOpening5(View view) {
         ui.openClothing(5);
+    }
+
+    public void updateSelectedCity(int showedCity)
+    {
+        cityShow1.setImageResource(R.drawable.unselectedcity);
+        cityShow2.setImageResource(R.drawable.unselectedcity);
+        cityShow3.setImageResource(R.drawable.unselectedcity);
+        cityShow4.setImageResource(R.drawable.unselectedcity);
+        cityShow5.setImageResource(R.drawable.unselectedcity);
+        cityShow6.setImageResource(R.drawable.unselectedcity);
+        myGPS.setVisibility(View.INVISIBLE);
+        switch(showedCity)
+        {
+            case 0:
+                myGPS.setVisibility(View.VISIBLE);
+                cityShow1.setImageResource(R.drawable.selectedcity);
+                break;
+            case 1:
+                cityShow2.setImageResource(R.drawable.selectedcity);
+                break;
+            case 2:
+                cityShow3.setImageResource(R.drawable.selectedcity);
+                break;
+            case 3:
+                cityShow4.setImageResource(R.drawable.selectedcity);
+                break;
+            case 4:
+                cityShow5.setImageResource(R.drawable.selectedcity);
+                break;
+            case 5:
+                cityShow6.setImageResource(R.drawable.selectedcity);
+                break;
+                default:
+                    break;
+        }
     }
 }
