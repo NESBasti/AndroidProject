@@ -105,8 +105,7 @@
             <ImageView
                 android:id="@+id/hourly2weather"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:src="@drawable/heavycloudrain" />
+                android:layout_height="32dp"/>
             <TextView
                 android:id="@+id/hourly2temp"
                 android:layout_width="match_parent"
@@ -122,8 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_weight="2"
-                    android:src="@drawable/raindrop" />
+                    android:layout_weight="2"/>
                 <TextView
                     android:id="@+id/hourly2rain"
                     android:layout_width="match_parent"
@@ -155,8 +153,7 @@
             <ImageView
                 android:id="@+id/hourly3weather"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:src="@drawable/heavycloudrain" />
+                android:layout_height="32dp"/>
             <TextView
                 android:id="@+id/hourly3temp"
                 android:layout_width="match_parent"
@@ -205,8 +202,7 @@
             <ImageView
                 android:id="@+id/hourly4weather"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:src="@drawable/heavycloudrain" />
+                android:layout_height="32dp"/>
             <TextView
                 android:id="@+id/hourly4temp"
                 android:layout_width="match_parent"
@@ -255,8 +251,7 @@
             <ImageView
                 android:id="@+id/hourly5weather"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:src="@drawable/heavycloudrain" />
+                android:layout_height="32dp"/>
             <TextView
                 android:id="@+id/hourly5temp"
                 android:layout_width="match_parent"
@@ -306,8 +301,7 @@
             <ImageView
                 android:id="@+id/hourly6weather"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:src="@drawable/heavycloudrain" />
+                android:layout_height="32dp"/>
             <TextView
                 android:id="@+id/hourly6temp"
                 android:layout_width="match_parent"
