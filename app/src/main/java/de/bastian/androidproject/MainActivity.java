@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView cloudynessText;
     private TextView sunriseText;
     private TextView sunsetText;
+    private TextView todayText;
+    private TextView whattowearText;
 
 
     private int cityCounter;
@@ -188,6 +190,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         cloudynessText = findViewById(R.id.MyCloudinessText);
         sunriseText = findViewById(R.id.MySunriseText);
         sunsetText = findViewById(R.id.MySunsetText);
+        todayText = findViewById(R.id.MyToday);
+        whattowearText = findViewById(R.id.MyWhatToWear);
 
         //Language
         String TVDaily = getResources().getString(R.string.TextViewDaily);
@@ -214,6 +218,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         String TVsunset = getResources().getString(R.string.TextViewSunset);
         sunsetText.setText(TVsunset);
 
+        String TVtoday = getResources().getString(R.string.TextViewToday);
+        todayText.setText(TVtoday);
+
+        String TVwhattowear = getResources().getString(R.string.TextViewWhatToWear);
+        whattowearText.setText(TVwhattowear);
+
 
 
 
@@ -231,7 +241,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     aktuelleStadt = cityCounter;
                 ui.setLastUpdate(0L);
                 getJSON(locationCities[aktuelleStadt]);
-                ui.updateInterface();
 
 
             }
@@ -241,7 +250,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     aktuelleStadt = 0;
                 ui.setLastUpdate(0L);
                 getJSON(locationCities[aktuelleStadt]);
-                ui.updateInterface();
 
 
             }
@@ -592,7 +600,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //Tag 4 weitere Infos
     public void MyDailyOpening4(View view) {
         ui.openDaily(4);
-
     }
 
     //Tag 5 weitere Infos
@@ -603,6 +610,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void MyDailyClosing(View view)
     {
         ui.setInvisible();
+        ui.setInvisibleClothing();
     }
 
 
@@ -616,4 +624,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
+    public void MyClothingOpening1(View view) {
+        ui.openClothing(1);
+    }
+    public void MyClothingOpening2(View view) {
+        ui.openClothing(2);
+    }
+    public void MyClothingOpening3(View view) {
+        ui.openClothing(3);
+    }
+    public void MyClothingOpening4(View view) {
+        ui.openClothing(4);
+    }
+    public void MyClothingOpening5(View view) {
+        ui.openClothing(5);
+    }
 }

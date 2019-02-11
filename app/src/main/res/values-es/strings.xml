@@ -13,6 +13,10 @@
     <string name="TextViewSunrise">Amanecer</string>
     <string name="TextViewCloudyness">Abundancia de nubes</string>
     <string name="TextViewSunset">Puesta de sol</string>
-    <string name="TextViewClothes">QUE ME PONGO</string>
     <string name="TextViewToday">Hoy</string>
+    <string name="TextViewWhatToWear">¿QUE DEBERIA VESTIR?</string>
+    <string name="TextViewWindchill">Escalofríos</string>
+    <string name="TextViewCities">Ciudades</string>
+    <string name="TextViewLocation">Ubicación Actual</string>
+    <string name="TextViewAddCity">Agregar Ciudad</string>
 </resources>
