@@ -25,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class settings extends AppCompatActivity  {
@@ -79,17 +78,6 @@ public class settings extends AppCompatActivity  {
 
     //Cities
     private String[] mLocationList;
-
-
-    //Hardware Backbutton
-    @Override
-    public void onBackPressed() {
-        Intent i = new Intent(settings.this, MainActivity.class);
-        startActivity(i);
-        finish();
-        return;
-    }
-
 
 
     @Override
@@ -223,18 +211,20 @@ public class settings extends AppCompatActivity  {
 
     }
 
-
-
-
+    //Hardware Backbutton
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(settings.this, MainActivity.class);
+        startActivity(i);
+        finish();
+        return;
+    }
 
     public void MySettingsBackToMain(View view) {
         Intent i = new Intent(settings.this, MainActivity.class);
         startActivity(i);
         finish();
     }
-
-
-
 
     public void setBackground1(View view) {
         myVib.vibrate(50);
@@ -376,10 +366,7 @@ public class settings extends AppCompatActivity  {
         mLocationList = loadArray("myCitynames");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         cityCounter = preferences.getInt("CityCount", 0);
-        for(int i = cityNumber; i < cityCounter; i++)
-        {
-            mLocationList[i] = mLocationList[i + 1];
-        }
+        System.arraycopy(mLocationList, cityNumber + 1, mLocationList, cityNumber, cityCounter - cityNumber);
         mLocationList[cityCounter] = null;
         cityCounter--;
         saveArray(mLocationList, "myCitynames");

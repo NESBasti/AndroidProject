@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -32,7 +34,6 @@ public class WidgetUpdateJSON extends Thread {
         this.location = location;
         widgetData = context.getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
     }
 
     public void run() {
@@ -53,12 +54,22 @@ public class WidgetUpdateJSON extends Thread {
                 public void onResponse(@NonNull Call<WeatherCurrent> call, @NonNull Response<WeatherCurrent> response) {
                     weatherCurrent = response.body();
                     SharedPreferences.Editor edit = widgetData.edit();
+
                     if (weatherCurrent != null) {
                         edit.putInt("TEMPERATURE", ((int) Math.round(weatherCurrent.getMain().getTemp())));
-                        edit.putFloat("LATITUDE", (float) weatherCurrent.getCoord().getLat());
-                        edit.putFloat("LONGITUDE", (float) weatherCurrent.getCoord().getLon());
                         edit.putLong("LAST_UPDATE", System.currentTimeMillis());
-                        edit.putString("LOCATION", weatherCurrent.getName());
+
+                        Geocoder geocoder = new Geocoder(context);
+                        String cityName;
+                        try {
+                            Address address = geocoder.getFromLocation(weatherCurrent.getCoord().getLat(), weatherCurrent.getCoord().getLon(), 1).get(0);
+                            cityName = address.getLocality();
+
+                        } catch (Exception e) {
+                            cityName = weatherCurrent.getName();
+                        }
+
+                        edit.putString("LOCATION", cityName);
                         edit.putInt("ICON", iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
                         edit.apply();
                     }
