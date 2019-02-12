@@ -1,11 +1,13 @@
 package de.bastian.androidproject;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -31,7 +33,7 @@ import java.util.Locale;
 
 class UserInterface {
     private Activity mainActivity;
-
+    private SharedPreferences mPrefs;
 
     private static WeatherCurrent weatherCurrent;
     private static WeatherForecast weatherForecast;
@@ -127,13 +129,14 @@ class UserInterface {
         UserInterface.location = location;
     }
 
-    public TextView getCityName() {
+    TextView getCityName() {
         return cityName;
     }
     //endregion
 
     UserInterface(Activity mainActivity) {
         this.mainActivity = mainActivity;
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(mainActivity);
 
         dateFormatTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
         dateFormatDate = new SimpleDateFormat("EEE", Locale.getDefault());
@@ -381,7 +384,7 @@ class UserInterface {
                 precipitation += k.getSnow().getSnow();
             }
 
-            hourlyRain.get(count).setText(String.format("%.2f l", precipitation));
+            hourlyRain.get(count).setText(String.format(Locale.getDefault(),"%.2f l", precipitation));
             precipitation = 0;
 
             series.appendData(new DataPoint(count, currentTemp), true, 6);
@@ -459,39 +462,41 @@ class UserInterface {
 
         for(int i = 0; i < dailyTemp.size(); i++){
             dailyTemp.get(i).setText(maxTemp.get(i) + "°\n" + minTemp.get(i) + "°");
-            if(minTemp.get(i) < 5){
-                if(dailyRain[i] > 5){
-                    clothesIcon.get(i).setImageResource(R.drawable.ic_coat_umbrella);
-                }else
-                    clothesIcon.get(i).setImageResource(R.drawable.ic_coat);
+            try {
+                if (minTemp.get(i) < 5 && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 41 && mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                    if (dailyRain[i] > 5) {
+                        clothesIcon.get(i).setImageResource(R.drawable.ic_coat_umbrella);
+                    } else
+                        clothesIcon.get(i).setImageResource(R.drawable.ic_coat);
+                } else if (minTemp.get(i) < 13 && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 55 && mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                    if (dailyRain[i] > 5) {
+                        clothesIcon.get(i).setImageResource(R.drawable.ic_jacket_umbrella);
+                    } else
+                        clothesIcon.get(i).setImageResource(R.drawable.ic_jacket);
+                } else if (minTemp.get(i) < 20 && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 68 && mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                    if (dailyRain[i] > 5) {
+                        clothesIcon.get(i).setImageResource(R.drawable.ic_hoodie_umbrella);
+                    } else
+                        clothesIcon.get(i).setImageResource(R.drawable.ic_hoodie);
+                } else {
+                    if (dailyRain[i] > 5) {
+                        clothesIcon.get(i).setImageResource(R.drawable.ic_tshirt_umbrella);
+                    } else
+                        clothesIcon.get(i).setImageResource(R.drawable.ic_tshirt);
+                }
             }
-            else if(minTemp.get(i) < 13){
-                if(dailyRain[i] > 5){
-                    clothesIcon.get(i).setImageResource(R.drawable.ic_jacket_umbrella);
-                }else
-                    clothesIcon.get(i).setImageResource(R.drawable.ic_jacket);
-            }
-            else if(minTemp.get(i) < 20){
-                if(dailyRain[i] > 5){
-                    clothesIcon.get(i).setImageResource(R.drawable.ic_hoodie_umbrella);
-                }else
-                    clothesIcon.get(i).setImageResource(R.drawable.ic_hoodie);
-            }
-            else{
-                if(dailyRain[i] > 5){
-                    clothesIcon.get(i).setImageResource(R.drawable.ic_tshirt_umbrella);
-                }else
-                    clothesIcon.get(i).setImageResource(R.drawable.ic_tshirt);
+            catch (NullPointerException e){
+                break;
             }
         }
 
         //update other weather information
         Date sunriseTime = new Date(weatherCurrent.getSys().getSunrise()*1000L);
         Date sunsetTime = new Date(weatherCurrent.getSys().getSunset()*1000L);
-        pressure.setText(weatherCurrent.getMain().getPressure() + " hPa");
-        humidity.setText(weatherCurrent.getMain().getHumidity() + " %");
-        windSpeed.setText(weatherCurrent.getWind().getSpeed() + " m/s");
-        cloudiness.setText(weatherCurrent.getClouds().getAll() + " %");
+        pressure.setText(String.format(Locale.getDefault(), "%.1f hPa", weatherCurrent.getMain().getPressure()));
+        humidity.setText(String.format(Locale.getDefault(), "%.1f %%", weatherCurrent.getMain().getHumidity()));
+        windSpeed.setText(String.format(Locale.getDefault(), "%.1f m/s", weatherCurrent.getWind().getSpeed()));
+        cloudiness.setText(String.format(Locale.getDefault(), "%d %%", weatherCurrent.getClouds().getAll()));
         this.sunrise.setText(dateFormatTime.format(sunriseTime));
         sunset.setText(dateFormatTime.format(sunsetTime));
 
@@ -526,7 +531,7 @@ class UserInterface {
                     currentDay.get(Calendar.YEAR) == elementDay.get(Calendar.YEAR)){
 
                 dailyPopupText.get(0).get(0).get(indexHourToday).setText(dateFormatTime.format(new Date(k.getDt() * 1000L)));
-                dailyPopupText.get(0).get(1).get(indexHourToday).setText(Math.round(k.getMain().getTemp()) + "°");
+                dailyPopupText.get(0).get(1).get(indexHourToday).setText(String.format(Locale.getDefault(), "%d°", Math.round(k.getMain().getTemp())));
                 dailyPopupIcon.get(0).get(indexHourToday).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
 
                 LinearLayout parent = (LinearLayout) dailyPopupText.get(0).get(0).get(indexHourToday).getParent();

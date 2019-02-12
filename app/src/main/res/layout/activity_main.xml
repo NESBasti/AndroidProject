@@ -112,8 +112,8 @@
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/refreshx128" />
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_refresh" />
                 <TextView
                     android:textSize="14dp"
                     style="@style/WhiteText"
@@ -121,8 +121,7 @@
                     android:id="@+id/MyLastRefresh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="Last Refresh: 10:00Uhr" />
+                    android:textAlignment="center"/>
             </LinearLayout>
 
     </LinearLayout>
