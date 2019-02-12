@@ -92,6 +92,7 @@ class UserInterface {
     private ArrayList<ImageView> clothesIcon;
     private ArrayList<TextView> clothesDay;
     private TextView clothingText;
+    private LinearLayout clothingLayout;
 
 
 
@@ -164,6 +165,7 @@ class UserInterface {
         myClothingDay3 = this.mainActivity.findViewById(R.id.ClothingDay3);
         myClothingDay4 = this.mainActivity.findViewById(R.id.ClothingDay4);
         myClothingDay5 = this.mainActivity.findViewById(R.id.ClothingDay5);
+        clothingLayout = this.mainActivity.findViewById(R.id.ClothingLayout);
 
 
 
@@ -628,7 +630,7 @@ class UserInterface {
         setInvisibleClothing();
 
         //Animation
-        myScrollView.smoothScrollTo(0, myContainerHourly.getHeight() + myContainerTemp.getHeight() + 180);
+        myScrollView.smoothScrollTo(0, myContainerHourly.getHeight() + myContainerTemp.getHeight() + 400);
         DisplayMetrics metrics = new DisplayMetrics();
         this.mainActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
@@ -636,61 +638,34 @@ class UserInterface {
         animate.setDuration(300);
         animate.setFillAfter(false);
 
-        clothingText.startAnimation(animate);
-        clothingText.setVisibility(View.VISIBLE);
+        clothingLayout.startAnimation(animate);
+        clothingLayout.setVisibility(View.VISIBLE);
+
+        if(dailyRain[day-1] > 5)
+            clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m². Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day - 1]));
+        else
+            clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m². Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
 
         switch (day){
             case 1:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     myClothingDay1.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
-                }
-                if(dailyRain[day-1] > 5){
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
-                }
-                else
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
-
                 break;
             case 2:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     myClothingDay2.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
-                }
-                if(dailyRain[day-1] > 5){
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2.\n Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
-                }
-                else
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2.\nDu wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
-
                 break;
             case 3:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     myClothingDay3.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
-                }
-                if(dailyRain[day-1] > 5){
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
-                }
-                else
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
                 break;
             case 4:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     myClothingDay4.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
-                }
-                if(dailyRain[day-1] > 5){
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
-                }
-                else
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
                 break;
             case 5:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     myClothingDay5.setBackground(this.mainActivity.getDrawable(R.drawable.topcorners_rounded));
-                }
-                if(dailyRain[day-1] > 5){
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day-1]));
-                }
-                else
-                    clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m^2. Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
                 break;
         }
     }
@@ -755,7 +730,7 @@ class UserInterface {
     }
 
     void setInvisibleClothing(){
-        clothingText.setVisibility(View.GONE);
+        clothingLayout.setVisibility(View.GONE);
         myClothingDay1.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
         myClothingDay2.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
         myClothingDay3.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
