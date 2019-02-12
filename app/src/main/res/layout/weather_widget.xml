@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
             <ImageView
+                android:id="@+id/widgetLastUpdateIcon"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_marginTop="2dp"

@@ -22,14 +22,6 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider {
         SharedPreferences widgetData = context.getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
         uniqueId = (int) System.currentTimeMillis();
 
-        /*if ((System.currentTimeMillis() > lastUpdate + updateFrequency)) {
-            lastUpdate = System.currentTimeMillis();
-            Location location = new Location("widget");
-            location.setLatitude(widgetData.getFloat("LATITUDE", 0));
-            location.setLongitude(widgetData.getFloat("LONGITUDE", 0));
-            WidgetUpdateJSON widgetUpdateJSON = new WidgetUpdateJSON(context, location);
-            widgetUpdateJSON.run();
-        }*/
         for (int appWidgetId : appWidgetIds) {
             Intent serviceIntent = new Intent(context, WidgetUpdateService.class);
 
@@ -59,10 +51,15 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider {
             PendingIntent nextCityPI;
             nextCityPI = PendingIntent.getBroadcast(context, appWidgetId, nextCityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
+            Intent openApp = new Intent(context, MainActivity.class);
+            PendingIntent openAppPI = PendingIntent.getActivity(context, 0, openApp, PendingIntent.FLAG_UPDATE_CURRENT);
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_widget);
-            views.setOnClickPendingIntent(R.id.widget, jsonPI);
+            views.setOnClickPendingIntent(R.id.widgetLastUpdate, jsonPI);
+            views.setOnClickPendingIntent(R.id.widgetLastUpdateIcon, jsonPI);
+            views.setOnClickPendingIntent(R.id.widgetTemp, openAppPI);
+            views.setOnClickPendingIntent(R.id.widgetIcon, openAppPI);
+            views.setOnClickPendingIntent(R.id.widgetLocation, openAppPI);
             views.setOnClickPendingIntent(R.id.MyNextCityButton, nextCityPI);
 
             //views.setTextViewText(R.id.widgetTemp, "" + widgetData.getInt("TEMPERATURE", 0));
@@ -109,6 +106,10 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider {
                     case 4:
                         location.setLatitude(widgetData.getFloat("LATITUDE5", 0));
                         location.setLongitude(widgetData.getFloat("LONGITUDE5", 0));
+                        break;
+                    case 5:
+                        location.setLatitude(widgetData.getFloat("LATITUDE6", 0));
+                        location.setLongitude(widgetData.getFloat("LONGITUDE6", 0));
                         break;
                     default:
                         location.setLatitude(widgetData.getFloat("LATITUDE", 0));

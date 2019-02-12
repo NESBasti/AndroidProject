@@ -369,6 +369,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             edit.putFloat("LONGITUDE4", (float)locationCities[3].getLongitude());
             edit.putFloat("LATITUDE5", (float)locationCities[4].getLatitude());
             edit.putFloat("LONGITUDE5", (float)locationCities[4].getLongitude());
+            edit.putFloat("LATITUDE6", (float)locationCities[5].getLatitude());
+            edit.putFloat("LONGITUDE6", (float)locationCities[5].getLongitude());
             edit.putInt("ICON", iconToResource(ui.getWeatherCurrent().getWeather().get(0).getIcon()));
             edit.apply();
         }
@@ -655,6 +657,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Long prefsUpdate = mPrefs.getLong("lastUpdate", 0);
         ui.setLastUpdate(prefsUpdate);
         currentCity = mPrefs.getInt("currentCity", 0);
+        updateSelectedCity(currentCity);
         ui.updateInterface();
     }
     //endregion

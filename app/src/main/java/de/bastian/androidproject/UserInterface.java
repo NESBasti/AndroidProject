@@ -306,7 +306,7 @@ class UserInterface {
         if(location != null) {
             try {
                 address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 5);
-                if (address.isEmpty()) {
+                if (address.isEmpty() || address.get(0).getLocality() == null) {
                     cityName.setText(weatherCurrent.getName());
                 } else {
                     cityName.setText(address.get(0).getLocality());
@@ -320,15 +320,17 @@ class UserInterface {
             cityName.setText(weatherCurrent.getName());
         }
 
-        lastRefresh.setText(new SimpleDateFormat("EEE HH:mm", Locale.GERMANY).format(new java.util.Date(lastUpdate)));
+        lastRefresh.setText(dateFormatTime.format(lastUpdate));
         temperature.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp())) + "°");
         minMaxTemp.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "° / " + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_min())) + "°");
+
         int windchillTemp = (int) Math.round(weatherCurrent.getMain().getTemp());
         if(Math.round(weatherCurrent.getMain().getTemp()) <= 10 && (weatherCurrent.getWind().getSpeed() * 3.6) >= 5) { //windchill is defined with temperatures of 10°C or lower and 5km/h wind speed or more
             windchillTemp = (int) ((13.12 + 0.6125 * weatherCurrent.getMain().getTemp()) + (0.3965 * weatherCurrent.getMain().getTemp() - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
         }
         String TVwindchill = this.mainActivity.getResources().getString(R.string.TextViewWindchill);
         windchill.setText(TVwindchill + " "+ windchillTemp + "°");
+
         currentIcon.setImageResource(iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
 
 

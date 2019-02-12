@@ -318,8 +318,10 @@ public class settings extends AppCompatActivity  {
             List<Address> address = geocoder.getFromLocationName(MyAddCity.getText().toString(), 5);
             if (!address.isEmpty()) {
                 if (address.get(0).getLatitude() != 0.0) {
-                    String content = MyAddCity.getText().toString(); //gets you the contents of edit text
-                    mLocationList[cityCounter] = address.get(0).getFeatureName();
+                    if(address.get(0).getLocality() != null){
+                        mLocationList[cityCounter] = address.get(0).getLocality();
+                    }else
+                        mLocationList[cityCounter] = address.get(0).getFeatureName();
                     saveArray(mLocationList, "myCitynames");
 
                     SharedPreferences.Editor editor = preferences.edit();
