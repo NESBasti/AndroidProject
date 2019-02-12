@@ -671,17 +671,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ui.openDaily(1);
     }
 
-
     //Tag 2 weitere Infos
     public void MyDailyOpening2(View view) {
         ui.openDaily(2);
-
     }
 
     //Tag 3 weitere Infos
     public void MyDailyOpening3(View view) {
         ui.openDaily(3);
-
     }
 
     //Tag 4 weitere Infos
@@ -699,7 +696,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ui.setInvisible();
         ui.setInvisibleClothing();
     }
-
 
     public String[] loadArray(String arrayName) {
         SharedPreferences prefs = getSharedPreferences("sharedLocations", MODE_PRIVATE);

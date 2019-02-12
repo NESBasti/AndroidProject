@@ -28,7 +28,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_marginTop="2dp"
-                android:src="@drawable/refreshx128" />
+                android:src="@drawable/ic_refresh" />
             <TextView
                 android:id="@+id/widgetLastUpdate"
                 style="@style/WhiteText"
