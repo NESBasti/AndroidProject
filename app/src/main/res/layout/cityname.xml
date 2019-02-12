@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
         <ImageView
-            android:visibility="gone"
+            android:visibility="invisible"
             android:id="@+id/MyCityShow1"
             android:src="@drawable/selectedcity"
             android:layout_width="12dp"

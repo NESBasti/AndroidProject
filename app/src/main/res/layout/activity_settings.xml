@@ -178,8 +178,8 @@
                 android:onClick="MyCities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="128dp"
-                android:layout_marginLeft="128dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginLeft="100dp"
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
                 <TextView
