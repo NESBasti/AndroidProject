@@ -35,7 +35,7 @@
                 style="@style/WhiteText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="last update"
+                android:text="12:00"
                 android:textSize="12dp" />
         </LinearLayout>
     </LinearLayout>

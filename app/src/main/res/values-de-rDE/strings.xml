@@ -22,4 +22,13 @@
     <string name="TextViewNoRain">Die Regenmenge beträgt etwa %.1f l/m². Du wirst wohl keinen Regenschirm brauchen.</string>
     <string name="TextViewRain">Die Regenmenge beträgt etwa %.1f l/m². Wir empfehlen dir einen Regenschirm mitzunehmen.</string>
     <string name="TextViewAdd">Hinzufügen</string>
+    <string name="ToastCityNotFound">Stadt konnte nicht gefunden werden</string>
+    <string name="ToastNoNetworkConnection">Keine Netzwerkverbindung</string>
+    <string name="ToastGooglePlayServices">Sie müssen Google Play Dienste installieren, um diese App richtig benutzen zu können</string>
+    <string name="ToastGPSPermission">Sie müssen die Berechtigung erteilen, um den Standort anzuzeigen</string>
+    <string name="ToastConnectionFailed">Verbindung fehlgeschlagen</string>
+    <string name="DialogGPSTitle">Aktiviere hohe Genauigkeit für GPS</string>
+    <string name="DialogGPSMessage">Wollen sie die Einstellungen öffnen?</string>
+    <string name="YES">JA</string>
+    <string name="NO">NEIN</string>
 </resources>

@@ -22,4 +22,13 @@
     <string name="TextViewRain">"La precipitación es de alrededor de %.1f l / m². Te recomendamos llevar un paraguas contigo. "</string>
     <string name="TextViewNoRain">La precipitación es de alrededor de %.1f l / m². Probablemente no necesitarás un paraguas.</string>
     <string name="TextViewAdd">Añadir</string>
+    <string name="ToastCityNotFound">ciudad no fue encontrada</string>
+    <string name="ToastNoNetworkConnection">No hay conexion de red</string>
+    <string name="ToastGooglePlayServices">Debe instalar los servicios de Google Play para usar la aplicación correctamente</string>
+    <string name="ToastGPSPermission">Necesita habilitar permisos para mostrar la ubicación</string>
+    <string name="ToastConnectionFailed">La conexión falló</string>
+    <string name="DialogGPSTitle">Habilitar alta precisión para la ubicación</string>
+    <string name="DialogGPSMessage">¿Quieres abrir Configuración?</string>
+    <string name="YES">SI</string>
+    <string name="NO">NO</string>
 </resources>

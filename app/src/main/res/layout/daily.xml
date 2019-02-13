@@ -19,13 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="TÄGLICH"
         android:textAlignment="center"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/MyViewDaily"
-        tools:text="@string/TextViewDaily" />
+        android:text="@string/TextViewDaily" />
 
     <LinearLayout
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                tools:text="@string/TextViewToday" />
+                android:text="@string/TextViewToday" />
 
             <ImageView
                 android:id="@+id/daily1weather"
@@ -68,7 +67,6 @@
                 android:id="@+id/daily1temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="20° \n0°"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -109,7 +107,6 @@
                 android:id="@+id/daily2temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="20° \n0°"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -148,7 +145,6 @@
                 android:id="@+id/daily3temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="20° \n0°"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -187,7 +183,6 @@
                 android:id="@+id/daily4temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="20° \n0°"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -226,7 +221,6 @@
                 android:id="@+id/daily5temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="20° \n0°"
                 android:textAlignment="center" />
         </LinearLayout>
 

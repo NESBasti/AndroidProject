@@ -9,9 +9,7 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-import de.bastian.androidproject.Api;
-import de.bastian.androidproject.MainActivity;
-import de.bastian.androidproject.WeatherCurrent;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
