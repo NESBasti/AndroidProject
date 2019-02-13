@@ -640,11 +640,13 @@ class UserInterface {
 
         clothingLayout.startAnimation(animate);
         clothingLayout.setVisibility(View.VISIBLE);
+        String textRain = this.mainActivity.getResources().getString(R.string.TextViewRain);
+        String textnoRain = this.mainActivity.getResources().getString(R.string.TextViewNoRain);
 
         if(dailyRain[day-1] > 5)
-            clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m². Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day - 1]));
+            clothingText.setText(String.format(textRain, dailyRain[day - 1]));
         else
-            clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m². Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
+            clothingText.setText(String.format(textnoRain , dailyRain[day-1]));
 
         switch (day){
             case 1:
