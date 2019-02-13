@@ -561,7 +561,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                                         }
                                     }).setNegativeButton("Cancel", null).create().show();
-
                             return;
                         }
                     }
@@ -570,7 +569,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         googleApiClient.connect();
                     }
                 }
-
                 break;
         }
     }

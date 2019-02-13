@@ -67,7 +67,6 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider {
 
             //views.setTextViewText(R.id.widgetTemp, "" + widgetData.getInt("TEMPERATURE", 0));
 
-
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }

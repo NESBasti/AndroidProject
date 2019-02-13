@@ -58,7 +58,6 @@ public class LoadCurrentJSON extends AsyncTask<Location,Boolean, Integer> {
                 public void onResponse(@NonNull Call<WeatherCurrent> call, @NonNull Response<WeatherCurrent> response) {
                     weatherCurrent = response.body();
                     publishProgress(true);
-
                 }
 
                 @Override
