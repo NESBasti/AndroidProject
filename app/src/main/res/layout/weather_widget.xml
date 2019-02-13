@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="temp"
-            android:textSize="80dp"
+            android:textSize="72dp"
             android:layout_gravity="center"
             android:textStyle="bold" />
         <LinearLayout

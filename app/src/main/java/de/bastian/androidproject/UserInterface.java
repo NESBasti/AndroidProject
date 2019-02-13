@@ -82,6 +82,7 @@ class UserInterface {
     private TextView sunrise;
     private TextView sunset;
 
+    //What to wear
     private View myClothingDay1;
     private View myClothingDay2;
     private View myClothingDay3;
@@ -159,6 +160,7 @@ class UserInterface {
         hourlyTemp = new ArrayList<>();
         hourlyRain = new ArrayList<>();
 
+        //What to wear
         clothingText = this.mainActivity.findViewById(R.id.clothing_informations);
         myClothingDay1 = this.mainActivity.findViewById(R.id.ClothingDay1);
         myClothingDay2 = this.mainActivity.findViewById(R.id.ClothingDay2);
@@ -166,7 +168,6 @@ class UserInterface {
         myClothingDay4 = this.mainActivity.findViewById(R.id.ClothingDay4);
         myClothingDay5 = this.mainActivity.findViewById(R.id.ClothingDay5);
         clothingLayout = this.mainActivity.findViewById(R.id.ClothingLayout);
-
 
 
         for(int i = 1; i <= 6; i++){
@@ -284,7 +285,6 @@ class UserInterface {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMaxX(5);
         graph.getViewport().setMinX(0);
-
     }
 
     /**
@@ -337,11 +337,9 @@ class UserInterface {
     }
 
     void updateForecastInterface() {
-
         currentTime = Calendar.getInstance().getTime();
         updateForecastHourly();
         updateForecastDaily();
-
     }
 
     private void updateForecastHourly(){
@@ -360,7 +358,6 @@ class UserInterface {
                 arrayIndex++;
             }
         }
-
 
         //update weather
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
@@ -394,7 +391,6 @@ class UserInterface {
             series.appendData(new DataPoint(count, currentTemp), true, 6);
             count++;
         }
-
         graph.removeAllSeries();
         graph.addSeries(series);
     }
@@ -411,8 +407,6 @@ class UserInterface {
             weekday.get(i).setText(dateFormatDate.format(lastDay.getTime()));
             clothesDay.get(i).setText(dateFormatDate.format(lastDay.getTime()));
         }
-
-
 
         //update temperature
         lastDay.setTime(new Date(weatherForecast.getList().get(0).getDt() * 1000L));
@@ -561,9 +555,7 @@ class UserInterface {
                 dailyPopupText.get(indexDay).get(1).get(indexHour).setText(Math.round(k.getMain().getTemp()) + "°");
                 indexHour++;
             }
-
         }
-
     }
 
     /**
@@ -623,12 +615,12 @@ class UserInterface {
         }
     }
 
-
     /**
      * open daily-popup with animation
      */
     void openClothing(int day)
     {
+        //Remove Background
         setInvisibleClothing();
 
         //Animation
@@ -642,12 +634,15 @@ class UserInterface {
 
         clothingLayout.startAnimation(animate);
         clothingLayout.setVisibility(View.VISIBLE);
+        String textRain = this.mainActivity.getResources().getString(R.string.TextViewRain);
+        String textnoRain = this.mainActivity.getResources().getString(R.string.TextViewNoRain);
 
         if(dailyRain[day-1] > 5)
-            clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m². Wir empfehlen dir, einen Regenschirm mitzunehmen", dailyRain[day - 1]));
+            clothingText.setText(String.format(textRain, dailyRain[day - 1]));
         else
-            clothingText.setText(String.format("Die Regenmenge beträgt etwa %.1f l/m². Du wirst wohl keinen Regenschirm brauchen", dailyRain[day-1]));
+            clothingText.setText(String.format(textnoRain , dailyRain[day-1]));
 
+        //Set Background
         switch (day){
             case 1:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -672,6 +667,7 @@ class UserInterface {
         }
     }
     void openDaily(int day){
+        //Remove Background
         setInvisible();
 
         //Animation
@@ -683,6 +679,7 @@ class UserInterface {
         animate.setDuration(300);
         animate.setFillAfter(false);
 
+        //Set Background
         switch (day){
             case 1:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)

@@ -19,4 +19,7 @@
     <string name="TextViewCities">Ciudades</string>
     <string name="TextViewLocation">Ubicación Actual</string>
     <string name="TextViewAddCity">Agregar Ciudad</string>
+    <string name="TextViewRain">"La precipitación es de alrededor de %.1f l / m². Te recomendamos llevar un paraguas contigo. "</string>
+    <string name="TextViewNoRain">La precipitación es de alrededor de %.1f l / m². Probablemente no necesitarás un paraguas.</string>
+    <string name="TextViewAdd">Añadir</string>
 </resources>

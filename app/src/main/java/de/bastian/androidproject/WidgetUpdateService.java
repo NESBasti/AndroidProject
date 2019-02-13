@@ -41,10 +41,7 @@ public class WidgetUpdateService extends Service {
                 remoteViews.setTextViewText(R.id.widgetLastUpdate, new SimpleDateFormat("EEE HH:mm", Locale.GERMANY).format(new java.util.Date(extras.getLong("LAST_UPDATE", 0))));
                 remoteViews.setImageViewResource(R.id.widgetIcon, extras.getInt("ICON",0));
 
-
-
                 appWidgetManager.updateAppWidget(widgetId, remoteViews);
-
             }
 
             stopSelf();
@@ -72,7 +69,6 @@ public class WidgetUpdateService extends Service {
             startForeground(1, notification);
 
         } else {
-
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                     .setContentTitle("APPNAME")
                     .setContentText("foreground service")

@@ -29,7 +29,6 @@ public class LoadForecastJSON extends AsyncTask<Location,Boolean, Integer> {
         weakMainActivity = new WeakReference<>(mainActivity);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(mainActivity);
-
     }
 
     @Override
@@ -58,7 +57,6 @@ public class LoadForecastJSON extends AsyncTask<Location,Boolean, Integer> {
                 public void onResponse(@NonNull Call<WeatherForecast> call, @NonNull Response<WeatherForecast> response) {
                     weatherForecast = response.body();
                     publishProgress(true);
-
                 }
 
                 @Override
@@ -83,8 +81,6 @@ public class LoadForecastJSON extends AsyncTask<Location,Boolean, Integer> {
             }
             else Toast.makeText(mainActivity, "Error retrieving weather data", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     @Override
