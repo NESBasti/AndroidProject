@@ -379,7 +379,7 @@ class UserInterface {
             hourlyWeather.get(count).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
 
             int currentTemp = (int) Math.round(k.getMain().getTemp());
-            hourlyTemp.get(count).setText(currentTemp + "°");
+            hourlyTemp.get(count).setText(String.format(Locale.getDefault(), "%d°", currentTemp));
 
             if(k.getRain() != null) {
                 precipitation += k.getRain().getRain();
@@ -465,7 +465,7 @@ class UserInterface {
         }
 
         for(int i = 0; i < dailyTemp.size(); i++){
-            dailyTemp.get(i).setText(maxTemp.get(i) + "°\n" + minTemp.get(i) + "°");
+            dailyTemp.get(i).setText(String.format(Locale.getDefault(),"%d°\n%d",maxTemp.get(i), minTemp.get(i)));
             try {
                 if (minTemp.get(i) < 5 && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 41 && mPrefs.getString("UNIT", "metric").equals("imperial")) {
                     if (dailyRain[i] > 5) {

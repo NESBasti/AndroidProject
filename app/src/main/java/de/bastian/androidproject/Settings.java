@@ -1,6 +1,5 @@
 package de.bastian.androidproject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -14,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,26 +25,22 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.List;
 
-public class settings extends AppCompatActivity  {
-    private Button languageButton;
+public class Settings extends AppCompatActivity  {
     private View linearLayout;
-    private Activity mainActivity;
-    private ImageButton backbutton1;
-    private ImageButton backbutton2;
-    private ImageButton backbutton3;
-    private ImageButton backbutton4;
+    private ImageButton backButton1;
+    private ImageButton backButton2;
+    private ImageButton backButton3;
+    private ImageButton backButton4;
     private LinearLayout mySettingsBackground;
-    private Switch switchUnits;
+    private Switch unitSwitch;
 
     //Language
     private TextView textViewSettings;
     private TextView textViewUnit;
-    private TextView textViewLanguage;
     private TextView textViewBackground;
     private TextView textViewContact;
 
     //Cities
-    private TextView cities;
     private TextView textViewLocation;
     private TextView textViewCities;
     private TextView city1;
@@ -66,12 +60,8 @@ public class settings extends AppCompatActivity  {
     private ImageView myArrowDownView;
     private ImageView myArrowUpView;
 
-    private EditText MyAddCity;
-    private TextView MyAddCityButton;
-
-    private LinearLayout myLinLayCities;
-
-    private View MyViewAddCity;
+    private EditText myAddCity;
+    private TextView myAddCityButton;
 
     //Vibration
     private Vibrator myVib;
@@ -82,20 +72,22 @@ public class settings extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        backbutton1 = findViewById(R.id.backgroundselection1);
-        backbutton2 = findViewById(R.id.backgroundselection2);
-        backbutton3 = findViewById(R.id.backgroundselection3);
-        backbutton4 = findViewById(R.id.backgroundselection4);
+        backButton1 = findViewById(R.id.backgroundselection1);
+        backButton2 = findViewById(R.id.backgroundselection2);
+        backButton3 = findViewById(R.id.backgroundselection3);
+        backButton4 = findViewById(R.id.backgroundselection4);
         mySettingsBackground = findViewById(R.id.MySettingsBackground);
-        switchUnits = findViewById(R.id.switch_einheit);
-        myLinLayCities = findViewById(R.id.MyLinLayCities);
-        MyAddCity = findViewById(R.id.addCity);
+        unitSwitch = findViewById(R.id.switch_einheit);
+        myAddCity = findViewById(R.id.addCity);
 
         mLocationList = loadArray("myCitynames");
 
@@ -139,12 +131,12 @@ public class settings extends AppCompatActivity  {
         textViewLocation.setText(TVLocation);
 
         String TVAddCity = getResources().getString(R.string.TextViewAddCity);
-        MyAddCity.setHintTextColor(getResources().getColor(R.color.Gray));
-        MyAddCity.setHint(TVAddCity);
+        myAddCity.setHintTextColor(getResources().getColor(R.color.Gray));
+        myAddCity.setHint(TVAddCity);
 
-        String backgroundcolor = preferences.getString("Background", "0");
-        if (backgroundcolor != null) {
-            switch (backgroundcolor) {
+        String backgroundColor = preferences.getString("Background", "0");
+        if (backgroundColor != null) {
+            switch (backgroundColor) {
                 case "1":
                     mySettingsBackground.setBackgroundResource(R.drawable.background_image);
                     break;
@@ -163,30 +155,30 @@ public class settings extends AppCompatActivity  {
         }
 
         String background = preferences.getString("Background", "0");
-        backbutton1.setBackgroundColor(Color.BLACK);
-        backbutton2.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        backbutton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
-        backbutton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
+        backButton1.setBackgroundColor(Color.BLACK);
+        backButton2.setBackgroundColor(getResources().getColor(R.color.lightGray));
+        backButton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
+        backButton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
         if (background != null) {
-            backbutton1.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton1.setBackgroundColor(getResources().getColor(R.color.lightGray));
             switch (background) {
                 case "1":
-                    backbutton1.setBackgroundColor(Color.BLACK);
+                    backButton1.setBackgroundColor(Color.BLACK);
                     break;
                 case "2":
-                    backbutton2.setBackgroundColor(Color.BLACK);
+                    backButton2.setBackgroundColor(Color.BLACK);
                     break;
                 case "3":
-                    backbutton3.setBackgroundColor(Color.BLACK);
+                    backButton3.setBackgroundColor(Color.BLACK);
                     break;
                 case "4":
-                    backbutton4.setBackgroundColor(Color.BLACK);
+                    backButton4.setBackgroundColor(Color.BLACK);
                     break;
                 default:
                     break;
             }
         }
-        switchUnits.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        unitSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(isChecked)
@@ -204,35 +196,40 @@ public class settings extends AppCompatActivity  {
         }
     });
 
-        if( preferences.getString("UNIT", "metric").compareTo("metric") == 0){
-            switchUnits.setChecked(false);
+        try {
+            if (preferences.getString("UNIT", "metric").compareTo("metric") == 0) {
+                unitSwitch.setChecked(false);
+            } else unitSwitch.setChecked(true);
         }
-        else switchUnits.setChecked(true);
+        catch (NullPointerException e){
+            unitSwitch.setChecked(false);
+        }
 
     }
 
     //Hardware Backbutton
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(settings.this, MainActivity.class);
+        Intent i = new Intent(Settings.this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(i);
-        finish();
-        return;
+        //finish();
     }
 
     public void MySettingsBackToMain(View view) {
-        Intent i = new Intent(settings.this, MainActivity.class);
+        Intent i = new Intent(Settings.this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(i);
-        finish();
+        //finish();
     }
 
     public void setBackground1(View view) {
         myVib.vibrate(50);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            backbutton1.setBackgroundColor(Color.BLACK);
-            backbutton2.setBackgroundColor(getResources().getColor(R.color.lightGray));
-            backbutton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
-            backbutton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton1.setBackgroundColor(Color.BLACK);
+            backButton2.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
         }
         Location targetLocation1 = new Location("");//provider name is unnecessary
         targetLocation1.setLatitude(10.0d);//your coords of course
@@ -247,10 +244,10 @@ public class settings extends AppCompatActivity  {
     public void setBackground2(View view) {
         myVib.vibrate(50);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            backbutton1.setBackgroundColor(getResources().getColor(R.color.lightGray));
-            backbutton2.setBackgroundColor(Color.BLACK);
-            backbutton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
-            backbutton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton1.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton2.setBackgroundColor(Color.BLACK);
+            backButton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
         }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
@@ -262,10 +259,10 @@ public class settings extends AppCompatActivity  {
     public void setBackground3(View view) {
         myVib.vibrate(50);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            backbutton1.setBackgroundColor(getResources().getColor(R.color.lightGray));
-            backbutton2.setBackgroundColor(getResources().getColor(R.color.lightGray));
-            backbutton3.setBackgroundColor(Color.BLACK);
-            backbutton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton1.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton2.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton3.setBackgroundColor(Color.BLACK);
+            backButton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
         }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
@@ -277,10 +274,10 @@ public class settings extends AppCompatActivity  {
     public void setBackground4(View view) {
         myVib.vibrate(50);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            backbutton1.setBackgroundColor(getResources().getColor(R.color.lightGray));
-            backbutton2.setBackgroundColor(getResources().getColor(R.color.lightGray));
-            backbutton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
-            backbutton4.setBackgroundColor(Color.BLACK);
+            backButton1.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton2.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
+            backButton4.setBackgroundColor(Color.BLACK);
         }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
@@ -291,14 +288,15 @@ public class settings extends AppCompatActivity  {
     }
 
 
-    public boolean saveArray(String[] array, String arrayName) {
+    public void saveArray(String[] array, String arrayName) {
         SharedPreferences prefs = getSharedPreferences("sharedLocations", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(arrayName +"_size", array.length);
         for(int i=0;i<array.length;i++)
-            editor.putString(arrayName + "_" + i, (String) array[i]);
-        return editor.commit();
+            editor.putString(arrayName + "_" + i, array[i]);
+        editor.apply();
     }
+
     public String[] loadArray(String arrayName) {
         SharedPreferences prefs = getSharedPreferences("sharedLocations", MODE_PRIVATE);
         int size = prefs.getInt(arrayName + "_size", 0);
@@ -315,7 +313,7 @@ public class settings extends AppCompatActivity  {
         cityCounter++;
         mLocationList = loadArray("myCitynames");
         try {
-            List<Address> address = geocoder.getFromLocationName(MyAddCity.getText().toString(), 5);
+            List<Address> address = geocoder.getFromLocationName(myAddCity.getText().toString(), 5);
             if (!address.isEmpty()) {
                 if (address.get(0).getLatitude() != 0.0) {
                     if(address.get(0).getLocality() != null){
@@ -339,6 +337,7 @@ public class settings extends AppCompatActivity  {
             e.printStackTrace();
         }
 
+        myAddCity.setText("");
 
     }
 
@@ -399,7 +398,7 @@ public class settings extends AppCompatActivity  {
             myCity3delete = findViewById(R.id.MyCityDelete3);
             myCity4delete = findViewById(R.id.MyCityDelete4);
             myCity5delete = findViewById(R.id.MyCityDelete5);
-            MyAddCityButton = findViewById(R.id.addCityButton);
+            myAddCityButton = findViewById(R.id.addCityButton);
             mLocationList = loadArray("myCitynames");
 
             myCity1delete.setVisibility(View.GONE);
@@ -423,8 +422,8 @@ public class settings extends AppCompatActivity  {
                         case 1:
                             myCity1delete.setVisibility(View.VISIBLE);
                             city1.setText(mLocationList[i]);
-                            MyAddCityButton.setVisibility(View.VISIBLE);
-                            MyAddCity.setVisibility(View.VISIBLE);
+                            myAddCityButton.setVisibility(View.VISIBLE);
+                            myAddCity.setVisibility(View.VISIBLE);
                             break;
                         case 2:
                             myCity2delete.setVisibility(View.VISIBLE);
@@ -441,8 +440,8 @@ public class settings extends AppCompatActivity  {
                         case 5:
                             myCity5delete.setVisibility(View.VISIBLE);
                             city5.setText(mLocationList[i]);
-                            MyAddCityButton.setVisibility(View.GONE);
-                            MyAddCity.setVisibility(View.GONE);
+                            myAddCityButton.setVisibility(View.GONE);
+                            myAddCity.setVisibility(View.GONE);
                             break;
                         default:
                             break;
