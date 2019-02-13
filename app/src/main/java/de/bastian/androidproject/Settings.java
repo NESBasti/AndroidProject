@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,12 @@ public class Settings extends AppCompatActivity  {
 
     //Cities
     private String[] mLocationList;
+
+    //Seekbar
+    private int userTemp;
+    private SeekBar seekBar;
+    private TextView seekBarMin;
+    private TextView seekBarMax;
 
 
     @Override
@@ -199,13 +206,47 @@ public class Settings extends AppCompatActivity  {
         try {
             if (preferences.getString("UNIT", "metric").compareTo("metric") == 0) {
                 unitSwitch.setChecked(false);
-            } else unitSwitch.setChecked(true);
+                userTemp = 5;
+            } else
+            {
+                unitSwitch.setChecked(true);
+                userTemp = 9;
+            }
         }
         catch (NullPointerException e){
             unitSwitch.setChecked(false);
+            userTemp = 5;
         }
 
+        //Seekbar
+        seekBar = findViewById(R.id.MySeekBar);
+        seekBarMax = findViewById(R.id.MySliderMax);
+        seekBarMin = findViewById(R.id.MySliderMin);
+        seekBarMin.setText("-"+ userTemp);
+        seekBarMax.setText("+"+ userTemp);
+        seekBar.setProgress(preferences.getInt("UserTemp", 0) + userTemp);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int progress = seekBar.getProgress() - userTemp;
+                editor.putInt("UserTemp", progress);
+                editor.apply();
+            }
+        });
     }
+
+
 
     //Hardware Backbutton
     @Override

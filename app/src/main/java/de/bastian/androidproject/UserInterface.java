@@ -458,20 +458,22 @@ class UserInterface {
             }
         }
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.mainActivity);
+        int MyUserTemp = preferences.getInt("UserTemp", 0);
         for(int i = 0; i < dailyTemp.size(); i++){
             dailyTemp.get(i).setText(String.format(Locale.getDefault(),"%d°\n%d",maxTemp.get(i), minTemp.get(i)));
             try {
-                if (minTemp.get(i) < 5 && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 41 && mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                if (minTemp.get(i) < 5 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 41 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("imperial")) {
                     if (dailyRain[i] > 5) {
                         clothesIcon.get(i).setImageResource(R.drawable.ic_coat_umbrella);
                     } else
                         clothesIcon.get(i).setImageResource(R.drawable.ic_coat);
-                } else if (minTemp.get(i) < 13 && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 55 && mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                } else if (minTemp.get(i) < 13 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 55 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("imperial")) {
                     if (dailyRain[i] > 5) {
                         clothesIcon.get(i).setImageResource(R.drawable.ic_jacket_umbrella);
                     } else
                         clothesIcon.get(i).setImageResource(R.drawable.ic_jacket);
-                } else if (minTemp.get(i) < 20 && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 68 && mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                } else if (minTemp.get(i) < 20 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 68 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("imperial")) {
                     if (dailyRain[i] > 5) {
                         clothesIcon.get(i).setImageResource(R.drawable.ic_hoodie_umbrella);
                     } else

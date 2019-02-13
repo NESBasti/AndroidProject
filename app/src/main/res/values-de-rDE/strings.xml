@@ -22,4 +22,5 @@
     <string name="TextViewNoRain">Die Regenmenge beträgt etwa %.1f l/m². Du wirst wohl keinen Regenschirm brauchen.</string>
     <string name="TextViewRain">Die Regenmenge beträgt etwa %.1f l/m². Wir empfehlen dir einen Regenschirm mitzunehmen.</string>
     <string name="TextViewAdd">Hinzufügen</string>
+    <string name="TextViewColdSensitivity">Kälteempfinden</string>
 </resources>
