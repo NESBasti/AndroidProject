@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -111,10 +110,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         mPrefs = getPreferences(MODE_PRIVATE);
         widgetData = this.getApplicationContext().getSharedPreferences("WIDGET_DATA", Context.MODE_PRIVATE);
+        linearLayoutBackground = findViewById(R.id.background);
 
 
         ui = new UserInterface(this);
@@ -122,6 +124,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mLocationList = loadArray("myCitynames");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         cityCounter = preferences.getInt("CityCount", 0);
+
+        String background = preferences.getString("Background", "0");
+        if (background != null) {
+            switch (background) {
+                case "1":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image);
+                    break;
+                case "2":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image1);
+                    break;
+                case "3":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image2);
+                    break;
+                case "4":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image3);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         for (int i = 0; i < 6; i++) {
             locationCities[i] = new Location("");
@@ -230,8 +252,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         }
-        //TODO in ui
-        linearLayoutBackground = findViewById(R.id.background);
+
 
         dailyText = findViewById(R.id.MyDaily);
         hourlyText = findViewById(R.id.MyHourly);
@@ -369,6 +390,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             edit.putFloat("LONGITUDE4", (float)locationCities[3].getLongitude());
             edit.putFloat("LATITUDE5", (float)locationCities[4].getLatitude());
             edit.putFloat("LONGITUDE5", (float)locationCities[4].getLongitude());
+            edit.putFloat("LATITUDE6", (float)locationCities[5].getLatitude());
+            edit.putFloat("LONGITUDE6", (float)locationCities[5].getLongitude());
             edit.putInt("ICON", iconToResource(ui.getWeatherCurrent().getWeather().get(0).getIcon()));
             edit.apply();
         }
@@ -444,6 +467,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Toast.makeText(this, "restored", Toast.LENGTH_SHORT).show();
+        reopenSavedActivity();
+        super.onNewIntent(intent);
+    }
+
     private boolean checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
@@ -474,26 +504,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         startLocationUpdates();
 
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String background = preferences.getString("Background", "0");
-        if (background != null) {
-            switch (background) {
-                case "1":
-                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image);
-                    break;
-                case "2":
-                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image1);
-                    break;
-                case "3":
-                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image2);
-                    break;
-                case "4":
-                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image3);
-                    break;
-                default:
-                    break;
-            }
-        }
 
     }
 
@@ -582,20 +592,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     /**
      *      gets called when high accuracy for location is disabled,
-     *      opens settings for user to enable it
+     *      opens Settings for user to enable it
      */
     private void highAccuracyDisabled(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Enable high accuracy for location");
-        builder.setMessage("Do you want to open settings?");
+        builder.setMessage("Do you want to open Settings?");
 
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing but close the dialog
-                Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                Intent viewIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(viewIntent);
                 googleApiClient.disconnect();
                 dialog.dismiss();
@@ -655,15 +665,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Long prefsUpdate = mPrefs.getLong("lastUpdate", 0);
         ui.setLastUpdate(prefsUpdate);
         currentCity = mPrefs.getInt("currentCity", 0);
+        updateSelectedCity(currentCity);
         ui.updateInterface();
     }
     //endregion
 
     public void MySettingsOC(View view)
     {
-        Intent i = new Intent(MainActivity.this, settings.class);
+        Intent i = new Intent(MainActivity.this, Settings.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(i);
-        finish();
+        //finish();
     }
 
     //Tag 1 weitere Infos
@@ -756,5 +768,113 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 default:
                     break;
         }
+    }
+
+    void reopenSavedActivity(){
+        mLocationList = loadArray("myCitynames");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        cityCounter = preferences.getInt("CityCount", 0);
+        onResume();
+
+        String background = preferences.getString("Background", "0");
+        if (background != null) {
+            switch (background) {
+                case "1":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image);
+                    break;
+                case "2":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image1);
+                    break;
+                case "3":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image2);
+                    break;
+                case "4":
+                    linearLayoutBackground.setBackgroundResource(R.drawable.background_image3);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        for (int i = 0; i < 6; i++) {
+            locationCities[i] = new Location("");
+        }
+        for (int i = 1; i < mLocationList.length; i++) {
+            List<Address> address;
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                address = geocoder.getFromLocationName(mLocationList[i], 5);
+                if (address != null) {
+                    locationCities[i].setLatitude(address.get(0).getLatitude());
+                    locationCities[i].setLongitude(address.get(0).getLongitude());
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        cityShow1.setVisibility(View.INVISIBLE);
+        cityShow2.setVisibility(View.GONE);
+        cityShow3.setVisibility(View.GONE);
+        cityShow4.setVisibility(View.GONE);
+        cityShow5.setVisibility(View.GONE);
+        cityShow6.setVisibility(View.GONE);
+
+        if(cityCounter > 0) {
+            for (int i = 0; i <= cityCounter; i++) {
+                switch (i) {
+                    case 0:
+                        cityShow1.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        cityShow2.setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        cityShow3.setVisibility(View.VISIBLE);
+                        break;
+                    case 3:
+                        cityShow4.setVisibility(View.VISIBLE);
+                        break;
+                    case 4:
+                        cityShow5.setVisibility(View.VISIBLE);
+                        break;
+                    case 5:
+                        cityShow6.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        linearLayoutBackground.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+            public void onSwipeRight() {
+                if(cityCounter > 0){
+                    currentCity--;
+                    if (currentCity < 0)
+                        currentCity = cityCounter;
+
+                    updateSelectedCity(currentCity);
+                    ui.setLastUpdate(0L);
+                    getJSON(locationCities[currentCity]);
+                    ui.updateInterface();
+                }
+            }
+
+            public void onSwipeLeft() {
+                if(cityCounter > 0){
+                    currentCity++;
+                    if (currentCity > cityCounter)
+                        currentCity = 0;
+                    updateSelectedCity(currentCity);
+                    ui.setLastUpdate(0L);
+                    getJSON(locationCities[currentCity]);
+                    ui.updateInterface();
+                }
+
+            }
+        });
+
+        updateWeatherWidget();
     }
 }
