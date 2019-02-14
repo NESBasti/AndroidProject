@@ -623,10 +623,10 @@ class UserInterface {
     void openClothing(int day)
     {
         //Remove Background
+        setInvisible();
         setInvisibleClothing();
 
         //Animation
-        myScrollView.smoothScrollTo(0, myContainerHourly.getHeight() + myContainerTemp.getHeight() + 400);
         DisplayMetrics metrics = new DisplayMetrics();
         this.mainActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
@@ -671,6 +671,7 @@ class UserInterface {
     void openDaily(int day){
         //Remove Background
         setInvisible();
+        setInvisibleClothing();
 
         //Animation
         myScrollView.smoothScrollTo(0, myContainerHourly.getHeight() + myContainerTemp.getHeight() + 180);

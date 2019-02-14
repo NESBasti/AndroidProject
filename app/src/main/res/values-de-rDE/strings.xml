@@ -23,4 +23,5 @@
     <string name="TextViewRain">Die Regenmenge beträgt etwa %.1f l/m². Wir empfehlen dir einen Regenschirm mitzunehmen.</string>
     <string name="TextViewAdd">Hinzufügen</string>
     <string name="TextViewColdSensitivity">Kälteempfinden</string>
+    <string name="TextViewInformations">Die gewählte Temperatur wird auf die Grundtemperatur addiert, wodurch Sie Ihre Kleidungsempfehlung nach Ihrem Belieben anpassen können.</string>
 </resources>

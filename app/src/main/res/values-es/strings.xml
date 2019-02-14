@@ -23,4 +23,5 @@
     <string name="TextViewNoRain">La precipitación es de alrededor de %.1f l / m². Probablemente no necesitarás un paraguas.</string>
     <string name="TextViewAdd">Añadir</string>
     <string name="TextViewColdSensitivity">Sensibilidad al frio</string>
+    <string name="TextViewInformations">La temperatura seleccionada se agrega a la temperatura base, lo que le permite personalizar su recomendación de vestimenta según su criterio.</string>
 </resources>

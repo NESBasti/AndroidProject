@@ -7,6 +7,12 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <ImageView
+        android:src="@drawable/information"
+        android:onClick="ShowSliderInformations"
+        android:layout_gravity="right"
+        android:layout_width="24dp"
+        android:layout_height="24dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

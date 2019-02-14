@@ -92,7 +92,7 @@
         <include
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="32dp"
             android:visibility="visible"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -254,14 +254,14 @@
                     style="@style/WhiteText"
                     android:gravity="center_vertical"
                     />
+
                 <TextView
+                    style="@style/WhiteText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="email@email.com"
                     android:layout_weight="1"
-                    style="@style/WhiteText"
                     android:gravity="center"
-                    />
+                    android:text="wetterapp@gmx.net" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
