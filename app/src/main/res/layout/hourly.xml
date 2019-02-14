@@ -55,13 +55,11 @@
             <ImageView
                 android:id="@+id/hourly1weather"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:src="@drawable/heavycloudrain" />
+                android:layout_height="32dp"/>
             <TextView
                 android:id="@+id/hourly1temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10°"
                 android:textAlignment="center"/>
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -78,7 +76,6 @@
                     android:id="@+id/hourly1rain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0%"
                     android:layout_weight="1"
                     android:textAlignment="center" />
             </LinearLayout>
@@ -110,7 +107,6 @@
                 android:id="@+id/hourly2temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10°"
                 android:textAlignment="center"/>
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -127,7 +123,6 @@
                     android:id="@+id/hourly2rain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0%"
                     android:layout_weight="1"
                     android:textAlignment="center" />
             </LinearLayout>
@@ -159,7 +154,6 @@
                 android:id="@+id/hourly3temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10°"
                 android:textAlignment="center"/>
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -176,7 +170,6 @@
                     android:layout_width="match_parent"
                     android:id="@+id/hourly3rain"
                     android:layout_height="wrap_content"
-                    android:text="0%"
                     android:layout_weight="1"
                     android:textAlignment="center" />
             </LinearLayout>
@@ -208,7 +201,6 @@
                 android:id="@+id/hourly4temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10°"
                 android:textAlignment="center"/>
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -225,7 +217,6 @@
                     android:id="@+id/hourly4rain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0%"
                     android:layout_weight="1"
                     android:textAlignment="center" />
             </LinearLayout>
@@ -257,7 +248,6 @@
                 android:id="@+id/hourly5temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10°"
                 android:textAlignment="center"/>
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -274,7 +264,6 @@
                     android:layout_width="match_parent"
                     android:id="@+id/hourly5rain"
                     android:layout_height="wrap_content"
-                    android:text="0%"
                     android:layout_weight="1"
                     android:textAlignment="center" />
             </LinearLayout>
@@ -307,7 +296,6 @@
                 android:id="@+id/hourly6temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10°"
                 android:textAlignment="center"/>
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -324,7 +312,6 @@
                     android:layout_width="match_parent"
                     android:id="@+id/hourly6rain"
                     android:layout_height="wrap_content"
-                    android:text="0%"
                     android:layout_weight="1"
                     android:textAlignment="center" />
             </LinearLayout>

@@ -321,15 +321,15 @@ class UserInterface {
         }
 
         lastRefresh.setText(dateFormatTime.format(lastUpdate));
-        temperature.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp())) + "°");
-        minMaxTemp.setText(String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_max())) + "° / " + String.valueOf((int) Math.round(weatherCurrent.getMain().getTemp_min())) + "°");
+        temperature.setText(String.format(Locale.getDefault(), "%d°", Math.round(weatherCurrent.getMain().getTemp())));
+        minMaxTemp.setText(String.format(Locale.getDefault(), "%d° / %d°", Math.round(weatherCurrent.getMain().getTemp_max()), Math.round(weatherCurrent.getMain().getTemp_min())));
 
         int windchillTemp = (int) Math.round(weatherCurrent.getMain().getTemp());
         if(Math.round(weatherCurrent.getMain().getTemp()) <= 10 && (weatherCurrent.getWind().getSpeed() * 3.6) >= 5) { //windchill is defined with temperatures of 10°C or lower and 5km/h wind speed or more
             windchillTemp = (int) ((13.12 + 0.6125 * weatherCurrent.getMain().getTemp()) + (0.3965 * weatherCurrent.getMain().getTemp() - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
         }
-        String TVwindchill = this.mainActivity.getResources().getString(R.string.TextViewWindchill);
-        windchill.setText(TVwindchill + " "+ windchillTemp + "°");
+        String TVWindchill = this.mainActivity.getResources().getString(R.string.TextViewWindchill);
+        windchill.setText(String.format(Locale.getDefault(), TVWindchill + " %d°", windchillTemp));
 
         currentIcon.setImageResource(iconToResource(weatherCurrent.getWeather().get(0).getIcon()));
 
@@ -552,7 +552,7 @@ class UserInterface {
 
                 dailyPopupText.get(indexDay).get(0).get(indexHour).setText(dateFormatTime.format(new Date(k.getDt() * 1000L)));
                 dailyPopupIcon.get(indexDay).get(indexHour).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
-                dailyPopupText.get(indexDay).get(1).get(indexHour).setText(Math.round(k.getMain().getTemp()) + "°");
+                dailyPopupText.get(indexDay).get(1).get(indexHour).setText(String.format(Locale.getDefault(), "%d°", Math.round(k.getMain().getTemp())));
                 indexHour++;
             }
         }
@@ -635,13 +635,14 @@ class UserInterface {
         clothingLayout.startAnimation(animate);
         clothingLayout.setVisibility(View.VISIBLE);
         String textRain = this.mainActivity.getResources().getString(R.string.TextViewRain);
-        String textnoRain = this.mainActivity.getResources().getString(R.string.TextViewNoRain);
+        String textNoRain = this.mainActivity.getResources().getString(R.string.TextViewNoRain);
 
-        if(dailyRain[day-1] > 5)
-            clothingText.setText(String.format(textRain, dailyRain[day - 1]));
-        else
-            clothingText.setText(String.format(textnoRain , dailyRain[day-1]));
-
+        if(dailyRain != null) {
+            if (dailyRain[day - 1] > 5)
+                clothingText.setText(String.format(textRain, dailyRain[day - 1]));
+            else
+                clothingText.setText(String.format(textNoRain, dailyRain[day - 1]));
+        }
         //Set Background
         switch (day){
             case 1:

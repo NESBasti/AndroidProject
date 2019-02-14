@@ -23,11 +23,10 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="Einstellungen"
             android:textAlignment="center"
             android:textSize="36sp"
             android:textStyle="bold"
-            tools:text="@string/TextViewSettings" />
+            android:text="@string/TextViewSettings" />
 
         <ImageView
             android:id="@+id/MySettingsBTM"
@@ -37,6 +36,7 @@
             android:layout_gravity="end"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:transitionName="transition_setting"
             android:onClick="MySettingsBackToMain"
             android:scaleType="fitCenter"
@@ -50,7 +50,7 @@
         android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,8 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Einheit"
-                tools:text="@string/TextViewUnit" />
+                android:text="@string/TextViewUnit" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -97,9 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="Hintergrund"
             android:textAlignment="center"
-            tools:text="@string/TextViewBackground" />
+            android:text="@string/TextViewBackground" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -189,7 +187,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:gravity="center"
-                    android:text="Städte"
+                    android:text="@string/TextViewCities"
                     android:textAlignment="center" />
                 <ImageView
                     android:id="@+id/myArrowDown"
@@ -231,9 +229,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Kontakt"
-            android:textAlignment="center"
-            tools:text="@string/TextViewContact" />
+            android:text="@string/TextViewContact"
+            android:textAlignment="center" />
 
             <LinearLayout
                 android:layout_width="match_parent"
