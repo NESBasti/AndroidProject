@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -477,7 +478,11 @@ public class Settings extends AppCompatActivity  {
         View layout = inflater.inflate(R.layout.informations,null);
 
         // create a focusable PopupWindow with the given layout and correct size
-        final PopupWindow pw = new PopupWindow(layout, 800, 250, true);
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        final PopupWindow pw = new PopupWindow(layout, (width/5)*4, height/8, true);
 
         //Set up touch closing outside of pop-up
         pw.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Gray)));
@@ -492,6 +497,7 @@ public class Settings extends AppCompatActivity  {
         });
         pw.setOutsideTouchable(true);
         // display the pop-up in the center
-        pw.showAtLocation(layout, Gravity.RIGHT, 32, -512);
+        pw.showAtLocation(layout, Gravity.RIGHT, width/16, - (height/4 -20 ));
     }
 }
+

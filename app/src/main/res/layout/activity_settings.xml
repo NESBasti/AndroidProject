@@ -10,233 +10,237 @@
     android:orientation="vertical"
     tools:context=".Settings">
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="8dp">
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
 
         <TextView
             android:id="@+id/MySettingsTag"
             style="@style/WhiteText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
+            android:layout_marginLeft="96dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
+            android:text="Einstellungen"
             android:textAlignment="center"
             android:textSize="36sp"
             android:textStyle="bold"
-            android:text="@string/TextViewSettings" />
+            tools:text="@string/TextViewSettings" />
 
         <ImageView
-            android:id="@+id/MySettingsBTM"
-            android:layout_marginRight="4dp"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="48dp"
+            android:id="@+id/MySettings"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
             android:layout_gravity="end"
-            android:layout_weight="1"
+            android:layout_weight="4"
             android:clickable="true"
-            android:focusable="true"
-            android:transitionName="transition_setting"
             android:onClick="MySettingsBackToMain"
             android:scaleType="fitCenter"
-            android:src="@drawable/settings">
-        </ImageView>
+            android:src="@drawable/settings"/>
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="20dp">
-
-            <TextView
-                android:id="@+id/MyTextViewUnit"
-                style="@style/WhiteText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/TextViewUnit" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="°C"
-                android:layout_weight="1"
-                style="@style/WhiteText"
-                android:gravity="center"/>
-
-            <Switch
-                android:id="@+id/switch_einheit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginRight="15dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="°F"
-                android:layout_weight="1"
-                style="@style/WhiteText"
-                android:gravity="center"/>
-        </LinearLayout>
-        <include
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="32dp"
-            android:visibility="visible"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            layout="@layout/whattowearslider"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
-
-        //Hintergrund
-        <TextView
-            android:id="@+id/MyTextViewBackground"
-            style="@style/WhiteText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textAlignment="center"
-            android:text="@string/TextViewBackground" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
-            <ImageButton
-                android:id="@+id/backgroundselection1"
-                android:onClick="setBackground1"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:src="@drawable/background_image_thumbnail"
-                android:background="#000000"
-                android:scaleType="centerCrop"
-                android:cropToPadding="true"
-                android:padding="1dp"/>
-            <ImageButton
-                android:id="@+id/backgroundselection2"
-                android:onClick="setBackground2"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:src="@drawable/background_image1_thumbnail"
-                android:background="#000000"
-                android:scaleType="centerCrop"
-                android:cropToPadding="true"
-                android:padding="1dp"/>
-            <ImageButton
-                android:id="@+id/backgroundselection3"
-                android:onClick="setBackground3"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:src="@drawable/background_image2_thumbnail"
-                android:background="#000000"
-                android:scaleType="centerCrop"
-                android:cropToPadding="true"
-                android:padding="1dp"/>
-            <ImageButton
-                android:id="@+id/backgroundselection4"
-                android:onClick="setBackground4"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:src="@drawable/background_image3_thumbnail"
-                android:background="#000000"
-                android:scaleType="centerCrop"
-                android:cropToPadding="true"
-                android:padding="1dp"/>
-
-        </LinearLayout>
-        <View
-            android:layout_margin="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lightGray"/>
-
-
-        //Cities
-        <LinearLayout
-            android:id="@+id/MyLinLayCities"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <LinearLayout
-                android:onClick="MyCities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="100dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_margin="20dp">
+
                 <TextView
-                    android:layout_weight="3"
-                    android:id="@+id/MyTextViewCities"
+                    android:id="@+id/MyTextViewUnit"
                     style="@style/WhiteText"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:gravity="center"
-                    android:text="@string/TextViewCities"
-                    android:textAlignment="center" />
-                <ImageView
-                    android:id="@+id/myArrowDown"
-                    android:layout_weight="2"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/arrowdown"/>
-                <ImageView
-                    android:id="@+id/myArrowUp"
-                    android:visibility="gone"
-                    android:layout_weight="2"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/arrowup"/>
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Einheit"
+                    tools:text="@string/TextViewUnit" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="°C"
+                    android:layout_weight="1"
+                    style="@style/WhiteText"
+                    android:gravity="center"/>
+
+                <Switch
+                    android:id="@+id/switch_einheit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="°F"
+                    android:layout_weight="1"
+                    style="@style/WhiteText"
+                    android:gravity="center"/>
             </LinearLayout>
-        </LinearLayout>
-        <include
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone"
-            android:id="@+id/container_cities"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            layout="@layout/cities"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
-        <View
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lightGray"/>
-        <TextView
-            android:id="@+id/MyTextViewContact"
-            style="@style/WhiteText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/TextViewContact"
-            android:textAlignment="center" />
+            <include
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="32dp"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                layout="@layout/whattowearslider"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+
+            //Hintergrund
+            <TextView
+                android:id="@+id/MyTextViewBackground"
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Hintergrund"
+                android:textAlignment="center"
+                tools:text="@string/TextViewBackground" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+                <ImageButton
+                    android:id="@+id/backgroundselection1"
+                    android:onClick="setBackground1"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/background_image_thumbnail"
+                    android:background="#000000"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:padding="1dp"/>
+                <ImageButton
+                    android:id="@+id/backgroundselection2"
+                    android:onClick="setBackground2"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/background_image1_thumbnail"
+                    android:background="#000000"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:padding="1dp"/>
+                <ImageButton
+                    android:id="@+id/backgroundselection3"
+                    android:onClick="setBackground3"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/background_image2_thumbnail"
+                    android:background="#000000"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:padding="1dp"/>
+                <ImageButton
+                    android:id="@+id/backgroundselection4"
+                    android:onClick="setBackground4"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/background_image3_thumbnail"
+                    android:background="#000000"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:padding="1dp"/>
+
+            </LinearLayout>
+            <View
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGray"/>
+
+
+            //Cities
+            <LinearLayout
+                android:id="@+id/MyLinLayCities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <LinearLayout
+                    android:onClick="MyCities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_weight="3"
+                        android:id="@+id/MyTextViewCities"
+                        style="@style/WhiteText"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center"
+                        android:text="Städte"
+                        android:textAlignment="center" />
+                    <ImageView
+                        android:id="@+id/myArrowDown"
+                        android:layout_weight="2"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/arrowdown"/>
+                    <ImageView
+                        android:id="@+id/myArrowUp"
+                        android:visibility="gone"
+                        android:layout_weight="2"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/arrowup"/>
+                </LinearLayout>
+            </LinearLayout>
+            <include
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                android:id="@+id/container_cities"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                layout="@layout/cities"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+            <View
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGray"/>
+            <TextView
+                android:id="@+id/MyTextViewContact"
+                style="@style/WhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Kontakt"
+                android:textAlignment="center"
+                tools:text="@string/TextViewContact" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -262,5 +266,4 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
