@@ -41,14 +41,7 @@ public class Settings extends AppCompatActivity  {
     private LinearLayout mySettingsBackground;
     private Switch unitSwitch;
 
-    //Language
-    private TextView textViewSettings;
-    private TextView textViewUnit;
-    private TextView textViewBackground;
-    private TextView textViewContact;
-
     //Cities
-    private TextView textViewLocation;
     private TextView textViewCities;
     private TextView city1;
     private TextView city2;
@@ -114,34 +107,9 @@ public class Settings extends AppCompatActivity  {
         myArrowUpView = findViewById(R.id.myArrowUp);
         myArrowDownView = findViewById(R.id.myArrowDown);
 
-        //Language
-        textViewSettings = findViewById(R.id.MySettingsTag);
-        textViewUnit = findViewById(R.id.MyTextViewUnit);
-        textViewBackground = findViewById(R.id.MyTextViewBackground);
-        textViewContact = findViewById(R.id.MyTextViewContact);
-        textViewLocation = findViewById(R.id.MyLocation);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor editor = preferences.edit();
-
-        //Language
-        String TVSettings = getResources().getString(R.string.TextViewSettings);
-        textViewSettings.setText(TVSettings);
-
-        String TVUnit = getResources().getString(R.string.TextViewUnit);
-        textViewUnit.setText(TVUnit);
-
-        String TVBackground = getResources().getString(R.string.TextViewBackground);
-        textViewBackground.setText(TVBackground);
-
-        String TVContact = getResources().getString(R.string.TextViewContact);
-        textViewContact.setText(TVContact);
-
-        String TVCities = getResources().getString(R.string.TextViewCities);
-        textViewCities.setText(TVCities);
-
-        String TVLocation = getResources().getString(R.string.TextViewLocation);
-        textViewLocation.setText(TVLocation);
 
         String TVAddCity = getResources().getString(R.string.TextViewAddCity);
         myAddCity.setHintTextColor(getResources().getColor(R.color.Gray));
@@ -285,7 +253,6 @@ public class Settings extends AppCompatActivity  {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Background","1");
         editor.apply();
-        Toast.makeText(this, "Hintergrund erfolgreich geändert", Toast.LENGTH_SHORT).show();
         mySettingsBackground.setBackgroundResource(R.drawable.background_image);
     }
     public void setBackground2(View view) {
@@ -300,7 +267,6 @@ public class Settings extends AppCompatActivity  {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Background","2");
         editor.apply();
-        Toast.makeText(this, "Hintergrund erfolgreich geändert", Toast.LENGTH_SHORT).show();
         mySettingsBackground.setBackgroundResource(R.drawable.background_image1);
     }
     public void setBackground3(View view) {
@@ -315,7 +281,6 @@ public class Settings extends AppCompatActivity  {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Background","3");
         editor.apply();
-        Toast.makeText(this, "Hintergrund erfolgreich geändert", Toast.LENGTH_SHORT).show();
         mySettingsBackground.setBackgroundResource(R.drawable.background_image2);
     }
     public void setBackground4(View view) {
@@ -330,7 +295,6 @@ public class Settings extends AppCompatActivity  {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Background","4");
         editor.apply();
-        Toast.makeText(this, "Hintergrund erfolgreich geändert", Toast.LENGTH_SHORT).show();
         mySettingsBackground.setBackgroundResource(R.drawable.background_image3);
     }
 
@@ -378,7 +342,7 @@ public class Settings extends AppCompatActivity  {
             }
             else
             {
-                Toast.makeText(this, "Stadt konnte nicht gefunden werden", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.ToastCityNotFound, Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();

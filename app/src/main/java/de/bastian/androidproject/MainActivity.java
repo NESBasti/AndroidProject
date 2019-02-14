@@ -28,7 +28,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -80,17 +79,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //Animation
     private LinearLayout linearLayoutBackground;
 
-    //Language
-    private TextView dailyText;
-    private TextView hourlyText;
-    private TextView airpressureText;
-    private TextView humidityText;
-    private TextView windspeedText;
-    private TextView cloudynessText;
-    private TextView sunriseText;
-    private TextView sunsetText;
-    private TextView todayText;
-    private TextView whattowearText;
 
     //Selected City
     private ImageView cityShow1;
@@ -254,49 +242,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
 
-        dailyText = findViewById(R.id.MyDaily);
-        hourlyText = findViewById(R.id.MyHourly);
-        airpressureText = findViewById(R.id.MyPressureText);
-        humidityText = findViewById(R.id.MyHumidityText);
-        windspeedText = findViewById(R.id.MyWindspeedText);
-        cloudynessText = findViewById(R.id.MyCloudinessText);
-        sunriseText = findViewById(R.id.MySunriseText);
-        sunsetText = findViewById(R.id.MySunsetText);
-        todayText = findViewById(R.id.MyToday);
-        whattowearText = findViewById(R.id.MyWhatToWear);
-
-        //Language
-        String TVDaily = getResources().getString(R.string.TextViewDaily);
-        dailyText.setText(TVDaily);
-
-        String TVHourly = getResources().getString(R.string.TextViewHourly);
-        hourlyText.setText(TVHourly);
-
-        String TVairpressure = getResources().getString(R.string.TextViewAirpressure);
-        airpressureText.setText(TVairpressure);
-
-        String TVhumidity = getResources().getString(R.string.TextViewHumidity);
-        humidityText.setText(TVhumidity);
-
-        String TVwindspeed = getResources().getString(R.string.TextViewWindspeed);
-        windspeedText.setText(TVwindspeed);
-
-        String TVcloudyness = getResources().getString(R.string.TextViewCloudyness);
-        cloudynessText.setText(TVcloudyness);
-
-        String TVsunrise = getResources().getString(R.string.TextViewSunrise);
-        sunriseText.setText(TVsunrise);
-
-        String TVsunset = getResources().getString(R.string.TextViewSunset);
-        sunsetText.setText(TVsunset);
-
-        String TVtoday = getResources().getString(R.string.TextViewToday);
-        todayText.setText(TVtoday);
-
-        String TVwhattowear = getResources().getString(R.string.TextViewWhatToWear);
-        whattowearText.setText(TVwhattowear);
-
-
         linearLayoutBackground.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
             public void onSwipeRight() {
                 if(cityCounter > 0){
@@ -344,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             ui.setLocation(location);
         }
         else if(location == null & locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) & locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-            Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.ToastNoNetworkConnection, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -451,7 +396,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (googleApiClient != null && fusedLocationProviderClient != null) {
             startLocationUpdates();
         }else if(!checkPlayServices()) {
-            Toast.makeText(this, "You need to install Google Play Services to use the App properly", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.ToastGooglePlayServices, Toast.LENGTH_SHORT).show();
         }else {
             buildGoogleApiClient();
         }
@@ -469,7 +414,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Toast.makeText(this, "restored", Toast.LENGTH_SHORT).show();
         reopenSavedActivity();
         super.onNewIntent(intent);
     }
@@ -531,7 +475,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 &&  ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "You need to enable permissions to display location !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.ToastGPSPermission, Toast.LENGTH_SHORT).show();
         }
 
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
@@ -585,7 +529,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "Connection failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.ToastConnectionFailed, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -596,10 +540,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Enable high accuracy for location");
-        builder.setMessage("Do you want to open Settings?");
+        builder.setTitle(R.string.DialogGPSTitle);
+        builder.setMessage(R.string.DialogGPSMessage);
 
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.YES, new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing but close the dialog
@@ -610,7 +554,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.NO, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

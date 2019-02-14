@@ -25,7 +25,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="99°C"
                 android:textSize="98dp"
                 android:textStyle="bold" />
 
@@ -45,11 +44,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Windchill"
                 android:layout_marginTop="8dp"
                 android:textSize="16dp"
                 app:layout_constraintTop_toBottomOf="@id/MyMinMaxTemp"
-                tools:text="@string/TextViewWindchill" />
+                android:text="@string/TextViewWindchill" />
 
 
         </LinearLayout>

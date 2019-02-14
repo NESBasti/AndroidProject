@@ -52,7 +52,6 @@
                     android:id="@+id/MyPopUpD5H1T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
 
@@ -82,7 +81,6 @@
                     android:id="@+id/MyPopUpD5H2T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
 
@@ -112,7 +110,6 @@
                     android:id="@+id/MyPopUpD5H3T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
 
@@ -142,7 +139,6 @@
                     android:id="@+id/MyPopUpD5H4T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
 
@@ -172,7 +168,6 @@
                     android:id="@+id/MyPopUpD5H5T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
 
@@ -203,7 +198,6 @@
                     android:id="@+id/MyPopUpD5H6T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
             <View
@@ -232,7 +226,6 @@
                     android:id="@+id/MyPopUpD5H7T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
             <View
@@ -260,7 +253,6 @@
                     android:id="@+id/MyPopUpD5H8T"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10°"
                     android:textAlignment="center"/>
             </LinearLayout>
         </LinearLayout>

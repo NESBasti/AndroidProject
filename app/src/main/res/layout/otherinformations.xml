@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                tools:text="@string/TextViewAirpressure" />
+                android:text="@string/TextViewAirpressure" />
 
 
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                tools:text="@string/TextViewHumidity" />
+                android:text="@string/TextViewHumidity" />
 
             <TextView
                 android:id="@+id/MyHumidity"
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                tools:text="@string/TextViewWindspeed" />
+                android:text="@string/TextViewWindspeed" />
 
 
             <TextView
@@ -155,7 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                tools:text="@string/TextViewSunrise" />
+                android:text="@string/TextViewSunrise" />
             <TextView
                 android:id="@+id/MySunrise"
                 style="@style/WhiteText"
@@ -183,7 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                tools:text="@string/TextViewSunset" />
+                android:text="@string/TextViewSunset" />
 
 
             <TextView
