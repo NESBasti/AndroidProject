@@ -24,4 +24,5 @@
     <string name="TextViewAdd">Add</string>
     <string name="TextViewColdSensitivity">Cold Sensitivity</string>
     <string name="TextViewInformations">The selected temperature is added to the base temperature, allowing you to customize your clothing recommendation at your discretion.</string>
+    <string name="appname">Weather</string>
 </resources>
