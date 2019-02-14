@@ -15,7 +15,7 @@
     <string name="TextViewCloudyness">Bewölkung</string>
     <string name="TextViewToday">Heute</string>
     <string name="TextViewWhatToWear">WAS SOLL ICH ANZIEHEN?</string>
-    <string name="TextViewWindchill">Gefühlte Temperatur</string>
+    <string name="TextViewWindchill">Gefühlt</string>
     <string name="TextViewCities">Städte</string>
     <string name="TextViewLocation">Aktueller Standort</string>
     <string name="TextViewAddCity">Stadt hinzufügen</string>
