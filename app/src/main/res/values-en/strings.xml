@@ -19,8 +19,8 @@
     <string name="TextViewCities">Cities</string>
     <string name="TextViewLocation">Current Location</string>
     <string name="TextViewAddCity">Add City</string>
-    <string name="TextViewNoRain">The rainfall is about %.1f l / m². You probably will not need an umbrella</string>
-    <string name="TextViewRain">"The rainfall is about %.1f l / m². We recommend you take an umbrella with you. "</string>
+    <string name="TextViewNoRain">The rainfall is about %.1f l / m². You probably won\'t need an umbrella</string>
+    <string name="TextViewRain">"The rainfall is about %.1f l / m². We recommend you take an umbrella with you "</string>
     <string name="TextViewAdd">Add</string>
     <string name="ToastCityNotFound">City wasn\'t found</string>
     <string name="ToastNoNetworkConnection">Not Network Connection</string>

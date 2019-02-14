@@ -19,8 +19,8 @@
     <string name="TextViewCities">Städte</string>
     <string name="TextViewLocation">Aktueller Standort</string>
     <string name="TextViewAddCity">Stadt hinzufügen</string>
-    <string name="TextViewNoRain">Die Regenmenge beträgt etwa %.1f l/m². Du wirst wohl keinen Regenschirm brauchen.</string>
-    <string name="TextViewRain">Die Regenmenge beträgt etwa %.1f l/m². Wir empfehlen dir einen Regenschirm mitzunehmen.</string>
+    <string name="TextViewNoRain">Die Regenmenge beträgt etwa %.1f l/m². Du wirst wohl keinen Regenschirm brauchen</string>
+    <string name="TextViewRain">Die Regenmenge beträgt etwa %.1f l/m². Wir empfehlen dir einen Regenschirm mitzunehmen</string>
     <string name="TextViewAdd">Hinzufügen</string>
     <string name="ToastCityNotFound">Stadt konnte nicht gefunden werden</string>
     <string name="ToastNoNetworkConnection">Keine Netzwerkverbindung</string>
