@@ -274,13 +274,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     }
 
+    /**
+     *  called when activity gets reordered to the front
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        reopenSavedActivity();
+        super.onNewIntent(intent);
+    }
 
     /**
      *      Uses Retrofit and GSON Converter to grab a JSON of current weather and the
      *      5-day-weather-forecast from openweathermap.org
      */
     private void getJSON(Location location){
-        if((System.currentTimeMillis() > ui.getLastUpdate() + updateFrequency) & location != null){
+        if((System.currentTimeMillis() > ui.getLastUpdate() + updateFrequency) && location != null){
             LoadCurrentJSON loadCurrentJSON = new LoadCurrentJSON(MainActivity.this);
             loadCurrentJSON.execute(location);
             LoadForecastJSON loadForecastJSON = new LoadForecastJSON(MainActivity.this);
@@ -350,11 +358,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         this.getApplicationContext().sendBroadcast(updateIntent);
     }
 
-
-
-
-
-
     //region GPS functions
 
     private void buildGoogleApiClient(){
@@ -412,11 +415,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        reopenSavedActivity();
-        super.onNewIntent(intent);
-    }
 
     private boolean checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
@@ -612,6 +610,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
     //endregion
 
+    /**
+     *  opens settings (reorders settings to front if it already exists)
+     */
     public void MySettingsOC(View view)
     {
         Intent i = new Intent(MainActivity.this, Settings.class);
@@ -620,31 +621,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //finish();
     }
 
-    //Tag 1 weitere Infos
+    /**
+     *  shows more information for the selected day
+     */
     public void MyDailyOpening1(View view) {
         ui.openDaily(1);
     }
 
-    //Tag 2 weitere Infos
     public void MyDailyOpening2(View view) {
         ui.openDaily(2);
     }
 
-    //Tag 3 weitere Infos
     public void MyDailyOpening3(View view) {
         ui.openDaily(3);
     }
 
-    //Tag 4 weitere Infos
     public void MyDailyOpening4(View view) {
         ui.openDaily(4);
     }
 
-    //Tag 5 weitere Infos
     public void MyDailyOpening5(View view) {
         ui.openDaily(5);
     }
 
+    /**
+     *  closes more information
+     */
     public void MyDailyClosing(View view)
     {
         ui.setInvisible();
@@ -660,7 +662,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         return array;
     }
 
-
+    /**
+     * shows more text for the clothes suggestions
+     */
     public void MyClothingOpening1(View view) {
         ui.openClothing(1);
     }
@@ -677,6 +681,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ui.openClothing(5);
     }
 
+    /**
+     *  updates the page indicator
+     */
     public void updateSelectedCity(int showedCity)
     {
         cityShow1.setImageResource(R.drawable.unselectedcity);
@@ -712,6 +719,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
+    /**
+     *  called by newIntent
+     *  updates mainActivity when it gets reordered to the front (e.g. after closing settings)
+     */
+    @SuppressLint("ClickableViewAccessibility")
     void reopenSavedActivity(){
         mLocationList = loadArray("myCitynames");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -817,6 +829,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
-        updateWeatherWidget();
+        ui.setLastUpdate(0L);
+
+        if(currentCity != 0) {
+            getJSON(locationCities[currentCity]);
+        }else getJSON(location);
     }
 }
