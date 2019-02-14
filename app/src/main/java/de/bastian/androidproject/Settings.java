@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -31,6 +30,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class Settings extends AppCompatActivity  {
     private View linearLayout;
@@ -42,7 +42,6 @@ public class Settings extends AppCompatActivity  {
     private Switch unitSwitch;
 
     //Cities
-    private TextView textViewCities;
     private TextView city1;
     private TextView city2;
     private TextView city3;
@@ -94,6 +93,9 @@ public class Settings extends AppCompatActivity  {
         mySettingsBackground = findViewById(R.id.MySettingsBackground);
         unitSwitch = findViewById(R.id.switch_einheit);
         myAddCity = findViewById(R.id.addCity);
+        seekBar = findViewById(R.id.MySeekBar);
+        seekBarMax = findViewById(R.id.MySliderMax);
+        seekBarMin = findViewById(R.id.MySliderMin);
 
         mLocationList = loadArray("myCitynames");
 
@@ -103,12 +105,11 @@ public class Settings extends AppCompatActivity  {
             saveArray(mLocationList, "myCitynames");
         }
 
-        textViewCities = findViewById(R.id.MyTextViewCities);
         myArrowUpView = findViewById(R.id.myArrowUp);
         myArrowDownView = findViewById(R.id.myArrowDown);
 
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor editor = preferences.edit();
 
         String TVAddCity = getResources().getString(R.string.TextViewAddCity);
@@ -164,14 +165,27 @@ public class Settings extends AppCompatActivity  {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(isChecked)
             {
+                userTemp = 9;
+                seekBarMin.setText(String.format(Locale.getDefault(),"-%d", userTemp));
+                seekBarMax.setText(String.format(Locale.getDefault(),"+%d", userTemp));
+                seekBar.setMax(18);
+                seekBar.setProgress(9);
+                editor.putInt("UserTemp", 0);
                 editor.putString("UNIT", "imperial");
                 editor.apply();
                 //Fahrenheit
             }
             else
             {
+                userTemp = 5;
+                seekBarMin.setText(String.format(Locale.getDefault(),"-%d", userTemp));
+                seekBarMax.setText(String.format(Locale.getDefault(),"+%d", userTemp));
+                seekBar.setMax(10);
+                seekBar.setProgress(5);
+                editor.putInt("UserTemp", 0);
                 editor.putString("UNIT", "metric");
                 editor.apply();
+
                 //Celsius
             }
         }
@@ -193,11 +207,8 @@ public class Settings extends AppCompatActivity  {
         }
 
         //Seekbar
-        seekBar = findViewById(R.id.MySeekBar);
-        seekBarMax = findViewById(R.id.MySliderMax);
-        seekBarMin = findViewById(R.id.MySliderMin);
-        seekBarMin.setText("-"+ userTemp);
-        seekBarMax.setText("+"+ userTemp);
+        seekBarMin.setText(String.format(Locale.getDefault(),"-%d", userTemp));
+        seekBarMax.setText(String.format(Locale.getDefault(),"+%d", userTemp));
         seekBar.setProgress(preferences.getInt("UserTemp", 0) + userTemp);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -246,9 +257,6 @@ public class Settings extends AppCompatActivity  {
             backButton3.setBackgroundColor(getResources().getColor(R.color.lightGray));
             backButton4.setBackgroundColor(getResources().getColor(R.color.lightGray));
         }
-        Location targetLocation1 = new Location("");//provider name is unnecessary
-        targetLocation1.setLatitude(10.0d);//your coords of course
-        targetLocation1.setLongitude(20.0d);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Background","1");
