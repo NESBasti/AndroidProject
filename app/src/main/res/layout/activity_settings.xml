@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:orientation="horizontal"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp">
@@ -21,15 +21,18 @@
             android:id="@+id/MySettingsTag"
             style="@style/WhiteText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="96dp"
+            android:layout_height="56dp"
+            android:layout_marginLeft="90dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="Einstellungen"
+            android:text="@string/TextViewSettings"
             android:textAlignment="center"
             android:textSize="36sp"
             android:textStyle="bold"
-            tools:text="@string/TextViewSettings" />
+            app:autoSizeMaxTextSize="36sp"
+            app:autoSizeMinTextSize="25sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <ImageView
             android:layout_marginTop="12dp"
@@ -65,8 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Einheit"
-                    tools:text="@string/TextViewUnit" />
+                    android:text="@string/TextViewUnit" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -107,9 +109,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="Hintergrund"
                 android:textAlignment="center"
-                tools:text="@string/TextViewBackground" />
+                android:text="@string/TextViewBackground" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -238,9 +239,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Kontakt"
                 android:textAlignment="center"
-                tools:text="@string/TextViewContact" />
+                android:text="@string/TextViewContact" />
 
             <LinearLayout
                 android:layout_width="match_parent"
