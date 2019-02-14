@@ -19,4 +19,11 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint" tools:ignore="NewApi">#d0252525</item>
+        <item name="android:progressTint" tools:ignore="NewApi">#ffffff</item>
+        <item name="android:colorControlActivated" tools:ignore="NewApi">#ffffff</item>
+        <item name="android:thumbTint" tools:ignore="NewApi">#ffffff</item>
+    </style>
+
 </resources>
