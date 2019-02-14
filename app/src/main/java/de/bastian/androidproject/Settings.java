@@ -1,5 +1,6 @@
 package de.bastian.androidproject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -78,11 +79,11 @@ public class Settings extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -231,8 +232,6 @@ public class Settings extends AppCompatActivity  {
             }
         });
     }
-
-
 
     //Hardware Backbutton
     @Override
@@ -475,7 +474,7 @@ public class Settings extends AppCompatActivity  {
         //We need to get the instance of the LayoutInflater, use the context of this activity
         LayoutInflater inflater = (LayoutInflater) Settings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //Inflate the view from a predefined XML layout (no need for root id, using entire layout)
-        View layout = inflater.inflate(R.layout.informations,null);
+        @SuppressLint("InflateParams") View layout = inflater.inflate(R.layout.informations,null);
 
         // create a focusable PopupWindow with the given layout and correct size
         DisplayMetrics metrics = new DisplayMetrics();
@@ -487,6 +486,7 @@ public class Settings extends AppCompatActivity  {
         //Set up touch closing outside of pop-up
         pw.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Gray)));
         pw.setTouchInterceptor(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_OUTSIDE) {
                     pw.dismiss();
@@ -497,7 +497,7 @@ public class Settings extends AppCompatActivity  {
         });
         pw.setOutsideTouchable(true);
         // display the pop-up in the center
-        pw.showAtLocation(layout, Gravity.RIGHT, width/16, - (height/4 -20 ));
+        pw.showAtLocation(layout, Gravity.END, width/16, - (height/4 -20 ));
     }
 }
 

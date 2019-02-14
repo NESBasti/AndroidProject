@@ -279,8 +279,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
     @Override
     protected void onNewIntent(Intent intent) {
-        reopenSavedActivity();
         super.onNewIntent(intent);
+        reopenSavedActivity();
+
     }
 
     /**

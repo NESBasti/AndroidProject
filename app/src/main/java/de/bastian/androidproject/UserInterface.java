@@ -413,8 +413,8 @@ class UserInterface {
 
         List<Integer> minTemp = new ArrayList<>();
         List<Integer> maxTemp = new ArrayList<>();
-        minTemp.add((int)Math.round(weatherForecast.getList().get(0).getMain().getTemp_min()));
-        maxTemp.add((int)Math.round(weatherForecast.getList().get(0).getMain().getTemp_max()));
+        minTemp.add((int)Math.round(weatherForecast.getList().get(0).getMain().getTemp()));
+        maxTemp.add((int)Math.round(weatherForecast.getList().get(0).getMain().getTemp()));
         int listFlag = 0;
         int midOfDay = 0;
         dailyRain = new float[5];
@@ -423,13 +423,13 @@ class UserInterface {
             currentDay.setTime(new Date(k.getDt() * 1000L));
 
             if(lastDay.get(Calendar.DATE) == currentDay.get(Calendar.DATE)){
-                if(k.getMain().getTemp_min() < minTemp.get(listFlag) ){
-                    minTemp.set(listFlag, (int)Math.round(k.getMain().getTemp_min()));
+                if(k.getMain().getTemp() < minTemp.get(listFlag) ){
+                    minTemp.set(listFlag, (int)Math.round(k.getMain().getTemp()));
                 }
-                if(k.getMain().getTemp_max() > maxTemp.get(listFlag) ){
-                    maxTemp.set(listFlag, (int)Math.round(k.getMain().getTemp_max()));
+                if(k.getMain().getTemp() > maxTemp.get(listFlag) ){
+                    maxTemp.set(listFlag, (int)Math.round(k.getMain().getTemp()));
                 }
-                if(midOfDay == 3 || (listFlag == 0 && midOfDay == 0)){
+                if((midOfDay == 3 && listFlag != 0) || (listFlag == 0 && midOfDay == 0)){
                     dailyWeather.get(listFlag).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
                 }
                 if(k.getRain() != null){
@@ -440,8 +440,9 @@ class UserInterface {
             else{
                 if(midOfDay == 0){ //in case current day has no entries
                     if(weatherCurrent != null) {
-                        minTemp.set(listFlag, (int) Math.round(weatherCurrent.getMain().getTemp_min()));
-                        maxTemp.set(listFlag, (int) Math.round(weatherCurrent.getMain().getTemp_max()));
+                        dailyWeather.get(listFlag).setImageResource(iconToResource(k.getWeather().get(0).getIcon()));
+                        minTemp.set(listFlag, (int) Math.round(weatherCurrent.getMain().getTemp()));
+                        maxTemp.set(listFlag, (int) Math.round(weatherCurrent.getMain().getTemp()));
                     }
                     else{
                         minTemp.set(listFlag, 0);
@@ -453,27 +454,28 @@ class UserInterface {
                 midOfDay = 0;
                 if(listFlag >= 5)
                     break;
-                minTemp.add((int)Math.round(k.getMain().getTemp_min()));
-                maxTemp.add((int)Math.round(k.getMain().getTemp_max()));
+                minTemp.add((int)Math.round(k.getMain().getTemp()));
+                maxTemp.add((int)Math.round(k.getMain().getTemp()));
             }
         }
 
+        //update clothes suggestion
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.mainActivity);
         int MyUserTemp = preferences.getInt("UserTemp", 0);
         for(int i = 0; i < dailyTemp.size(); i++){
             dailyTemp.get(i).setText(String.format(Locale.getDefault(),"%d°\n%d",maxTemp.get(i), minTemp.get(i)));
             try {
-                if (minTemp.get(i) < 5 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 41 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                if (minTemp.get(i) < (5 + MyUserTemp) && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < (41 + MyUserTemp) && mPrefs.getString("UNIT", "metric").equals("imperial")) {
                     if (dailyRain[i] > 5) {
                         clothesIcon.get(i).setImageResource(R.drawable.ic_coat_umbrella);
                     } else
                         clothesIcon.get(i).setImageResource(R.drawable.ic_coat);
-                } else if (minTemp.get(i) < 13 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 55 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                } else if (minTemp.get(i) < (13 + MyUserTemp) && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < (55 + MyUserTemp) && mPrefs.getString("UNIT", "metric").equals("imperial")) {
                     if (dailyRain[i] > 5) {
                         clothesIcon.get(i).setImageResource(R.drawable.ic_jacket_umbrella);
                     } else
                         clothesIcon.get(i).setImageResource(R.drawable.ic_jacket);
-                } else if (minTemp.get(i) < 20 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < 68 + MyUserTemp && mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                } else if (minTemp.get(i) < (20 + MyUserTemp) && mPrefs.getString("UNIT", "metric").equals("metric") || minTemp.get(i) < (68 + MyUserTemp) && mPrefs.getString("UNIT", "metric").equals("imperial")) {
                     if (dailyRain[i] > 5) {
                         clothesIcon.get(i).setImageResource(R.drawable.ic_hoodie_umbrella);
                     } else
@@ -620,8 +622,7 @@ class UserInterface {
     /**
      * open daily-popup with animation
      */
-    void openClothing(int day)
-    {
+    void openClothing(int day) {
         //Remove Background
         setInvisible();
         setInvisibleClothing();
@@ -669,6 +670,7 @@ class UserInterface {
                 break;
         }
     }
+
     void openDaily(int day){
         //Remove Background
         setInvisible();
