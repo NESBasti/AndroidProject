@@ -1,9 +1,9 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
-public class forecastSys {
+public class WeatherForecastSys {
     private char pod;
 
-    public forecastSys(char pod) {
+    public WeatherForecastSys(char pod) {
         this.pod = pod;
     }
 

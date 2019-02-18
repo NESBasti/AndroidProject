@@ -1,4 +1,4 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ public class WeatherForecast {
     private double message;
     private int cnt;
     private List<WeatherListElement> list;
-    private City city;
+    private WeatherCity city;
 
 
-    public WeatherForecast(int cod, double message, int cnt, List<WeatherListElement> list, City city) {
+    public WeatherForecast(int cod, double message, int cnt, List<WeatherListElement> list, WeatherCity city) {
         this.cod = cod;
         this.message = message;
         this.cnt = cnt;
@@ -50,11 +50,11 @@ public class WeatherForecast {
         this.list = list;
     }
 
-    public City getCity() {
+    public WeatherCity getCity() {
         return city;
     }
 
-    public void setCity(City city) {
+    public void setCity(WeatherCity city) {
         this.city = city;
     }
 }

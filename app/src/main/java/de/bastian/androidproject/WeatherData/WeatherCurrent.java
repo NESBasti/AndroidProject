@@ -1,23 +1,23 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
 import java.util.List;
 
 public class WeatherCurrent {
-    private Coord coord;
-    private List<weatherWeather> weather;
+    private WeatherCoord coord;
+    private List<WeatherWeather> weather;
     private String base;
-    private weatherMain main;
+    private WeatherMain main;
     private int visibility;
-    private weatherWind wind;
+    private WeatherWind wind;
     private weatherClouds clouds;
-    private weatherRain rain;
+    private WeatherRain rain;
     private int dt;
-    private weatherSys sys;
+    private WeatherSys sys;
     private int id;
     private String name;
     private int cod;
 
-    public WeatherCurrent(Coord coord, List<weatherWeather> weather, String base, weatherMain main, int visibility, weatherWind wind, weatherClouds clouds, weatherRain rain, int dt, weatherSys sys, int id, String name, int cod) {
+    public WeatherCurrent(WeatherCoord coord, List<WeatherWeather> weather, String base, WeatherMain main, int visibility, WeatherWind wind, weatherClouds clouds, WeatherRain rain, int dt, WeatherSys sys, int id, String name, int cod) {
         this.coord = coord;
         this.weather = weather;
         this.base = base;
@@ -34,19 +34,19 @@ public class WeatherCurrent {
     }
 
 
-    public Coord getCoord() {
+    public WeatherCoord getCoord() {
         return coord;
     }
 
-    public void setCoord(Coord coord) {
+    public void setCoord(WeatherCoord coord) {
         this.coord = coord;
     }
 
-    public List<weatherWeather> getWeather() {
+    public List<WeatherWeather> getWeather() {
         return weather;
     }
 
-    public void setWeather(List<weatherWeather> weather) {
+    public void setWeather(List<WeatherWeather> weather) {
         this.weather = weather;
     }
 
@@ -58,19 +58,19 @@ public class WeatherCurrent {
         this.base = base;
     }
 
-    public weatherMain getMain() {
+    public WeatherMain getMain() {
         return main;
     }
 
-    public void setMain(weatherMain main) {
+    public void setMain(WeatherMain main) {
         this.main = main;
     }
 
-    public weatherWind getWind() {
+    public WeatherWind getWind() {
         return wind;
     }
 
-    public void setWind(weatherWind wind) {
+    public void setWind(WeatherWind wind) {
         this.wind = wind;
     }
 
@@ -82,11 +82,11 @@ public class WeatherCurrent {
         this.clouds = clouds;
     }
 
-    public weatherRain getRain() {
+    public WeatherRain getRain() {
         return rain;
     }
 
-    public void setRain(weatherRain rain) {
+    public void setRain(WeatherRain rain) {
         this.rain = rain;
     }
 
@@ -130,11 +130,11 @@ public class WeatherCurrent {
         this.visibility = visibility;
     }
 
-    public weatherSys getSys() {
+    public WeatherSys getSys() {
         return sys;
     }
 
-    public void setSys(weatherSys sys) {
+    public void setSys(WeatherSys sys) {
         this.sys = sys;
     }
 }

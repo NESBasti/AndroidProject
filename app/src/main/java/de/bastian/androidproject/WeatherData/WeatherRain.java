@@ -1,12 +1,12 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
 import com.google.gson.annotations.SerializedName;
 
-public class weatherRain {
+public class WeatherRain {
     @SerializedName("3h")
     private double rain;
 
-    public weatherRain(double rain) {
+    public WeatherRain(double rain) {
         this.rain = rain;
     }
 

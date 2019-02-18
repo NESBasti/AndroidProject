@@ -1,10 +1,10 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
-public class weatherWind {
+public class WeatherWind {
     private double speed;
     private double deg;
 
-    public weatherWind(double speed, double deg) {
+    public WeatherWind(double speed, double deg) {
         this.speed = speed;
         this.deg = deg;
     }

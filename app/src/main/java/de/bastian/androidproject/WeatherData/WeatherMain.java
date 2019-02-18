@@ -1,6 +1,6 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
-public class weatherMain {
+public class WeatherMain {
     private double temp;
     private double temp_min;
     private double temp_max;
@@ -9,7 +9,7 @@ public class weatherMain {
     private double grnd_level;
     private double humidity;
 
-    public weatherMain(double temp, double temp_min, double temp_max, double pressure, double sea_level, double grnd_level, double humidity) {
+    public WeatherMain(double temp, double temp_min, double temp_max, double pressure, double sea_level, double grnd_level, double humidity) {
         this.temp = temp;
         this.temp_min = temp_min;
         this.temp_max = temp_max;

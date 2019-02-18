@@ -1,20 +1,20 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
 import java.util.List;
 
 public class WeatherListElement {
     private int dt;
-    private weatherMain main;
-    private List<weatherWeather> weather;
+    private WeatherMain main;
+    private List<WeatherWeather> weather;
     private weatherClouds clouds;
-    private weatherWind wind;
-    private weatherRain rain;
-    private weatherSnow snow;
-    private forecastSys sys;
+    private WeatherWind wind;
+    private WeatherRain rain;
+    private WeatherSnow snow;
+    private WeatherForecastSys sys;
     private String dt_txt;
 
 
-    public WeatherListElement(int dt, weatherMain main, List<weatherWeather> weather, weatherClouds clouds, weatherWind wind, weatherRain rain, weatherSnow snow, forecastSys sys, String dt_txt) {
+    public WeatherListElement(int dt, WeatherMain main, List<WeatherWeather> weather, weatherClouds clouds, WeatherWind wind, WeatherRain rain, WeatherSnow snow, WeatherForecastSys sys, String dt_txt) {
         this.dt = dt;
         this.main = main;
         this.weather = weather;
@@ -34,19 +34,19 @@ public class WeatherListElement {
         this.dt = dt;
     }
 
-    public weatherMain getMain() {
+    public WeatherMain getMain() {
         return main;
     }
 
-    public void setMain(weatherMain main) {
+    public void setMain(WeatherMain main) {
         this.main = main;
     }
 
-    public List<weatherWeather> getWeather() {
+    public List<WeatherWeather> getWeather() {
         return weather;
     }
 
-    public void setWeather(List<weatherWeather> weather) {
+    public void setWeather(List<WeatherWeather> weather) {
         this.weather = weather;
     }
 
@@ -58,35 +58,35 @@ public class WeatherListElement {
         this.clouds = clouds;
     }
 
-    public weatherWind getWind() {
+    public WeatherWind getWind() {
         return wind;
     }
 
-    public void setWind(weatherWind wind) {
+    public void setWind(WeatherWind wind) {
         this.wind = wind;
     }
 
-    public weatherRain getRain() {
+    public WeatherRain getRain() {
         return rain;
     }
 
-    public void setRain(weatherRain rain) {
+    public void setRain(WeatherRain rain) {
         this.rain = rain;
     }
 
-    public weatherSnow getSnow() {
+    public WeatherSnow getSnow() {
         return snow;
     }
 
-    public void setSnow(weatherSnow snow) {
+    public void setSnow(WeatherSnow snow) {
         this.snow = snow;
     }
 
-    public forecastSys getSys() {
+    public WeatherForecastSys getSys() {
         return sys;
     }
 
-    public void setSys(forecastSys sys) {
+    public void setSys(WeatherForecastSys sys) {
         this.sys = sys;
     }
 

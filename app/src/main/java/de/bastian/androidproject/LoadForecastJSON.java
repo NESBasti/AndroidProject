@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+import de.bastian.androidproject.WeatherData.WeatherForecast;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

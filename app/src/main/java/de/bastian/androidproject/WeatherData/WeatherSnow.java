@@ -1,13 +1,13 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
 import com.google.gson.annotations.SerializedName;
 
-public class weatherSnow {
+public class WeatherSnow {
 
     @SerializedName("3h")
     private double snow;
 
-    public weatherSnow(double snow) {
+    public WeatherSnow(double snow) {
         this.snow = snow;
     }
 

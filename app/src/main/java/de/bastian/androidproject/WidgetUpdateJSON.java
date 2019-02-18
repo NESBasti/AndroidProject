@@ -11,6 +11,7 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
+import de.bastian.androidproject.WeatherData.WeatherCurrent;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

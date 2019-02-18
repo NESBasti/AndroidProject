@@ -1,5 +1,7 @@
 package de.bastian.androidproject;
 
+import de.bastian.androidproject.WeatherData.WeatherCurrent;
+import de.bastian.androidproject.WeatherData.WeatherForecast;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

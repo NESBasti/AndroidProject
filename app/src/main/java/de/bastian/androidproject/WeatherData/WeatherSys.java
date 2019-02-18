@@ -1,6 +1,6 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
-public class weatherSys {
+public class WeatherSys {
     private int type;
     private int id;
     private double message;
@@ -9,7 +9,7 @@ public class weatherSys {
     private long sunset;
 
 
-    public weatherSys(int type, int id, double message, String country, long sunrise, long sunset) {
+    public WeatherSys(int type, int id, double message, String country, long sunrise, long sunset) {
         this.type = type;
         this.id = id;
         this.message = message;

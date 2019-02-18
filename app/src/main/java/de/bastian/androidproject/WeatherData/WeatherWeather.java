@@ -1,12 +1,12 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
-public class weatherWeather {
+public class WeatherWeather {
     private Integer id;
     private String main;
     private String description;
     private String icon;
 
-    public weatherWeather(Integer id, String main, String description, String icon) {
+    public WeatherWeather(Integer id, String main, String description, String icon) {
         this.id = id;
         this.main = main;
         this.description = description;

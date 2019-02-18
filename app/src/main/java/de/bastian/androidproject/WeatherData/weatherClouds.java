@@ -1,4 +1,4 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
 public class weatherClouds {
     private int all;

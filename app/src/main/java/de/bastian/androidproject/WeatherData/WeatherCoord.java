@@ -1,10 +1,10 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
-public class Coord {
+public class WeatherCoord {
     private double lat;
     private double lon;
 
-    public Coord(double lat, double lon) {
+    public WeatherCoord(double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
     }

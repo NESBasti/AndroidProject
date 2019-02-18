@@ -1,13 +1,13 @@
-package de.bastian.androidproject;
+package de.bastian.androidproject.WeatherData;
 
-public class City {
+public class WeatherCity {
     private int id;
     private String name;
-    private Coord coord;
+    private WeatherCoord coord;
     private String country;
     private int population;
 
-    public City(int id, String name, Coord coord, String country, int population) {
+    public WeatherCity(int id, String name, WeatherCoord coord, String country, int population) {
         this.id = id;
         this.name = name;
         this.coord = coord;
@@ -31,11 +31,11 @@ public class City {
         this.name = name;
     }
 
-    public Coord getCoord() {
+    public WeatherCoord getCoord() {
         return coord;
     }
 
-    public void setCoord(Coord coord) {
+    public void setCoord(WeatherCoord coord) {
         this.coord = coord;
     }
 

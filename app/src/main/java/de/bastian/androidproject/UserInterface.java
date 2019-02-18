@@ -31,6 +31,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.bastian.androidproject.WeatherData.WeatherCurrent;
+import de.bastian.androidproject.WeatherData.WeatherForecast;
+import de.bastian.androidproject.WeatherData.WeatherListElement;
+
 class UserInterface {
     private Activity mainActivity;
     private SharedPreferences mPrefs;
@@ -571,7 +575,7 @@ class UserInterface {
     /**
      * converts the icon String to an image resource
      */
-    static int iconToResource(String icon){
+    public static int iconToResource(String icon){
         char daytime = icon.charAt(2);
 
         switch (icon.substring(0,2)){

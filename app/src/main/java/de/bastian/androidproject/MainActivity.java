@@ -44,6 +44,9 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.bastian.androidproject.WeatherData.WeatherCurrent;
+import de.bastian.androidproject.WeatherData.WeatherForecast;
+
 import static de.bastian.androidproject.UserInterface.iconToResource;
 
 
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private LinearLayout linearLayoutBackground;
 
 
-    //Selected City
+    //Selected WeatherCity
     private ImageView cityShow1;
     private ImageView cityShow2;
     private ImageView cityShow3;
@@ -203,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 getResources().getColor(android.R.color.holo_red_light)
         );
 
-        //Selected City
+        //Selected WeatherCity
         cityShow1 = findViewById(R.id.MyCityShow1);
         cityShow2 = findViewById(R.id.MyCityShow2);
         cityShow3 = findViewById(R.id.MyCityShow3);
