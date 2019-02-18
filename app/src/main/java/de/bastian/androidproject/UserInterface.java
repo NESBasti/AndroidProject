@@ -325,8 +325,14 @@ class UserInterface {
         minMaxTemp.setText(String.format(Locale.getDefault(), "%d° / %d°", Math.round(weatherCurrent.getMain().getTemp_max()), Math.round(weatherCurrent.getMain().getTemp_min())));
 
         int windchillTemp = (int) Math.round(weatherCurrent.getMain().getTemp());
-        if(Math.round(weatherCurrent.getMain().getTemp()) <= 10 && (weatherCurrent.getWind().getSpeed() * 3.6) >= 5) { //windchill is defined with temperatures of 10°C or lower and 5km/h wind speed or more
-            windchillTemp = (int) ((13.12 + 0.6125 * weatherCurrent.getMain().getTemp()) + (0.3965 * weatherCurrent.getMain().getTemp() - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
+        if((Math.round(weatherCurrent.getMain().getTemp()) <= 10 && mPrefs.getString("UNIT", "metric").equals("metric") || Math.round(weatherCurrent.getMain().getTemp()) <= 50 && mPrefs.getString("UNIT", "metric").equals("imperial"))&& (weatherCurrent.getWind().getSpeed() * 3.6) >= 5) { //windchill is defined with temperatures of 10°C/50°F or lower and 5km/h wind speed or more
+
+            if(mPrefs.getString("UNIT", "metric").equals("imperial")){
+                windchillTemp = (int) ((13.12 + 0.6125 * ((weatherCurrent.getMain().getTemp()) - 32) / 1.8) + (0.3965 * (((weatherCurrent.getMain().getTemp()) - 32) / 1.8) - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
+                windchillTemp = (int) (windchillTemp * 1.8) + 32;
+            }
+            else windchillTemp = (int) ((13.12 + 0.6125 * weatherCurrent.getMain().getTemp()) + (0.3965 * weatherCurrent.getMain().getTemp() - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
+
         }
         String TVWindchill = this.mainActivity.getResources().getString(R.string.TextViewWindchill);
         windchill.setText(String.format(Locale.getDefault(), TVWindchill + " %d°", windchillTemp));
