@@ -99,10 +99,7 @@ class UserInterface {
     private TextView clothingText;
     private LinearLayout clothingLayout;
 
-
-
     //region getter & setter
-
     WeatherCurrent getWeatherCurrent() {
         return weatherCurrent;
     }
@@ -304,6 +301,7 @@ class UserInterface {
         }
     }
 
+    //region Update Interface
     void updateCurrentInterface(){
         Geocoder geocoder = new Geocoder(this.mainActivity);
         List<Address> address;
@@ -329,15 +327,18 @@ class UserInterface {
         minMaxTemp.setText(String.format(Locale.getDefault(), "%d° / %d°", Math.round(weatherCurrent.getMain().getTemp_max()), Math.round(weatherCurrent.getMain().getTemp_min())));
 
         int windchillTemp = (int) Math.round(weatherCurrent.getMain().getTemp());
-        if((Math.round(weatherCurrent.getMain().getTemp()) <= 10 && mPrefs.getString("UNIT", "metric").equals("metric") || Math.round(weatherCurrent.getMain().getTemp()) <= 50 && mPrefs.getString("UNIT", "metric").equals("imperial"))&& (weatherCurrent.getWind().getSpeed() * 3.6) >= 5) { //windchill is defined with temperatures of 10°C/50°F or lower and 5km/h wind speed or more
+        try {
+            if ((Math.round(weatherCurrent.getMain().getTemp()) <= 10 && mPrefs.getString("UNIT", "metric").equals("metric") || Math.round(weatherCurrent.getMain().getTemp()) <= 50 && mPrefs.getString("UNIT", "metric").equals("imperial")) && (weatherCurrent.getWind().getSpeed() * 3.6) >= 5) { //windchill is defined with temperatures of 10°C/50°F or lower and 5km/h wind speed or more
 
-            if(mPrefs.getString("UNIT", "metric").equals("imperial")){
-                windchillTemp = (int) ((13.12 + 0.6125 * ((weatherCurrent.getMain().getTemp()) - 32) / 1.8) + (0.3965 * (((weatherCurrent.getMain().getTemp()) - 32) / 1.8) - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
-                windchillTemp = (int) (windchillTemp * 1.8) + 32;
+                if (mPrefs.getString("UNIT", "metric").equals("imperial")) {
+                    windchillTemp = (int) ((13.12 + 0.6125 * ((weatherCurrent.getMain().getTemp()) - 32) / 1.8) + (0.3965 * (((weatherCurrent.getMain().getTemp()) - 32) / 1.8) - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
+                    windchillTemp = (int) (windchillTemp * 1.8) + 32;
+                } else
+                    windchillTemp = (int) ((13.12 + 0.6125 * weatherCurrent.getMain().getTemp()) + (0.3965 * weatherCurrent.getMain().getTemp() - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
+
             }
-            else windchillTemp = (int) ((13.12 + 0.6125 * weatherCurrent.getMain().getTemp()) + (0.3965 * weatherCurrent.getMain().getTemp() - 11.37) * Math.pow(weatherCurrent.getWind().getSpeed() * 3.6, 0.16));
-
         }
+        catch(NullPointerException ignored){ }
         String TVWindchill = this.mainActivity.getResources().getString(R.string.TextViewWindchill);
         windchill.setText(String.format(Locale.getDefault(), TVWindchill + " %d°", windchillTemp));
 
@@ -571,11 +572,12 @@ class UserInterface {
             }
         }
     }
+    //endregion
 
     /**
      * converts the icon String to an image resource
      */
-    public static int iconToResource(String icon){
+    static int iconToResource(String icon){
         char daytime = icon.charAt(2);
 
         switch (icon.substring(0,2)){
@@ -630,7 +632,7 @@ class UserInterface {
     }
 
     /**
-     * open daily-popup with animation
+     * open clothing-popup with animation
      */
     void openClothing(int day) {
         //Remove Background
@@ -681,6 +683,21 @@ class UserInterface {
         }
     }
 
+    /**
+     * close clothing-popup
+     */
+    void setInvisibleClothing(){
+        clothingLayout.setVisibility(View.GONE);
+        myClothingDay1.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myClothingDay2.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myClothingDay3.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myClothingDay4.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+        myClothingDay5.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
+    }
+
+    /**
+     * open daily-popup with animation
+     */
     void openDaily(int day){
         //Remove Background
         setInvisible();
@@ -744,14 +761,6 @@ class UserInterface {
         }
     }
 
-    void setInvisibleClothing(){
-        clothingLayout.setVisibility(View.GONE);
-        myClothingDay1.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-        myClothingDay2.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-        myClothingDay3.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-        myClothingDay4.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-        myClothingDay5.setBackgroundColor(this.mainActivity.getResources().getColor(android.R.color.transparent));
-    }
 
 }
 

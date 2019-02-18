@@ -82,18 +82,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //Animation
     private LinearLayout linearLayoutBackground;
 
-
-    //Selected WeatherCity
+    //Selected City
     private ImageView cityShow1;
     private ImageView cityShow2;
     private ImageView cityShow3;
     private ImageView cityShow4;
     private ImageView cityShow5;
     private ImageView cityShow6;
-
     private ImageView myGPS;
-
-
     private int cityCounter;
 
 
@@ -180,9 +176,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
         //Swipe Refresh
-        // Getting SwipeContainerLayout
         swipeLayout = findViewById(R.id.swipe_container);
-        // Adding Listener
+
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -363,7 +358,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     //region GPS functions
-
     private void buildGoogleApiClient(){
         googleApiClient = new GoogleApiClient.Builder(this).
                 addApi(LocationServices.API).
@@ -372,7 +366,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         googleApiClient.connect();
     }
-
 
     private ArrayList<String> permissionsToRequest(ArrayList<String> wantedPermissions) {
         ArrayList<String> result = new ArrayList<>();
@@ -548,7 +541,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         builder.setPositiveButton(R.string.YES, new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-                // Do nothing but close the dialog
                 Intent viewIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(viewIntent);
                 googleApiClient.disconnect();
@@ -561,7 +553,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                // Do nothing
+
                 googleApiClient.disconnect();
                 dialog.dismiss();
             }
@@ -617,8 +609,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     /**
      *  opens settings (reorders settings to front if it already exists)
      */
-    public void MySettingsOC(View view)
-    {
+    public void MySettingsOC(View view) {
         Intent i = new Intent(MainActivity.this, Settings.class);
         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(i);
@@ -648,15 +639,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ui.openDaily(5);
     }
 
+
     /**
      *  closes more information
      */
-    public void MyDailyClosing(View view)
-    {
+    public void MyDailyClosing(View view){
         ui.setInvisible();
         ui.setInvisibleClothing();
     }
 
+    /**
+     *  load cities from shared preferences into array
+     */
     public String[] loadArray(String arrayName) {
         SharedPreferences prefs = getSharedPreferences("sharedLocations", MODE_PRIVATE);
         int size = prefs.getInt(arrayName + "_size", 0);
@@ -688,8 +682,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     /**
      *  updates the page indicator
      */
-    public void updateSelectedCity(int showedCity)
-    {
+    public void updateSelectedCity(int showedCity) {
         cityShow1.setImageResource(R.drawable.unselectedcity);
         cityShow2.setImageResource(R.drawable.unselectedcity);
         cityShow3.setImageResource(R.drawable.unselectedcity);

@@ -70,7 +70,7 @@ public class Settings extends AppCompatActivity  {
     //Cities
     private String[] mLocationList;
 
-    //Seekbar
+    //SeekBar
     private int userTemp;
     private SeekBar seekBar;
     private TextView seekBarMin;
@@ -162,11 +162,14 @@ public class Settings extends AppCompatActivity  {
                     break;
             }
         }
+
+        //switch to change units between fahrenheit and celsius
         unitSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(isChecked)
             {
+                //Fahrenheit
                 userTemp = 9;
                 seekBarMin.setText(String.format(Locale.getDefault(),"-%d", userTemp));
                 seekBarMax.setText(String.format(Locale.getDefault(),"+%d", userTemp));
@@ -175,10 +178,11 @@ public class Settings extends AppCompatActivity  {
                 editor.putInt("UserTemp", 0);
                 editor.putString("UNIT", "imperial");
                 editor.apply();
-                //Fahrenheit
+
             }
             else
             {
+                //Celsius
                 userTemp = 5;
                 seekBarMin.setText(String.format(Locale.getDefault(),"-%d", userTemp));
                 seekBarMax.setText(String.format(Locale.getDefault(),"+%d", userTemp));
@@ -187,11 +191,9 @@ public class Settings extends AppCompatActivity  {
                 editor.putInt("UserTemp", 0);
                 editor.putString("UNIT", "metric");
                 editor.apply();
-
-                //Celsius
+                }
             }
-        }
-    });
+        });
 
         try {
             if (preferences.getString("UNIT", "metric").compareTo("metric") == 0) {
@@ -208,7 +210,7 @@ public class Settings extends AppCompatActivity  {
             userTemp = 5;
         }
 
-        //Seekbar
+        //SeekBar
         seekBarMin.setText(String.format(Locale.getDefault(),"-%d", userTemp));
         seekBarMax.setText(String.format(Locale.getDefault(),"+%d", userTemp));
         seekBar.setProgress(preferences.getInt("UserTemp", 0) + userTemp);
@@ -233,7 +235,7 @@ public class Settings extends AppCompatActivity  {
         });
     }
 
-    //Hardware Backbutton
+    //Hardware Back button
     @Override
     public void onBackPressed() {
         Intent i = new Intent(Settings.this, MainActivity.class);
